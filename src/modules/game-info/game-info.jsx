@@ -30,12 +30,6 @@ export const GameInfo = ({ adjustPosition }) => {
 	const [page, setPage] = useState(0);
 	const [bigImage, setBigImage] = useState('');
 
-	useEffect(() => {
-		if (document.getElementById('main-sheet')) {
-			document.getElementById('main-sheet').scrollTo(0, 0);
-		}
-	}, [page, activeGame]);
-
 	const content = useRef(null);
 	const swiperRef = useRef(null);
 	const activeBarRef = useRef(null);
@@ -77,11 +71,19 @@ export const GameInfo = ({ adjustPosition }) => {
 	function handleSwiper(sw) {
 		swiperRef.current = sw;
 		handleActiveBarWidth(sw.activeIndex);
+		sw.on("setTranslate", () => handleDiscardScroll(sw));
 	}
 
 	function handleSlideChange(sw) {
 		handleActiveBarWidth(sw.activeIndex);
 		setPage(sw.activeIndex);
+	}
+
+	function handleDiscardScroll(sw) {
+		const maxTranslate = sw.maxTranslate();
+
+		if (sw.translate > 0) sw.setTranslate(0);
+		else if (sw.translate < maxTranslate) sw.setTranslate(maxTranslate);
 	}
 
 	function handleProgress(sw) {
