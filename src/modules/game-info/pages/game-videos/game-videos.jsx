@@ -1,11 +1,11 @@
-import { useEffect } from 'react';
+import { memo, useEffect } from 'react';
 import cls from './game-videos.module.css';
 
 function sliceVideoSrc(url) {
 	return url ? 'https://www.youtube.com/embed/' + url.split('.be/')[1] : '';
 }
 
-const GameVideos = ({ videos, trailer, title }) => {
+const GameVideos = memo(function GameVideos({ videos, trailer, title }) {
 	useEffect(() => {
 		window.scrollTo({
 			top: 0,
@@ -52,6 +52,6 @@ const GameVideos = ({ videos, trailer, title }) => {
 			</div>
 		</div>
 	);
-};
+});
 
 export default GameVideos;

@@ -112,6 +112,7 @@
 	justify-content: space-between;
 	padding: 0 9px;
 	align-items: center;
+	position: relative;
 }
 
 .gameInfoHeader .navBtn {
@@ -126,8 +127,15 @@
 }
 
 .gameInfoHeader .navBtn.active {
-	border-bottom: 2px solid white;
 	color: #fff;
+}
+
+.activeBar {
+	position: absolute;
+	height: 2px;
+	background: white;
+	bottom: 0px;
+	transition: left .3s ease, width .2s ease;
 }
 
 .gameInfoText {

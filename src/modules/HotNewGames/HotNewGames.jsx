@@ -2,7 +2,7 @@
 import Button from '../../UI/Button/Button';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, EffectCoverflow, Navigation } from 'swiper/modules';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { memo, useEffect, useMemo, useRef, useState } from 'react';
 
 import cls from './HotNewGames.module.css';
 import FireIcon from '../../assets/icons/fire-icon.svg?react';
@@ -21,7 +21,7 @@ import { searchGames } from './api/searchGames';
 import SearchBottomSheet from './components/SearchBottomSheet/SearchBottomSheet';
 import { MenuIcon, StarIcon, TimeIcon, WatchIcon } from '../../assets';
 
-const HotNewGames = () => {
+const HotNewGames = memo(function HotNewGames() {
 	const swiperRef = useRef(null);
 	const searchInputRef = useRef(null);
 	const content = useRef(null);
@@ -283,6 +283,6 @@ const HotNewGames = () => {
 			/>
 		</>
 	);
-};
+});
 
 export default HotNewGames;

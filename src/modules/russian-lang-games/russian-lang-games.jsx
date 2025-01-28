@@ -1,17 +1,16 @@
 import SectionWithSlide from '../../components/SectionWithSlide/SectionWithSlide';
 import cls from './russian-lang-games.module.css';
 import { RussianFlagIcon } from '../../assets';
-import { useEffect, useRef } from 'react';
+import { memo, useEffect, useRef } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { getRussianGames } from './api/getRussianGames';
 import { useStore } from '../../store';
 
-const RussianLangGames = () => {
+const RussianLangGames = memo(function RussianLangGames() {
 	const content = useRef();
-	const {
-		setVoiceActing,
-		setCategoryBottomSheetIsOpen,
-	} = useStore((state) => state);
+	const { setVoiceActing, setCategoryBottomSheetIsOpen } = useStore(
+		(state) => state
+	);
 	const copyOfGames = useRef([]);
 
 	const { data, isSuccess, isLoading, isError } = useQuery({
@@ -75,6 +74,6 @@ const RussianLangGames = () => {
 			<div className={cls.blurBg}>{content.current}</div>
 		</section>
 	);
-};
+});
 
 export default RussianLangGames;

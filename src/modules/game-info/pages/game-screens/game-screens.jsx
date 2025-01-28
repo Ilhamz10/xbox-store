@@ -1,6 +1,7 @@
-import cls from './game-screens.module.css'
+import { memo } from 'react';
+import cls from './game-screens.module.css';
 
-const GameScreens = ({ screens }) => {
+const GameScreens = memo(function GameScreens({ screens }) {
 	return (
 		<div className='wrapper'>
 			<div className={cls.allScreens}>
@@ -10,6 +11,6 @@ const GameScreens = ({ screens }) => {
 			</div>
 		</div>
 	);
-};
+});
 
 export default GameScreens;

@@ -7,8 +7,9 @@ import Button from '../../../../UI/Button/Button';
 import { useStore } from '../../../../store';
 import { DiscountIcon } from '../../../../assets';
 import { getButtonInfoById } from '../../../../layout/root/api/getButtonInfoById';
+import { memo } from 'react';
 
-const GameOfDay = () => {
+const GameOfDay = memo(function GameOfDay() {
 	const {
 		changeXsIsOpen,
 		setXsText,
@@ -23,7 +24,11 @@ const GameOfDay = () => {
 		queryFn: getRecommendedGame,
 	});
 
-	const { data: buttonInfo, isSuccess: buttonInfoIsSuccess, isError: buttonInfoIsError } = useQuery({
+	const {
+		data: buttonInfo,
+		isSuccess: buttonInfoIsSuccess,
+		isError: buttonInfoIsError,
+	} = useQuery({
 		queryKey: ['game-of-day-button'],
 		queryFn: () => getButtonInfoById(2),
 	});
@@ -51,8 +56,8 @@ const GameOfDay = () => {
 		);
 	}
 
-	if(isError) {
-		return <p>При загрузке произошла ошибка</p>
+	if (isError) {
+		return <p>При загрузке произошла ошибка</p>;
 	}
 
 	return (
@@ -87,6 +92,6 @@ const GameOfDay = () => {
 			</div>
 		</section>
 	);
-};
+});
 
 export default GameOfDay;

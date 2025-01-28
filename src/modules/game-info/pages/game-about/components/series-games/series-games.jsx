@@ -1,20 +1,19 @@
-import { useQuery } from '@tanstack/react-query';
-import cls from './similar-games.module.css';
-import { getSimilarGames } from './api/getSimilarGames';
 import { memo, useRef } from 'react';
 import SectionWithSlide from '../../../../../../components/SectionWithSlide/SectionWithSlide';
+import cls from './style.module.css';
+import { useQuery } from '@tanstack/react-query';
+import { getGamesSeries } from './api/getGamesSeries';
 
-const SimilarGames = memo(function SimilarGames({
-	categoryId,
+const SeriesGames = memo(function SeriesGames({
+	seriesId,
 	currentGame,
 	sectionTitle,
-	reverse = false,
 }) {
 	const content = useRef();
 
 	const { data, isSuccess, isLoading, isError } = useQuery({
-		queryKey: [`get-similar-games-${categoryId}`],
-		queryFn: () => getSimilarGames(categoryId),
+		queryKey: [`get-similar-games-${seriesId}`],
+		queryFn: () => getGamesSeries(seriesId),
 	});
 
 	if (isLoading) {
@@ -26,13 +25,10 @@ const SimilarGames = memo(function SimilarGames({
 	}
 
 	if (isSuccess) {
-		const copyOfGames = [...data.results];
-		const reversedGames = [...data.results].reverse();
-
 		content.current = (
 			<SectionWithSlide
-				sectionTitle={sectionTitle}
-				slides={reverse ? reversedGames : copyOfGames}
+				sectionTitle={`${sectionTitle} ${currentGame.series.title}`}
+				slides={data.results}
 				filterId={currentGame.id}
 			/>
 		);
@@ -45,4 +41,4 @@ const SimilarGames = memo(function SimilarGames({
 	);
 });
 
-export default SimilarGames;
+export default SeriesGames;

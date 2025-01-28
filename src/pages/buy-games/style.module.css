@@ -14,8 +14,8 @@
 	backdrop-filter: blur(4px);
 	background-color: rgb(55 65 81 / 0.4);
 	padding: 15px;
-    margin-top: 20px;
-    border-radius: 0.5rem;
+	margin-top: 20px;
+	border-radius: 0.5rem;
 }
 
 .tgButton {
@@ -24,7 +24,7 @@
 	justify-content: center;
 	align-items: center;
 	margin-top: 10px;
-    margin-bottom: 65px;
+	margin-bottom: 65px;
 }
 
 .mirror h3 {
@@ -33,4 +33,34 @@
 	gap: 0.75rem;
 	white-space: nowrap;
 	line-height: normal;
+}
+
+.titleCont {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 20px;
+}
+
+.searchBtn {
+	padding: 0.7rem;
+	position: relative;
+}
+
+.categoryTitle {
+	margin: 1rem 0;
+	font-size: 1.7rem;
+	line-height: 2rem;
+	overflow: hidden;
+	text-wrap: nowrap;
+	width: 0;
+}
+
+.categoryTitle.active {
+	width: 100%;
+	transition: 0.3s;
+}
+.categoryTitle span {
+	font-size: 1rem;
+	line-height: 1.5rem;
 }

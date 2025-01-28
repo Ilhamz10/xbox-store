@@ -4,12 +4,12 @@ import { SwiperSlide, Swiper } from 'swiper/react';
 import GameCard from '../../components/GameCard/GameCard';
 import { useQuery } from '@tanstack/react-query';
 import { getSeriesGames } from './api/getSeriesGames';
-import { useEffect, useRef } from 'react';
+import { memo, useEffect, useRef } from 'react';
 import { useStore } from '../../store';
 import Button from '../../UI/Button/Button';
 import { getButtonInfoById } from '../../layout/root/api/getButtonInfoById';
 
-const SeriesGames = () => {
+const SeriesGames = memo(function SeriesGames() {
 	const content = useRef();
 	const copyOfGames = useRef([]);
 	const {
@@ -127,6 +127,6 @@ const SeriesGames = () => {
 			</div>
 		</section>
 	);
-};
+});
 
 export default SeriesGames;

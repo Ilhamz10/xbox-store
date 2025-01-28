@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { memo, useEffect, useRef, useState } from 'react';
 import CategoryCard from '../../UI/CategoryCard/CategoryCard';
 import { motion } from 'framer-motion';
 
@@ -9,7 +9,7 @@ import { useStore } from '../../store';
 import { useQuery } from '@tanstack/react-query';
 import { getAllCategories } from './api/getAllCategories';
 
-const CategoryFilter = () => {
+const CategoryFilter = memo(function CategoryFilter() {
 	const {
 		setCategoryBottomSheetIsOpen,
 		setActiveCategory,
@@ -50,21 +50,6 @@ const CategoryFilter = () => {
 			},
 		});
 	}, [data]);
-
-	// useEffect(() => {
-	// 	const height =
-	// 		categoryCardRef.current?.offsetHeight +
-	// 		categoryCardRef.current?.offsetHeight / 2;
-
-	// 	setCategoriesContVariants({
-	// 		open: {
-	// 			height: 'auto',
-	// 		},
-	// 		close: {
-	// 			height: `${height}px`,
-	// 		},
-	// 	});
-	// }, []);
 
 	function handleSelectCategory(id, name) {
 		setActiveCategory(id, name);
@@ -120,6 +105,6 @@ const CategoryFilter = () => {
 			</div>
 		</section>
 	);
-};
+});
 
 export default CategoryFilter;

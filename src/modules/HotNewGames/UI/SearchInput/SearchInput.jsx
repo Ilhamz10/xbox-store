@@ -9,7 +9,7 @@ const searchInputVariants = {
 		width: '100%',
 	},
 	close: {
-		width: '50px',
+		width: 'min-content',
 	},
 };
 
