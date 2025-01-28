@@ -28,7 +28,8 @@ const GameVideos = ({ videos, trailer, title }) => {
 					title='YouTube video player'
 					allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
 					referrerPolicy='strict-origin-when-cross-origin'
-					allowfullscreen></iframe>
+					allowFullScreen
+				/>
 			</div>
 			<div className={cls.allVideos}>
 				<h3 className='section-title'>Обзоры игры</h3>
@@ -40,7 +41,8 @@ const GameVideos = ({ videos, trailer, title }) => {
 						title='YouTube video player'
 						allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
 						referrerPolicy='strict-origin-when-cross-origin'
-						allowfullscreen></iframe>
+						allowFullScreen
+					/>
 				))}
 				<a
 					className={cls.moreVideosLink}
