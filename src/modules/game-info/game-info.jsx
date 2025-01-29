@@ -1,19 +1,18 @@
 import { memo, useEffect, useRef, useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
+import { Icon } from '@iconify/react/dist/iconify.js';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { useQuery } from '@tanstack/react-query';
 import { useStore } from '../../store';
 import { CustomBottomSheet } from '../../UI/BottomSheet/BottomSheet';
-import cls from './game-info.module.css';
-import { useQuery } from '@tanstack/react-query';
+import { GamePassIcon, RussianFlagIcon, XSIcon } from '../../assets';
+import { gameInfoHeader } from '../../consts/game-info-header';
+import Loading from '../../UI/Loading/Loading';
 import { getGameDetail } from './api/getGameDetail';
 import GameAbout from './pages/game-about/game-about';
 import GameScreens from './pages/game-screens/game-screens';
 import GameVideos from './pages/game-videos/game-videos';
-import { GamePassIcon, RussianFlagIcon, XSIcon } from '../../assets';
-import { gameInfoHeader } from '../../consts/game-info-header';
-import Loading from '../../UI/Loading/Loading';
-import { AnimatePresence, motion } from 'framer-motion';
-import { Icon } from '@iconify/react/dist/iconify.js';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { gameInfoHeader } from '../../consts/game-info-header';
+import cls from './game-info.module.css';
 
 export const GameInfo = memo(function GameInfo({ adjustPosition }) {
 	const {
