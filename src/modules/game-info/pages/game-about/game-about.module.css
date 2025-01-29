@@ -53,7 +53,7 @@
 	white-space: nowrap;
 	width: max-content;
 	align-items: center;
-	gap: 6px;
+	gap: 4px;
 }
 
 .label > svg {

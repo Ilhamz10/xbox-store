@@ -1,5 +1,5 @@
 import { memo, useState } from 'react';
-import { IphoneShareIcon, RussianFlagIcon, USAFlagIcon, RightArrowIcon } from '../../../../assets';
+import { IphoneShareIcon, RussianFlagIcon, USAFlagIcon, RightArrowIcon, SizeIcon } from '../../../../assets';
 import { handleTelegramShare } from '../../../../helpers/handleTelegramShare';
 import SeriesGames from './components/series-games/series-games';
 import SimilarGames from './components/similar-games/similar-games';
@@ -34,6 +34,7 @@ const GameAbout = memo(function GameAbout({ data, setBigImage }) {
 				<div className={cls.labelsCont}>
 					<div className={cls.labels}>
 						<div className={cls.label}>
+							<SizeIcon />
 							{data.size} ГБ
 						</div>
 						<div className={cls.label}>
