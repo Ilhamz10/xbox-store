@@ -43,6 +43,7 @@ const SectionWithSlide = ({
 			</div>
 			<div>
 				<Swiper
+					nested
 					className={`swiper swiper-initialized swiper-horizontal ${cls.slider}`}
 					style={{
 						padding: '0 1rem',

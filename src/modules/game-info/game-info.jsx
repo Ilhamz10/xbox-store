@@ -1,18 +1,18 @@
 import { memo, useEffect, useRef, useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
+import { Icon } from '@iconify/react/dist/iconify.js';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { useQuery } from '@tanstack/react-query';
 import { useStore } from '../../store';
 import { CustomBottomSheet } from '../../UI/BottomSheet/BottomSheet';
-import cls from './game-info.module.css';
-import { useQuery } from '@tanstack/react-query';
+import { GamePassIcon, RussianFlagIcon, XSIcon } from '../../assets';
+import { gameInfoHeader } from '../../consts/game-info-header';
+import Loading from '../../UI/Loading/Loading';
 import { getGameDetail } from './api/getGameDetail';
 import GameAbout from './pages/game-about/game-about';
 import GameScreens from './pages/game-screens/game-screens';
 import GameVideos from './pages/game-videos/game-videos';
-import { GamePassIcon, RussianFlagIcon, XSIcon } from '../../assets';
-import Loading from '../../UI/Loading/Loading';
-import { AnimatePresence, motion } from 'framer-motion';
-import { Icon } from '@iconify/react/dist/iconify.js';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { gameInfoHeader } from '../../consts/game-info-header';
+import cls from './game-info.module.css';
 
 export const GameInfo = memo(function GameInfo({ adjustPosition }) {
 	const {
@@ -25,6 +25,8 @@ export const GameInfo = memo(function GameInfo({ adjustPosition }) {
 		isAdmin,
 		setXsTitle,
 	} = useStore((state) => state);
+
+	// that state refers to current swiper index that shows number of page (countdown starts from 0)
 	const [page, setPage] = useState(0);
 	const [bigImage, setBigImage] = useState('');
 
@@ -69,11 +71,19 @@ export const GameInfo = memo(function GameInfo({ adjustPosition }) {
 	function handleSwiper(sw) {
 		swiperRef.current = sw;
 		handleActiveBarWidth(sw.activeIndex);
+		sw.on("setTranslate", () => handleDiscardScroll(sw));
 	}
 
 	function handleSlideChange(sw) {
 		handleActiveBarWidth(sw.activeIndex);
 		setPage(sw.activeIndex);
+	}
+
+	function handleDiscardScroll(sw) {
+		const maxTranslate = sw.maxTranslate();
+
+		if (sw.translate > 0) sw.setTranslate(0);
+		else if (sw.translate < maxTranslate) sw.setTranslate(maxTranslate);
 	}
 
 	function handleProgress(sw) {
