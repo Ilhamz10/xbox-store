@@ -1,12 +1,12 @@
-import { memo } from 'react';
-import { IphoneShareIcon } from '../../../../assets';
+import { memo, useState } from 'react';
+import { IphoneShareIcon, RussianFlagIcon, USAFlagIcon, RightArrowIcon } from '../../../../assets';
 import { handleTelegramShare } from '../../../../helpers/handleTelegramShare';
 import SeriesGames from './components/series-games/series-games';
 import SimilarGames from './components/similar-games/similar-games';
 import cls from './game-about.module.css';
 
 const GameAbout = memo(function GameAbout({ data, setBigImage }) {
-	console.log('Game about is renders');
+	const [showAll, setShowAll] = useState(false);
 
 	return (
 		<>
@@ -34,21 +34,41 @@ const GameAbout = memo(function GameAbout({ data, setBigImage }) {
 				<div className={cls.labelsCont}>
 					<div className={cls.labels}>
 						<div className={cls.label}>
-							Язык озвучки{' '}
-							{data.voice_acting === 'russian' ? 'Русский' : 'Английский'}
+							{data.size} ГБ
 						</div>
 						<div className={cls.label}>
-							Язык субтитров{' '}
-							{data.subtitles === 'russian' ? 'Русский' : 'Английский'}
+							{data.subtitles === 'russian' ? <RussianFlagIcon /> : <USAFlagIcon />}
+							{data.subtitles === 'russian' ? 'Русский текст' : 'Английский текст'}
 						</div>
-						{data.has_hdr && <div className={cls.label}>Поддержка HDR</div>}
-						<div className={cls.label}>Разрешение {data.resolution}</div>
-						{data.publisher && (
-							<div className={cls.label}>Издатель {data.publisher}</div>
+						<div className={cls.label}>
+							{data.voice_acting === 'russian' ? <RussianFlagIcon /> : <USAFlagIcon />}
+							{data.voice_acting === 'russian' ? 'Русская озвучка' : 'Английская озвучка'}
+						</div>
+						<div className={cls.label}>{data.resolution.toUpperCase()}</div>
+						{data.has_hdr && <div className={cls.label}>HDR</div>}
+						{showAll && (
+							<>
+								{data.publisher && (
+									<div className={cls.label}>Издатель {data.publisher}</div>
+								)}
+								{data.developer && (
+									<div className={cls.label}>Разработчик {data.developer}</div>
+								)}
+								{data.network_mode == 'yes' && (
+									<div className={cls.label}>Есть сетевой режим</div>
+								)}
+								{data.in_game_pass && (
+									<div className={cls.label}>Есть в Game Pass Ultimate</div>
+								)}
+							</>
 						)}
-						{data.developer && (
-							<div className={cls.label}>Разработчик {data.developer}</div>
-						)}
+						<button
+							onClick={() => setShowAll(p => !p)}
+							className={`${cls.showBtn} ${showAll && cls.active}`}
+						>
+							{!showAll ? 'Всё' : 'Меньше'}
+							<RightArrowIcon />
+						</button>
 					</div>
 					{/* <button className={cls.sharebtnIcon}>
 						<IphoneShareIcon width={25} height={25} />
