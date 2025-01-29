@@ -4,14 +4,17 @@ import SectionWithSlide from '../../components/SectionWithSlide/SectionWithSlide
 import { getPreorderGames } from './api/getPreorderGames';
 
 import cls from './NewPredictionGames.module.css';
-import { useRef } from 'react';
+import { memo, useRef } from 'react';
 
-const NewPredictionGames = () => {
+const NewPredictionGames = memo(function NewPredictionGames() {
 	const content = useRef(null);
 	const { data, isLoading, isSuccess, isError } = useQuery({
 		queryKey: ['preorder-games'],
 		queryFn: () => getPreorderGames(),
 	});
+
+	console.log('NewPredictionGames is rendered');
+	
 
 	if (isLoading) {
 		content.current = <p className='wrapper'>Loading...</p>;
@@ -45,6 +48,6 @@ const NewPredictionGames = () => {
 	}
 
 	return <>{content.current}</>;
-};
+});
 
 export default NewPredictionGames;

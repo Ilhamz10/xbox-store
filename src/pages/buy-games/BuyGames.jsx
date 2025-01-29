@@ -1,67 +1,86 @@
-import { useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useStore } from '../../store';
-import gifLoading from '../../assets/gifs/video-ezgif.com-gif-maker.gif';
-import cls from './style.module.css';
-import Button from '../../UI/Button/Button';
-import { getButtonInfoById } from '../../layout/root/api/getButtonInfoById';
-import { useQuery } from '@tanstack/react-query';
-import parse from 'html-react-parser';
 
-const BuyGames = ({ title }) => {
-	const { setLoading } = useStore((state) => state);
+import cls from './style.module.css';
+import { useMutation } from '@tanstack/react-query';
+import SwitchBtn from '../../UI/SwitchBtn/SwitchBtn';
+import { searchGames } from '../../modules/HotNewGames/api/searchGames';
+import { SearchInput } from '../../modules/HotNewGames/UI';
+import SaleGamesPage from './pages/SaleGamesPage/SaleGamesPage';
+import AllGamesPage from './pages/AllGamesPage/AllGamesPage';
+
+const BuyGames = () => {
+	const { setSearchBottomSheetIsOpen } = useStore((state) => state);
+	const [searchIsActive, setSearchIsActive] = useState(false);
+	const [searchValue, setSearchValue] = useState('');
+	const searchInputRef = useRef(null);
+	const [selectedTab, setSelectedTab] = useState('sale');
 
 	const {
-		data: buttonInfo,
-		isSuccess: buttonInfoIsSuccess,
-		isLoading,
-		isError
-	} = useQuery({
-		queryKey: ['subs-info-button'],
-		queryFn: () => getButtonInfoById(3),
+		mutate,
+		// data: searchedGames
+	} = useMutation({
+		mutationFn: searchGames,
 	});
 
+	function handleSearch(e) {
+		e.preventDefault();
+		mutate({ search: searchValue });
+		setSearchBottomSheetIsOpen(true);
+		searchInputRef.current.blur();
+		setSearchValue('');
+		setSearchIsActive(false);
+	}
+
 	useEffect(() => {
-		if (isLoading) {
-			setLoading(true);
-		} else if (buttonInfoIsSuccess) {
-			setLoading(false);
+		function handleClickOutside(event) {
+			if (
+				searchInputRef.current &&
+				!searchInputRef.current.contains(event.target)
+			) {
+				setSearchIsActive(false);
+				setSearchValue('');
+			}
 		}
-	}, [buttonInfoIsSuccess, isLoading, setLoading]);
+
+		document.addEventListener('mousedown', handleClickOutside);
+
+		return () => {
+			document.removeEventListener('mousedown', handleClickOutside);
+		};
+	}, []);
 
 	return (
-		<section
-			style={{ padding: '20px 0 28px' }}
-			className={`wrapper ${cls.buyGamesSection}`}>
-			<h2 className='category-title'>{title}</h2>
-			<div>
-				<img
-					style={{ width: '50px', margin: '0 auto' }}
-					src={gifLoading}
-					alt=''
-				/>
-				<h3
-					style={{
-						paddingTop: '10px',
-						fontWeight: '400',
-						textAlign: 'center',
-					}}>
-					В разработке..
-				</h3>
-			</div>
-			{buttonInfoIsSuccess && (
-				<div className={cls.infoWindow}>
-					<div className={cls.mirror}>
-						<h3 style={{ textAlign: 'center' }}>{buttonInfo.description}</h3>
-						<p className='text'>{parse(buttonInfo.text)}</p>
-					</div>
-					{buttonInfoIsSuccess && (
-						<a href='https://t.me/monsterjamm'>
-							<Button className={cls.tgButton}>{buttonInfo.title}</Button>
-						</a>
-					)}
-					{isError && <p>Произошла ошибка при загрузке кнопки</p>}
+		<section style={{ padding: '20px 0 28px' }}>
+			<div className='wrapper'>
+				<form className={cls.titleCont} onSubmit={handleSearch}>
+					<h3
+						className={`${cls.categoryTitle} ${
+							!searchIsActive ? cls.active : ''
+						}`}>
+						Покупки игр
+					</h3>
+					<SearchInput
+						ref={searchInputRef}
+						searchIsActive={searchIsActive}
+						onFocus={(e) => {
+							if (!searchIsActive) {
+								e.currentTarget.blur();
+							}
+							setSearchIsActive(true);
+						}}
+						value={searchValue}
+						onChange={(e) => setSearchValue(e.target.value)}
+					/>
+				</form>
+				<div style={{ marginTop: '15px' }}>
+					<SwitchBtn
+						selectedTab={selectedTab}
+						setSelectedTab={setSelectedTab}
+					/>
 				</div>
-			)}
+			</div>
+			{selectedTab === 'sale' ? <SaleGamesPage /> : <AllGamesPage />}
 		</section>
 	);
 };

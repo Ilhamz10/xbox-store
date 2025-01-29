@@ -10,6 +10,7 @@ import WebApp from '@twa-dev/sdk';
 import BuyGames from './pages/buy-games/BuyGames';
 import NotFound from './pages/404/404';
 import WorkInProgress from './pages/work-in-progress/WorkInProgress';
+import ForAdmins from './components/ForAdmins';
 // import Subscriptions from './pages/subscriptions/Subscriptions';
 
 const router = createHashRouter([
@@ -27,7 +28,12 @@ const router = createHashRouter([
 			{ path: '/:anything', element: <NotFound /> },
 			{
 				path: '/buy-games',
-				element: <WorkInProgress title='Покупки' />,
+				element: (
+					<ForAdmins
+						PageForAdmin={<BuyGames />}
+						PageForUsers={<WorkInProgress title='Покупки игр' />}
+					/>
+				),
 			},
 			// {
 			// 	path: '/subscriptions',
@@ -35,7 +41,7 @@ const router = createHashRouter([
 			// },
 			{
 				path: '/subscriptions',
-				element: <BuyGames title='Подписки' />,
+				element: <WorkInProgress title='Подписки' />,
 			},
 			{
 				path: '/currency',

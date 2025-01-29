@@ -1,9 +1,13 @@
+import { memo } from 'react';
 import { IphoneShareIcon } from '../../../../assets';
 import { handleTelegramShare } from '../../../../helpers/handleTelegramShare';
+import SeriesGames from './components/series-games/series-games';
 import SimilarGames from './components/similar-games/similar-games';
 import cls from './game-about.module.css';
 
-const GameAbout = ({ data, setBigImage }) => {
+const GameAbout = memo(function GameAbout({ data, setBigImage }) {
+	console.log('Game about is renders');
+
 	return (
 		<>
 			<div className='wrapper'>
@@ -71,9 +75,31 @@ const GameAbout = ({ data, setBigImage }) => {
 					Поделиться карточкой
 				</button>
 			</div>
-			<SimilarGames categoryId={data.categories[0].id} currentGame={data} />
+			{/* <SimilarGames
+				categoryId={data.categories[0].id}
+				currentGame={data}
+				sectionTitle={'Похожие игры'}
+			/> */}
+			<div style={{ paddingBottom: '80px' }}>
+				{data.categories.map((category, index) => (
+					<SimilarGames
+						key={category.id}
+						categoryId={category.id}
+						currentGame={data}
+						sectionTitle={category.name}
+						reverse={index % 2 !== 0}
+					/>
+				))}
+				{data.series && (
+					<SeriesGames
+						currentGame={data}
+						sectionTitle={'Серия игры'}
+						seriesId={data.series.id}
+					/>
+				)}
+			</div>
 		</>
 	);
-};
+});
 
 export default GameAbout;

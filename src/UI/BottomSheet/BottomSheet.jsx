@@ -5,14 +5,14 @@ import {
 	useMotionValue,
 } from 'framer-motion';
 import cls from './BottomSheet.module.css';
-import { useEffect, useRef, useState } from 'react';
+import { memo, useEffect, useRef, useState } from 'react';
 import useScrollDirection from '../../hooks/useScrollDirection';
 import { useStore } from '../../store';
 import { IphoneShareIcon } from '../../assets';
 import { handleTelegramShare } from '../../helpers/handleTelegramShare';
 import { createPortal } from 'react-dom';
 
-export const CustomBottomSheet = ({
+export const CustomBottomSheet = memo(function CustomBottomSheet({
 	sheetBgColor,
 	isOpen,
 	setIsopen,
@@ -21,7 +21,7 @@ export const CustomBottomSheet = ({
 	shareIcon,
 	bottomSheetHeader,
 	onClose = () => {},
-}) => {
+}) {
 	const y = useMotionValue(0);
 	const [onTheTop, setOnTheTop] = useState(true);
 	const modalRef = useRef(null);
@@ -154,4 +154,4 @@ export const CustomBottomSheet = ({
 		</AnimatePresence>,
 		document.getElementById('modal')
 	);
-};
+});

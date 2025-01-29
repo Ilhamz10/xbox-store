@@ -1,6 +1,6 @@
 /* eslint-disable react-refresh/only-export-components */
 import cls from './CategoryCard.module.css';
-import { forwardRef } from 'react';
+import { forwardRef, memo } from 'react';
 import { num_word } from '../../helpers';
 
 const CategoryCard = ({ imgSrc, category, count = 0, ...props }, ref) => {
@@ -19,4 +19,4 @@ const CategoryCard = ({ imgSrc, category, count = 0, ...props }, ref) => {
 	);
 };
 
-export default forwardRef(CategoryCard);
+export default memo(forwardRef(CategoryCard));

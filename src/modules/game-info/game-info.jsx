@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { memo, useEffect, useRef, useState } from 'react';
 import { useStore } from '../../store';
 import { CustomBottomSheet } from '../../UI/BottomSheet/BottomSheet';
 import cls from './game-info.module.css';
@@ -13,8 +13,9 @@ import Loading from '../../UI/Loading/Loading';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { gameInfoHeader } from '../../consts/game-info-header';
 
-export const GameInfo = ({ adjustPosition }) => {
+export const GameInfo = memo(function GameInfo({ adjustPosition }) {
 	const {
 		gameInfoBottomSheetIsOpen,
 		setGameInfoBottomSheetIsOpen,
@@ -36,7 +37,7 @@ export const GameInfo = ({ adjustPosition }) => {
 
 	function handleOpenXsInfo(e, name) {
 		e.stopPropagation();
-		setXsTitle('Подсказка')
+		setXsTitle('Подсказка');
 		setXsText(
 			`Значок X|S обозначает что игра ${name} работает только на
 						приставке Xbox Series S и Xbox Series X и не работает на приставке
@@ -47,7 +48,7 @@ export const GameInfo = ({ adjustPosition }) => {
 
 	function handleOpenPreOrder(e, name) {
 		e.stopPropagation();
-		setXsTitle('Подсказка')
+		setXsTitle('Подсказка');
 		setXsText(
 			`Игра ${name} еще не вышла, но вы уже можете ее приобрести! Дата релиза игры: ${new Date(
 				data.release_date
@@ -135,7 +136,12 @@ export const GameInfo = ({ adjustPosition }) => {
 							{data.subprice !== '0.00' ? (
 								<>
 									<div className={cls.discount}>{data.price} ₽</div>
-									<p className={cls.price}>{data.original_price !== '0.00' ? data.original_price : data.subprice} ₽</p>
+									<p className={cls.price}>
+										{data.original_price !== '0.00'
+											? data.original_price
+											: data.subprice}{' '}
+										₽
+									</p>
 								</>
 							) : (
 								<p className={cls.price}>{data.price} ₽</p>
@@ -143,7 +149,7 @@ export const GameInfo = ({ adjustPosition }) => {
 						</div>
 						{data.compatibility === 'xbox_series_x_s' && (
 							<button
-								style={!data.in_game_pass ? {left: '20px'} : {}}
+								style={!data.in_game_pass ? { left: '20px' } : {}}
 								className={cls.XSBtn}
 								onClick={(e) => handleOpenXsInfo(e, data.title)}>
 								<XSIcon width={45} height={35} />
@@ -181,7 +187,7 @@ export const GameInfo = ({ adjustPosition }) => {
 						)}
 					</div>
 					<div style={{ background: '#232222' }}>
-						<header className={cls.gameInfoHeader}>
+					<header className={cls.gameInfoHeader}>
 							<div className='wrapper'>
 								<div className={cls.gameInfoHeaderLinks}>
 									{gameInfoHeader.map((str, i) => {
@@ -206,7 +212,7 @@ export const GameInfo = ({ adjustPosition }) => {
 							</div>
 						</header>
 						<main className={cls.gameInfoMain}>
-							<Swiper
+						<Swiper
 								autoHeight
 								onSwiper={handleSwiper}
 								onProgress={handleProgress}
@@ -277,4 +283,4 @@ export const GameInfo = ({ adjustPosition }) => {
 			</section>
 		</CustomBottomSheet>
 	);
-};
+});

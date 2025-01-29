@@ -1,0 +1,9 @@
+.infoWindow {
+    padding: 15px 30px;
+    text-align: center;
+    backdrop-filter: blur(4px) opacity(0.2);
+    background-color: rgb(55 65 81 / 0.6);
+    border-radius: 10px;
+    display: grid;
+    gap: 10px;
+}

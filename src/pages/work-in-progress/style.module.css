@@ -1,0 +1,29 @@
+.titleCont {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 20px;
+}
+
+.searchBtn {
+	padding: 0.7rem;
+	position: relative;
+}
+
+.categoryTitle {
+	margin: 1rem 0;
+	font-size: 1.7rem;
+	line-height: 2rem;
+	overflow: hidden;
+	text-wrap: nowrap;
+	width: 0;
+}
+
+.categoryTitle.active {
+	width: 100%;
+	transition: 0.3s;
+}
+.categoryTitle span {
+	font-size: 1rem;
+	line-height: 1.5rem;
+}

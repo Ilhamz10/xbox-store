@@ -3,7 +3,7 @@ import Button from '../../UI/Button/Button';
 import { motion } from 'framer-motion';
 
 import cls from './AllGames.module.css';
-import { useEffect, useRef, useState } from 'react';
+import { memo, useEffect, useRef, useState } from 'react';
 import { useStore } from '../../store';
 import { useQuery } from '@tanstack/react-query';
 import { getAllGames } from './api/getAllGames';
@@ -26,11 +26,11 @@ import { Icon } from '@iconify/react/dist/iconify.js';
 
 const MotionGameCard = motion(GameCard);
 
-const AllGames = ({
+const AllGames = memo(function AllGames({
 	inBottomSheet,
 	scrollContainerRef,
 	withFilters = true,
-}) => {
+}) {
 	const [filtersIsOpen, setFiltersIsOpen] = useState(false);
 	const [sortIsOpen, setSortIsOpen] = useState(false);
 	const [page, setPage] = useState(1);
@@ -104,7 +104,7 @@ const AllGames = ({
 
 	useEffect(() => {
 		document.getElementById('root').addEventListener('scroll', handleScroll);
-		
+
 		// Убираем слушатель события при размонтировании компонента
 		return () => {
 			document
@@ -413,6 +413,6 @@ const AllGames = ({
 			</Modal>
 		</>
 	);
-};
+});
 
 export default AllGames;
