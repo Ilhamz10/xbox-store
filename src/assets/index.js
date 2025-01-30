@@ -37,6 +37,7 @@ import IphoneSettingsIcon from './icons/iphone-settings-icon.svg?react';
 import GamePassIcon from './icons/gamepass-icon.svg?react';
 import USAFlagIcon from './icons/usa-flag-icon.svg?react';
 import SizeIcon from './icons/size-icon.svg?react';
+import ShowAllIcon from './icons/show-all-icon.svg?react';
 
 export {
 	GamePassIcon,
@@ -77,5 +78,6 @@ export {
 	OrdersIcon,
 	DeleteIcon,
 	USAFlagIcon,
-	SizeIcon
+	SizeIcon,
+	ShowAllIcon
 };
