@@ -74,11 +74,12 @@
 
 .showBtn > svg {
 	transition: all .3s ease;
-	rotate: 90deg;
+	width: 14px;
+	height: 14px;
 }
 
 .showBtn.active > svg {
-	rotate: -90deg;
+	rotate: -180deg;
 }
 
 .sharebtn {

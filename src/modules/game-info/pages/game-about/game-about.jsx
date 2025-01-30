@@ -1,5 +1,5 @@
 import { memo, useState } from 'react';
-import { IphoneShareIcon, RussianFlagIcon, USAFlagIcon, RightArrowIcon, SizeIcon } from '../../../../assets';
+import { IphoneShareIcon, RussianFlagIcon, USAFlagIcon, ShowAllIcon, SizeIcon } from '../../../../assets';
 import { handleTelegramShare } from '../../../../helpers/handleTelegramShare';
 import SeriesGames from './components/series-games/series-games';
 import SimilarGames from './components/similar-games/similar-games';
@@ -68,7 +68,7 @@ const GameAbout = memo(function GameAbout({ data, setBigImage }) {
 							className={`${cls.showBtn} ${showAll && cls.active}`}
 						>
 							{!showAll ? 'Всё' : 'Меньше'}
-							<RightArrowIcon />
+							<ShowAllIcon />
 						</button>
 					</div>
 					{/* <button className={cls.sharebtnIcon}>
