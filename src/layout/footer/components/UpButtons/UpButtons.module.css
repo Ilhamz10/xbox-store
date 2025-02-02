@@ -46,3 +46,17 @@
 	bottom: 0;
 	font-size: 13px !important;
 }
+
+.counter {
+	display: flex;
+	flex-direction: column;
+	position: relative;
+}
+
+.counter svg {
+	position: absolute;
+	rotate: 180deg;
+	top: -12.5px;
+	transform: translateX(-50%);
+	right: 50%;
+}
