@@ -1,0 +1,1 @@
+export const CLUE_TITLE = "Подсказка";
