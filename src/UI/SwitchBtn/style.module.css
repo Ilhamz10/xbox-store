@@ -23,13 +23,14 @@
 	position: relative;
 	z-index: 1;
 	width: 100%;
+	font-weight: 600;
 }
 
 .saleSwitchBtn {
 	position: relative;
 }
 
-.saleSwitchBtn::after {
+/* .saleSwitchBtn::after {
 	content: attr(data-count);
 	position: absolute;
 	width: 16px;
@@ -43,7 +44,7 @@
 	align-items: center;
 	top: -7px;
 	right: -11px;
-}
+} */
 
 .switchBtnCont {
 	position: relative;
@@ -57,8 +58,4 @@
 	left: 0;
 	background-color: #5aad5d;
 	border-radius: 8px;
-}
-
-.tabSelector.bgBlue {
-	background-color: #FFC000;
 }

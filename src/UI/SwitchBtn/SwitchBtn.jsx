@@ -14,13 +14,13 @@ const SwitchBtn = ({selectedTab, setSelectedTab}) => {
 					onClick={() => changeTab('sale')}
 					className={`${cls.switchBtn}`}>
 					<DiscountIcon width={18} height={18} />
-					<span className={cls.saleSwitchBtn} data-count='10'>
+					<span className={cls.saleSwitchBtn}>
 						Распродажа
 					</span>
 				</button>
 				{selectedTab === 'sale' && (
 					<motion.div
-						className={`${cls.tabSelector} ${cls.bgBlue}`}
+						className={cls.tabSelector}
 						layoutId='tabselector'
 					/>
 				)}
