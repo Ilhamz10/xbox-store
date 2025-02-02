@@ -7,3 +7,10 @@
     display: grid;
     gap: 10px;
 }
+
+.productCount {
+    font-weight: 600;
+    font-size: 1.2rem;
+    text-align: center;
+    margin-top: 18px;
+}
