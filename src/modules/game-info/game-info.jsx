@@ -47,8 +47,9 @@ export const GameInfo = memo(function GameInfo({ adjustPosition }) {
       e.stopPropagation();
 		setXsTitle(title);
       setXsText(text);
+      setIsGamePass(false);
 
-		if (data.in_game_pass) setIsGamePass(true);
+		if (data.in_game_pass && title.includes("Game Pass")) setIsGamePass(true);
 
       changeXsIsOpen(true);
    }

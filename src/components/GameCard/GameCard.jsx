@@ -43,7 +43,7 @@ const GameCard = (
       setXsTitle(title);
       setXsText(text);
 
-      if (in_game_pass) setIsGamePass(true);
+      if (in_game_pass && title.includes("Game Pass")) setIsGamePass(true);
 
       changeXsIsOpen(true);
    }
