@@ -1,38 +1,19 @@
 import { XboxIcon } from '../../assets';
-import cls from './series-games.module.css';
 import { SwiperSlide, Swiper } from 'swiper/react';
 import GameCard from '../../components/GameCard/GameCard';
 import { useQuery } from '@tanstack/react-query';
 import { getSeriesGames } from './api/getSeriesGames';
 import { memo, useEffect, useRef } from 'react';
 import { useStore } from '../../store';
-import Button from '../../UI/Button/Button';
-import { getButtonInfoById } from '../../layout/root/api/getButtonInfoById';
 
 const SeriesGames = memo(function SeriesGames() {
 	const content = useRef();
 	const copyOfGames = useRef([]);
-	const {
-		setActiveSeries,
-		setCategoryBottomSheetIsOpen,
-		changeXsIsOpen,
-		setXsText,
-		setXsTitle,
-	} = useStore((state) => state);
+	const { setActiveSeries, setCategoryBottomSheetIsOpen } = useStore((state) => state);
 
 	const { data, isLoading, isError, isSuccess } = useQuery({
 		queryKey: ['get-series-games'],
 		queryFn: getSeriesGames,
-	});
-
-	const {
-		data: rentButtonInfo,
-		// isLoading: rentButtonInfoIsLoading,
-		isError: rentButtonInfoIsError,
-		isSuccess: rentButtonInfoIsSuccess,
-	} = useQuery({
-		queryKey: ['rent-button-info'],
-		queryFn: () => getButtonInfoById(1),
 	});
 
 	if (isLoading) {
@@ -46,14 +27,6 @@ const SeriesGames = memo(function SeriesGames() {
 	function handleOpenSeries(id, name) {
 		setActiveSeries(id, name);
 		setCategoryBottomSheetIsOpen(true);
-	}
-
-	function handleOpenInfo() {
-		if (rentButtonInfoIsSuccess) {
-			setXsTitle(rentButtonInfo.description);
-			setXsText(rentButtonInfo.text);
-		}
-		changeXsIsOpen(true);
 	}
 
 	useEffect(() => {
@@ -77,7 +50,7 @@ const SeriesGames = memo(function SeriesGames() {
 	if (isSuccess) {
 		content.current = (
 			<Swiper
-				className={`swiper swiper-initialized swiper-horizontal ${cls.slider}`}
+				className={'swiper swiper-initialized swiper-horizontal'}
 				style={{
 					padding: '0 1rem',
 				}}
@@ -107,23 +80,14 @@ const SeriesGames = memo(function SeriesGames() {
 				zIndex: 2,
 				marginBottom: 0,
 			}}
-			className={cls.NewPredictionGames}>
-			<div className={cls.blurBg}>
+		>
+			<div>
 				<div className={`wrapper section-header`}>
 					<h3 className='section-title'>
 						<XboxIcon /> Серии игр
 					</h3>
 				</div>
 				{content.current}
-				<div className='wrapper'>
-					{rentButtonInfoIsSuccess && (
-						<Button onClick={handleOpenInfo} className={cls.aboutRentBtn}>
-							{/* Информация о прокате игр! */}
-							{rentButtonInfo.title}
-						</Button>
-					)}
-					{rentButtonInfoIsError && <p>Произошла ошибка</p>}
-				</div>
 			</div>
 		</section>
 	);
