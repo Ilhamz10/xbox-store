@@ -1,5 +1,6 @@
 import { memo, useEffect, useRef, useState } from 'react';
 import SectionWithSlide from '../../../../../../components/SectionWithSlide/SectionWithSlide';
+import { NewPredictionGamesIcon } from '../../../../../../assets';
 import cls from './style.module.css';
 import { getRussianGames } from '../../../../../../modules/russian-lang-games/api/getRussianGames';
 import { useQuery } from '@tanstack/react-query';
@@ -57,6 +58,7 @@ const LatestReleases = memo(function LatestReleases() {
 			<SectionWithSlide
 				withAllBtn={true}
 				allBtnOnClick={handleOpen}
+				SectionIcon={NewPredictionGamesIcon}
 				sectionTitle={'Последние релизы'}
 				slides={sliderGames}
 				// SectionIcon={RussianFlagIcon}

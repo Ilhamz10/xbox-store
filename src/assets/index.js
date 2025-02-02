@@ -38,6 +38,8 @@ import GamePassIcon from './icons/gamepass-icon.svg?react';
 import USAFlagIcon from './icons/usa-flag-icon.svg?react';
 import SizeIcon from './icons/size-icon.svg?react';
 import ShowAllIcon from './icons/show-all-icon.svg?react';
+import NewPredictionGamesIcon from './icons/bestseller-icon.svg?react';
+import FireIcon from './icons/fire-icon.svg?react';
 
 export {
 	GamePassIcon,
@@ -79,5 +81,7 @@ export {
 	DeleteIcon,
 	USAFlagIcon,
 	SizeIcon,
-	ShowAllIcon
+	ShowAllIcon,
+	NewPredictionGamesIcon,
+	FireIcon
 };

@@ -4,6 +4,7 @@ import { useStore } from '../../../../../../store';
 import { useQuery } from '@tanstack/react-query';
 import { getRussianGames } from '../../../../../../modules/russian-lang-games/api/getRussianGames';
 import SectionWithSlide from '../../../../../../components/SectionWithSlide/SectionWithSlide';
+import { FireIcon } from '../../../../../../assets'
 
 const UpToThousandGames = () => {
 	const content = useRef();
@@ -55,6 +56,7 @@ const UpToThousandGames = () => {
 		content.current = (
 			<SectionWithSlide
 				withAllBtn={true}
+				SectionIcon={FireIcon}
 				allBtnOnClick={handleOpen}
 				sectionTitle={'Игры до 1000р'}
 				slides={sliderGames}
