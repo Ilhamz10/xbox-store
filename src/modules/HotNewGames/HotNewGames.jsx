@@ -251,6 +251,14 @@ const HotNewGames = memo(function HotNewGames() {
 							</button>
 						</div>
 					</div>
+					<div className={cls.aboutRentWrapper}>
+						{rentButtonInfoIsSuccess && (
+							<Button onClick={handleOpenInfo} className={cls.aboutRentBtn}>
+								{rentButtonInfo.title}
+							</Button>
+						)}
+						{rentButtonInfoIsError && <p>Произошла ошибка</p>}
+					</div>
 				</div>
 			</section>
 			<Modal isOpen={filtersByDateIsOpen} setIsopen={setFiltersByDateIsOpen}>
@@ -302,14 +310,6 @@ const HotNewGames = memo(function HotNewGames() {
 				isOpen={searchBottomSheetIsOpen}
 				setIsOpen={handleClose}
 			/>
-			<div className={cls.aboutRentWrapper}>
-				{rentButtonInfoIsSuccess && (
-					<Button onClick={handleOpenInfo} className={cls.aboutRentBtn}>
-						{rentButtonInfo.title}
-					</Button>
-				)}
-				{rentButtonInfoIsError && <p>Произошла ошибка</p>}
-			</div>
 		</>
 	);
 });
