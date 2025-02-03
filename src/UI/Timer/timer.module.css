@@ -1,0 +1,36 @@
+.timer {
+   display: flex;
+   align-items: flex-start;
+   justify-content: space-between;
+   width: fit-content;
+   gap: 15px;
+}
+
+.timerItem > p {
+   font-weight: 500;
+   font-size: 2.5rem;
+   display: flex;
+   align-items: center;
+   gap: 15px;
+}
+
+.timerItem > span {
+   font-size: 0.8rem;
+   color: rgb(255, 255, 255, .65);
+}
+
+.separator {
+   font-weight: 600;
+   font-size: 1.4rem;
+   margin-top: 9px;
+}
+
+@media (max-width: 360px) {
+   .timer {
+      gap: 7px;
+   }
+
+   .timerItem > p {
+      font-size: 1.7rem;
+   }
+}

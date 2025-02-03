@@ -8,6 +8,10 @@
     gap: 10px;
 }
 
+.infoWindow p {
+    font-size: 0.95rem;
+}
+
 .productCount {
     font-weight: 600;
     font-size: 1.2rem;
