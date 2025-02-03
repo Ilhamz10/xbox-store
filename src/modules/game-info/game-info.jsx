@@ -15,6 +15,7 @@ import GameScreens from './pages/game-screens/game-screens';
 import GameVideos from './pages/game-videos/game-videos';
 import cls from './game-info.module.css';
 import { getClueText } from '../../helpers/getClueText'
+import { ImageModal } from '../../UI/ImageModal/ImageModal'
 
 export const GameInfo = memo(function GameInfo({ adjustPosition }) {
    const {
@@ -104,15 +105,7 @@ export const GameInfo = memo(function GameInfo({ adjustPosition }) {
       content.current = (
          <>
             {bigImage && (
-               <>
-                  <div
-                     onClick={() => setBigImage('')}
-                     className={cls.backdrop}
-                  />
-                  <div className={cls.bigImage}>
-                     <img src={bigImage} alt="" />
-                  </div>
-               </>
+               <ImageModal bigImage={bigImage} setBigImage={setBigImage} />
             )}
             <div className={cls.gameInfoCont}>
                <div className={cls.gameInfoMainImgCont}>

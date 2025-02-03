@@ -3,6 +3,7 @@ import DiscountedGames from './slides/DiscountedGames/DiscountedGames';
 import LatestReleases from './slides/LatestReleases/LatestReleases';
 import UpToThousandGames from './slides/UpToThousandGames/UpToThousandGames';
 import cls from './style.module.css';
+import { Timer } from '../../../../UI/Timer/Timer'
 
 const SaleGamesPage = memo(function SaleGamesPage() {
 	const oddComponents = [
@@ -40,7 +41,11 @@ const SaleGamesPage = memo(function SaleGamesPage() {
 			<div style={{ marginTop: 18 }}>
 				<div className='wrapper'>
 					<div className={cls.infoWindow}>
-						<p>Распродажа продлиться до 18.01.2025 13:00 мск</p>
+						<p>Распродажа заканчивается через</p>
+						<Timer
+							date={"2025-02-04T10:00:00Z"}
+							style={{ margin: '0 auto' }}
+						/>
 					</div>
 				</div>
 				<div style={{ marginTop: 20 }}>{combinedComponents}</div>
