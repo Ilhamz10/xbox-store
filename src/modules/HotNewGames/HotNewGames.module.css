@@ -136,3 +136,9 @@
    font-size: 18px;
    font-weight: 600;
 }
+
+@media (max-width: 375px) {
+	.aboutRentBtn {
+		font-size: 14px;
+	}
+}
