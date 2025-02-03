@@ -25,6 +25,7 @@ const LatestReleases = memo(function LatestReleases() {
 	}
 
 	useEffect(() => {
+		if (isLoading) setLoading(true);
 		if (isSuccess) {
 			copyOfGames.current = [...data.results];
 			let currentIndex = copyOfGames.current.length;
