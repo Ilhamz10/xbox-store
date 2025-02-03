@@ -13,7 +13,7 @@ export const layoutSlice = set => ({
    isGamePass: false,
    XsTitle: 'Подсказка',
    setCategoriesHeight: height => set(() => ({ categoriesHeight: height })),
-   setLoading: value => setTimeout(() => set(() => ({ loading: value })), 1000),
+   setLoading: value => value ? set(() => ({ loading: true })) : setTimeout(() => set(() => ({ loading: false })), 300),
    setXsText: text => set(() => ({ XsText: text })),
    setXsTitle: title => set(() => ({ XsTitle: title })),
    setIsGamePass: val => set(() => ({ isGamePass: val })),
