@@ -20,12 +20,16 @@ import { SearchInput } from './UI';
 import { searchGames } from './api/searchGames';
 import SearchBottomSheet from './components/SearchBottomSheet/SearchBottomSheet';
 import { MenuIcon, StarIcon, TimeIcon, WatchIcon } from '../../assets';
+import { getButtonInfoById } from '../../layout/root/api/getButtonInfoById'
 
 const HotNewGames = memo(function HotNewGames() {
 	const swiperRef = useRef(null);
 	const searchInputRef = useRef(null);
 	const content = useRef(null);
 	const {
+		changeXsIsOpen,
+		setXsText,
+		setXsTitle,
 		setDateFilter,
 		dateFilter,
 		setActiveGame,
@@ -56,6 +60,15 @@ const HotNewGames = memo(function HotNewGames() {
 		queryKey: ['all-games-for-count'],
 		queryFn: getAllGames,
 	});
+
+	const {
+			data: rentButtonInfo,
+			isError: rentButtonInfoIsError,
+			isSuccess: rentButtonInfoIsSuccess,
+		} = useQuery({
+			queryKey: ['rent-button-info'],
+			queryFn: () => getButtonInfoById(1),
+		});
 
 	const { mutate, data: searchedGames } = useMutation({
 		mutationFn: searchGames,
@@ -118,6 +131,14 @@ const HotNewGames = memo(function HotNewGames() {
 	}, []);
 
 	const [filtersByDateIsOpen, setFiltersByDateIsOpen] = useState(false);
+
+	function handleOpenInfo() {
+		if (rentButtonInfoIsSuccess) {
+			setXsTitle(rentButtonInfo.description);
+			setXsText(rentButtonInfo.text);
+		}
+		changeXsIsOpen(true);
+	}
 
 	const handlePrev = () => {
 		if (swiperRef.current && swiperRef.current.swiper) {
@@ -229,6 +250,14 @@ const HotNewGames = memo(function HotNewGames() {
 								<SliderNextIcon width={36} height={36} fill={'#e5e7eba6'} />
 							</button>
 						</div>
+					</div>
+					<div className={cls.aboutRentWrapper}>
+						{rentButtonInfoIsSuccess && (
+							<Button onClick={handleOpenInfo} className={cls.aboutRentBtn}>
+								{rentButtonInfo.title}
+							</Button>
+						)}
+						{rentButtonInfoIsError && <p>Произошла ошибка</p>}
 					</div>
 				</div>
 			</section>

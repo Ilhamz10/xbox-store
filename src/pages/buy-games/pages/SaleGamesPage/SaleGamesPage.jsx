@@ -33,15 +33,19 @@ const SaleGamesPage = memo(function SaleGamesPage() {
 	}
 
 	return (
-		<div style={{ marginTop: '32px' }}>
-			<div className='wrapper'>
-				<div className={cls.infoWindow}>
-					<p>Распродажа продлиться до 18.01.2025 13:00 мск</p>
-					<p>На распродаже 857 товаров.</p>
-				</div>
+		<>
+			<div className="wrapper">
+				<p className={cls.productCount}>На распродаже 857 товаров.</p>
 			</div>
-			<div style={{ marginTop: '32px' }}>{combinedComponents}</div>
-		</div>
+			<div style={{ marginTop: 18 }}>
+				<div className='wrapper'>
+					<div className={cls.infoWindow}>
+						<p>Распродажа продлиться до 18.01.2025 13:00 мск</p>
+					</div>
+				</div>
+				<div style={{ marginTop: 20 }}>{combinedComponents}</div>
+			</div>
+		</>
 	);
 });
 

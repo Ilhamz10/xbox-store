@@ -18,7 +18,7 @@
 	z-index: 2;
 	background: rgb(55 65 81 / 0.8);
 	position: fixed;
-	z-index: 999999;
+	z-index: 555;
 }
 
 .basketBtnSpan {
@@ -41,8 +41,22 @@
 	place-content: center;
 	position: fixed;
 	right: 16px;
-	z-index: 99999;
+	z-index: 100;
 	background: rgb(55 65 81 / 0.8);
 	bottom: 0;
 	font-size: 13px !important;
+}
+
+.counter {
+	display: flex;
+	flex-direction: column;
+	position: relative;
+}
+
+.counter svg {
+	position: absolute;
+	rotate: 180deg;
+	top: -12.5px;
+	transform: translateX(-50%);
+	right: 50%;
 }

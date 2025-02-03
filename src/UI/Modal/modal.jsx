@@ -1,8 +1,14 @@
 import { createPortal } from 'react-dom';
 import cls from './modal.module.css';
 import { AnimatePresence, motion } from 'framer-motion';
+import { Link } from 'react-router-dom'
 
-export const Modal = ({ children, isOpen, setIsopen, className }) => {
+export const Modal = ({ children, isOpen, setIsopen, className, isGamePass, setIsGamePass }) => {
+	const handleClose = () => {
+		setIsopen(false);
+		setIsGamePass(false);
+	}
+
 	return createPortal(
 		<>
 			<AnimatePresence>
@@ -19,7 +25,7 @@ export const Modal = ({ children, isOpen, setIsopen, className }) => {
 								opacity: 1,
 							}}
 							className={`${cls.backdrop}`}
-							onClick={() => setIsopen(false)}></motion.div>
+							onClick={handleClose}></motion.div>
 						<motion.div
 							initial={{
 								translateY: '120%',
@@ -36,8 +42,18 @@ export const Modal = ({ children, isOpen, setIsopen, className }) => {
 							transition={{ bounce: 0, duration: 0.2 }}
 							className={`wrapper ${cls.modal} ${className}`}>
 							{children}
+							{isGamePass && (
+								<Link
+									to="/subscriptions"
+									style={{ display: 'inline-block', textAlign: 'center' }}
+									className={cls.closeModalBtn}
+									onClick={handleClose}
+								>
+									Купить подписку
+								</Link>
+							)}
 							<button
-								onClick={() => setIsopen(false)}
+								onClick={handleClose}
 								className={cls.closeModalBtn}>
 								Закрыть
 							</button>

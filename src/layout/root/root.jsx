@@ -44,6 +44,8 @@ const Root = () => {
 		setBasketGamesCount,
 		setBasketGamesId,
 		XsTitle,
+		isGamePass,
+		setIsGamePass
 	} = useStore((state) => state);
 
 	// eslint-disable-next-line no-unused-vars
@@ -136,7 +138,12 @@ const Root = () => {
 			/>
 			<div style={{ opacity: 1 }} className='allContent'>
 				<Outlet />
-				<Modal isOpen={XsIsOpen} setIsopen={changeXsIsOpen}>
+				<Modal
+					isGamePass={isGamePass}
+					setIsGamePass={setIsGamePass}
+					isOpen={XsIsOpen}
+					setIsopen={changeXsIsOpen}
+				>
 					<div className='xs-info'>
 						<h3 className='xs-title section-title'>{XsTitle}</h3>
 						<p>{parse(XsText)}</p>

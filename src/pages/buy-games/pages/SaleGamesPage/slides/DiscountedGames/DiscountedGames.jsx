@@ -1,12 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 import cls from './style.module.css'
+import { DiscountIcon } from '../../../../../../assets';
 import { useStore } from '../../../../../../store';
 import { useQuery } from '@tanstack/react-query';
 import { getRussianGames } from '../../../../../../modules/russian-lang-games/api/getRussianGames';
 import SectionWithSlide from '../../../../../../components/SectionWithSlide/SectionWithSlide';
 
 const DiscountedGames = () => {
-    const content = useRef();
+   const content = useRef();
 	const copyOfGames = useRef([]);
 	const [sliderGames, setSliderGames] = useState([]);
 	const { setVoiceActing, setCategoryBottomSheetIsOpen } = useStore(
@@ -55,6 +56,7 @@ const DiscountedGames = () => {
 		content.current = (
 			<SectionWithSlide
 				withAllBtn={true}
+				SectionIcon={DiscountIcon}
 				allBtnOnClick={handleOpen}
 				sectionTitle={'Скидки 70-95%'}
 				slides={sliderGames}

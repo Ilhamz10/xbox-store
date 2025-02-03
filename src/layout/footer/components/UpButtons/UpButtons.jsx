@@ -2,7 +2,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import cls from './UpButtons.module.css';
 import Button from '../../../../UI/Button/Button';
 import { useStore } from '../../../../store';
-import { BasketIcon, DropdownArrowIcon } from '../../../../assets';
+import { BasketIcon, DropdownArrowIcon, ShowAllIcon } from '../../../../assets';
 
 const MotionButton = motion(Button);
 
@@ -78,9 +78,12 @@ export const UpButtons = () => {
 					{!isEnd ? (
 						<div>
 							<motion.p
+								className={cls.counter}
 								animate={{ opacity: 1 }}
 								initial={{ opacity: 0 }}
-								exit={{ opacity: 0 }}>
+								exit={{ opacity: 0 }}
+							>
+								<ShowAllIcon />
 								{counter}/{gamesCount}
 							</motion.p>
 						</div>
