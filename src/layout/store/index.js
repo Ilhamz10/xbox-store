@@ -10,6 +10,7 @@ export const layoutSlice = set => ({
    productAddToCardIsVisiible: false,
    countButtonUpIsShown: false,
    XsText: '',
+   queriesCompleted: 0,
    isGamePass: false,
    XsTitle: 'Подсказка',
    setCategoriesHeight: height => set(() => ({ categoriesHeight: height })),
@@ -19,6 +20,7 @@ export const layoutSlice = set => ({
    setIsGamePass: val => set(() => ({ isGamePass: val })),
    changeXsIsOpen: bool => set(() => ({ XsIsOpen: bool })),
    closeXsIsOpen: () => set(() => ({ XsIsOpen: false })),
+   setQueriesCompleted: count => set(st => ({ queriesCompleted: (count || st.queriesCompleted + 1) })),
    setCategoryBottomSheetIsOpen: bool =>
       set(() => ({ categoryBottomSheetIsOpen: bool })),
    setGameInfoBottomSheetIsOpen: bool =>
