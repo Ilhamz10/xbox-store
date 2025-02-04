@@ -10,8 +10,10 @@ import {
 	CalendarIcon,
 	DollarincircleIcon
 } from '../../../../assets';
-import cls from './style.module.css';
 import { useStore } from '../../../../store';
+import GameCard from '../../../../components/GameCard/GameCard';
+import { tempProductsArr } from '../../../../consts/temp-products';
+import cls from './style.module.css';
 
 const evenComponents = [
 	<SaleCarousel key="UpToThousandGames" title="Игры до 1000р" icon={FireIcon} />,
@@ -72,6 +74,29 @@ const SaleGamesPage = memo(function SaleGamesPage() {
             </div>
             <div style={{ marginTop: 20 }}>
 					{combinedComponents}
+				</div>
+				{/* temp products */}
+				<div style={{
+					display: 'flex',
+					flexWrap: 'wrap',
+					gap: 11,
+					margin: 10,
+				}}>
+					{tempProductsArr.map(game => (
+						<GameCard
+							key={game.id}
+							release_date={game.release_date}
+							preOrder={game.pre_order}
+							game={game}
+							xs={game.compatibility === 'xbox_series_x_s'}
+							gameTitle={game.title}
+							gamePrice={game.price}
+							imgSrc={game.image}
+							lang={game.voice_acting}
+							in_game_pass={game.in_game_pass}
+							style={{ width: '31.5%' }}
+						/>
+					))}
 				</div>
          </div>
       </>
