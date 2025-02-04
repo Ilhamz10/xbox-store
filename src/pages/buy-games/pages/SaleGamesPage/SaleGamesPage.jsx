@@ -41,7 +41,7 @@ const SaleGamesPage = memo(function SaleGamesPage() {
 			<div style={{ marginTop: 18 }}>
 				<div className='wrapper'>
 					<div className={cls.infoWindow}>
-						<p>Распродажа заканчивается через</p>
+						<p className={cls.infoTitle}>Распродажа заканчивается через</p>
 						<Timer
 							date={"2025-02-04T10:00:00Z"}
 							style={{ margin: '0 auto' }}
