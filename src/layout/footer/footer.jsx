@@ -1,11 +1,10 @@
 import { NavLink } from 'react-router-dom';
 
 import cls from './footer.module.css';
+import { GamePassIcon, XboxIcon, CoinsIcon } from '../../assets';
 import AccountIcon from './assets/icons/account-icon.svg?react';
-import XboxIcon from './assets/icons/xbox-icon.svg?react';
-import PresaleIcon from './assets/icons/presale-icon.svg?react';
+import PresaleIcon from './assets/icons/catalog-icon.svg?react';
 import { useStore } from '../../store';
-import { CalendarIcon, CoinsIcon } from '../../assets';
 import { UpButtons } from './components/UpButtons/UpButtons';
 import { FooterBtns } from './components/FooterBtns/FooterBtns';
 
@@ -38,7 +37,7 @@ const Footer = () => {
 						onClick={closeAllModals}
 						to={'/buy-games'}
 						className={({ isActive }) => (isActive ? cls.active : '')}>
-						<PresaleIcon width={24} height={24} />
+						<PresaleIcon width={26} height={26} />
 						<div className={cls.dott} />
 					</NavLink>
 					<NavLink
@@ -46,7 +45,7 @@ const Footer = () => {
 						// onClick={handleOpenBasket}
 						onClick={closeAllModals}
 						className={({ isActive }) => (isActive ? cls.active : '')}>
-						<CalendarIcon width={24} height={24} />
+						<GamePassIcon width={32} height={36} />
 						<div className={cls.dott} />
 					</NavLink>
 					<NavLink
