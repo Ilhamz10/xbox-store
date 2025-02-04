@@ -28,12 +28,16 @@
 	margin-bottom: 10px;
 }
 
+.allLabelsCont {
+	margin-bottom: 1rem;
+}
+
 .labels {
 	display: flex;
 	flex-wrap: wrap;
 	gap: 1rem;
 	overflow: hidden;
-	margin-bottom: 1rem;
+	margin-bottom: 0.75rem;
 }
 
 .label {
