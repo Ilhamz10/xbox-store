@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import NewPredictionGamesIcon from '../../assets/icons/bestseller-icon.svg?react';
+import { CalendarIcon } from '../../assets';
 import SectionWithSlide from '../../components/SectionWithSlide/SectionWithSlide';
 import { getPreorderGames } from './api/getPreorderGames';
 
@@ -38,7 +38,7 @@ const NewPredictionGames = memo(function NewPredictionGames() {
 					className={cls.NewPredictionGames}>
 					<div className={cls.blurBg}>
 						<SectionWithSlide
-							SectionIcon={NewPredictionGamesIcon}
+							SectionIcon={CalendarIcon}
 							sectionTitle={'Новинки игр по предзаказу'}
 							slides={data.results}
 						/>
