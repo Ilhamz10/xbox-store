@@ -18,6 +18,7 @@ import { Filters } from '../../../../UI/Filters/Filters';
 import { tempProductsArr } from '../../../../consts/temp-products';
 import { CategoryBottomSheet } from '../../../../modules/CategoryBottomSheet/CategoryBottomSheet';
 import cls from './style.module.css';
+import { GameInfo } from '../../../../modules/game-info/game-info'
 
 const evenComponents = [
 	<SaleCarousel key="UpToThousandGames" title="Игры до 1000р" icon={FireIcon} />,
@@ -42,7 +43,9 @@ const SaleGamesPage = memo(function SaleGamesPage() {
 		queriesCompleted,
 		setLoading,
 		gameInfoBottomSheetIsOpen,
-		basketBottomSheet
+		basketBottomSheet,
+		setActiveGame,
+		setGameInfoBottomSheetIsOpen
 	} = useStore(state => state);
 
 	const combinedComponents = [];
@@ -64,14 +67,29 @@ const SaleGamesPage = memo(function SaleGamesPage() {
 		}
 	}
 
+	function handleOpenGameInfoBottomSheet(game) {
+		setActiveGame(game);
+		setGameInfoBottomSheetIsOpen(true);
+	}
+
    useEffect(() => {
       if (combinedComponents.length === queriesCompleted) setLoading(false);
    }, [queriesCompleted]);
+
+	useEffect(() => {
+		return () => {
+			setActiveGame(null);
+			setGameInfoBottomSheetIsOpen(false);
+		}
+	}, []);
 
    return (
       <>
 			{/* MODAL FOR CAROUSELS */}
 			<CategoryBottomSheet adjustPosition={gameInfoBottomSheetIsOpen || basketBottomSheet} />
+
+			{/* MODAL FOR PRODUCTS */}
+			<GameInfo adjustPosition={basketBottomSheet} />
 
          <div className="wrapper">
             <p className={cls.productCount}>На распродаже 857 товаров.</p>
@@ -115,6 +133,7 @@ const SaleGamesPage = memo(function SaleGamesPage() {
 								key={game.id}
 								release_date={game.release_date}
 								game={game}
+								onClick={() => handleOpenGameInfoBottomSheet(game)}
 								gameTitle={game.title}
 								gamePrice={game.price}
 								imgSrc={game.image}
