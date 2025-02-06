@@ -133,7 +133,6 @@
 .gameCard.dayGame .gameInfo {
 	position: absolute;
 	width: 100%;
-	-webkit-backdrop-filter: blur(4px);
 	backdrop-filter: blur(4px);
 	background-color: rgb(55 65 81 / 0.4);
 	bottom: 0;

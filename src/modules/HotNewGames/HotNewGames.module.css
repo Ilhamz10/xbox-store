@@ -93,6 +93,10 @@
 	right: 0.7rem;
 }
 
+.filterBtn {
+	background: rgb(55 65 81 / 40%);
+}
+
 .filterBtn svg {
 	transform: rotate(180deg);
 }
@@ -135,4 +139,5 @@
 	justify-content: center;
    font-size: 18px;
    font-weight: 600;
+	background: rgb(55 65 81 / 55%);
 }
