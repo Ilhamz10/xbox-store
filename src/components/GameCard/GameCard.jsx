@@ -18,6 +18,7 @@ const GameCard = (
       preOrder = false,
       xs = false,
       lang,
+      className = '',
       seriesCard,
       size = 'md',
       in_game_pass,
@@ -53,7 +54,7 @@ const GameCard = (
          <div
             className={`${cls.gameCard} ${cls[size]} ${
                seriesCard ? cls.seriesCard : ''
-            } ${isDayGame ? cls.dayGame : ''}`}
+            } ${isDayGame ? cls.dayGame : ''} ${className}`}
             ref={ref}
             {...props}>
             <div className={cls.imgWrapper}>

@@ -1,4 +1,4 @@
-import { memo, useEffect, useMemo } from 'react';
+import { memo, useEffect, useMemo, useState } from 'react';
 import { Timer } from '../../../../UI/Timer/Timer';
 import { shuffleArray } from '../../../../helpers/shuffleArray';
 import SaleCarousel from '../../../../UI/SaleCarousel/SaleCarousel';
@@ -12,6 +12,7 @@ import {
 } from '../../../../assets';
 import { useStore } from '../../../../store';
 import GameCard from '../../../../components/GameCard/GameCard';
+import { Filters } from '../../../../UI/Filters/Filters';
 import { tempProductsArr } from '../../../../consts/temp-products';
 import cls from './style.module.css';
 
@@ -30,6 +31,8 @@ const oddComponents = [
 ];
 
 const SaleGamesPage = memo(function SaleGamesPage() {
+	const [page, setPage] = useState(0);
+	const [totalGames, setTotalGames] = useState(0);
    const { queriesCompleted, setLoading } = useStore(state => state);
 
 	const combinedComponents = [];
@@ -75,28 +78,37 @@ const SaleGamesPage = memo(function SaleGamesPage() {
             <div style={{ marginTop: 20 }}>
 					{combinedComponents}
 				</div>
-				{/* temp products */}
-				<div style={{
-					display: 'flex',
-					flexWrap: 'wrap',
-					gap: 11,
-					margin: 10,
-				}}>
-					{tempProductsArr.map(game => (
-						<GameCard
-							key={game.id}
-							release_date={game.release_date}
-							preOrder={game.pre_order}
-							game={game}
-							xs={game.compatibility === 'xbox_series_x_s'}
-							gameTitle={game.title}
-							gamePrice={game.price}
-							imgSrc={game.image}
-							lang={game.voice_acting}
-							in_game_pass={game.in_game_pass}
-							style={{ width: '31.5%' }}
-						/>
-					))}
+
+				{/* FEED OF PRODUCTS */}
+				<div>
+					<Filters
+						content={{ current: null }}
+						isFetching={false}
+						inBottomSheet={false}
+						page={page}
+						setPage={setPage}
+						totalGames={totalGames}
+						filterBtnsStyle={{ marginBottom: 0 }}
+						contStyle={{
+							margin: 0,
+							width: 'fit-content',
+							overflowX: 'visible'
+						}}
+					/>
+
+					<div className={cls.feed}>
+						{tempProductsArr.map(game => (
+							<GameCard
+								key={game.id}
+								release_date={game.release_date}
+								game={game}
+								gameTitle={game.title}
+								gamePrice={game.price}
+								imgSrc={game.image}
+								className={cls.gameCard}
+							/>
+						))}
+					</div>
 				</div>
          </div>
       </>

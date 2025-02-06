@@ -18,3 +18,44 @@
     text-align: center;
     margin-top: 18px;
 }
+
+/* PRODUCTS FEED */
+.feed {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: auto;
+    gap: 1rem;
+    margin: 16px;
+}
+
+.gameCard > div > h2 {
+    -webkit-line-clamp: 3;
+    height: fit-content;
+    line-height: 1.13rem;
+}
+
+.gameCard > div:has(h2) {
+    gap: 6px;
+    padding: 10px;
+}
+
+.gameCard {
+    grid-template-rows: none !important;
+}
+
+.gameCard > div:has(img) {
+    height: 115px;
+}
+
+@media (max-width: 480px) {
+    .feed {
+        gap: 0.7rem;
+        margin: 12px;
+    }
+}
+
+@media (max-width: 400px) {
+    .feed {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
