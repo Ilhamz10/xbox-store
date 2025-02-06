@@ -16,6 +16,7 @@ import { useStore } from '../../../../store';
 import GameCard from '../../../../components/GameCard/GameCard';
 import { Filters } from '../../../../UI/Filters/Filters';
 import { tempProductsArr } from '../../../../consts/temp-products';
+import { CategoryBottomSheet } from '../../../../modules/CategoryBottomSheet/CategoryBottomSheet';
 import cls from './style.module.css';
 
 const evenComponents = [
@@ -37,7 +38,12 @@ const oddComponents = [
 const SaleGamesPage = memo(function SaleGamesPage() {
 	const [page, setPage] = useState(0);
 	const [totalGames, setTotalGames] = useState(0);
-   const { queriesCompleted, setLoading } = useStore(state => state);
+   const {
+		queriesCompleted,
+		setLoading,
+		gameInfoBottomSheetIsOpen,
+		basketBottomSheet
+	} = useStore(state => state);
 
 	const combinedComponents = [];
 
@@ -64,6 +70,9 @@ const SaleGamesPage = memo(function SaleGamesPage() {
 
    return (
       <>
+			{/* MODAL FOR CAROUSELS */}
+			<CategoryBottomSheet adjustPosition={gameInfoBottomSheetIsOpen || basketBottomSheet} />
+
          <div className="wrapper">
             <p className={cls.productCount}>На распродаже 857 товаров.</p>
          </div>
