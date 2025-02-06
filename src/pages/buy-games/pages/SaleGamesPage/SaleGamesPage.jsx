@@ -8,7 +8,9 @@ import {
    RussianFlagIcon,
    FireIcon,
 	CalendarIcon,
-	DollarincircleIcon
+	DollarincircleIcon,
+	PcSupportGamesIcon,
+	Xbox360GamesIcon
 } from '../../../../assets';
 import { useStore } from '../../../../store';
 import GameCard from '../../../../components/GameCard/GameCard';
@@ -21,6 +23,7 @@ const evenComponents = [
 	<SaleCarousel key="UpToFiveHundredGames" title="Игры до 500р" icon={FireIcon} />,
 	<SaleCarousel key="UpToThousandFiveHundredGames" title="Хиты до 1500р" icon={DiscountIcon} />,
 	<SaleCarousel key="Currency" title="Валюта" icon={DollarincircleIcon} />,
+	<SaleCarousel key="PCSupportGames" title="Игры с поддержкой PC" icon={PcSupportGamesIcon} />,
 ];
 
 const oddComponents = [
@@ -28,6 +31,7 @@ const oddComponents = [
 	<SaleCarousel key="DiscountedGames" title="Скидки 70-95%" icon={DiscountIcon} isOdd />,
 	<SaleCarousel key="RussianGames" title="Полностью на русском" icon={RussianFlagIcon} isOdd />,
 	<SaleCarousel key="AdditionsForGames" title="Дополнения для игр" icon={StarIcon} isOdd />,
+	<SaleCarousel key="Xbox360Games" title="Xbox 360 games" icon={Xbox360GamesIcon} isOdd />,
 ];
 
 const SaleGamesPage = memo(function SaleGamesPage() {
