@@ -17,6 +17,7 @@ const SectionWithSlide = ({
 	withFilter = false,
 	clueBtnIcon,
 	bigCards = false,
+	homeSalePrice = false,
 	withAllBtn = false,
 	filterId = 0,
 }) => {
@@ -68,7 +69,7 @@ const SectionWithSlide = ({
 										game={game}
 										xs={game.compatibility === 'xbox_series_x_s'}
 										gameTitle={game.title}
-										gamePrice={game.price}
+										gamePrice={homeSalePrice ? game.home_price : game.price}
 										subprice={game.subprice}
 										imgSrc={game.image}
 										lang={game.voice_acting}
