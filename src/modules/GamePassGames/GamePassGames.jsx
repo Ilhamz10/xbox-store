@@ -40,9 +40,10 @@ const GamePassGames = memo(function GamePassGames() {
 	if (isSuccess) {
 		content.current = (
 			<SectionWithSlide
+				iconSize={30}
 				withAllBtn={true}
 				allBtnOnClick={() => setCategoryBottomSheetIsOpen(true)}
-				sectionTitle={'Игры из Game Pass Ultimate'}
+				sectionTitle={'Игры из Game Pass'}
 				slides={copyOfGames.current}
 				SectionIcon={GamePassIcon}
 			/>

@@ -61,8 +61,9 @@ const RussianLangGames = memo(function RussianLangGames() {
 	if (isSuccess) {
 		content.current = (
 			<SectionWithSlide
+				homeSalePrice
 				allBtnOnClick={() => setCategoryBottomSheetIsOpen(true)}
-				sectionTitle={'Игры под домашнюю консоль'}
+				sectionTitle={'Под домашнюю консоль'}
 				slides={copyOfGames.current}
 				SectionIcon={HomeGamesIcon}
 				clueBtnIcon={"❔"}
