@@ -11,9 +11,11 @@ const SectionWithSlide = ({
 	sectionTitle,
 	SectionIcon,
 	allBtnOnClick,
+	clueOnClick,
 	slides,
 	iconSize = 24,
 	withFilter = false,
+	clueBtnIcon,
 	bigCards = false,
 	withAllBtn = false,
 	filterId = 0,
@@ -40,6 +42,11 @@ const SectionWithSlide = ({
 					</Button>
 				)}
 				{withAllBtn && <Button onClick={allBtnOnClick}>Все</Button>}
+				{clueBtnIcon && (
+					<Button onClick={clueOnClick}>
+						{clueBtnIcon}
+					</Button>
+				)}
 			</div>
 			<div>
 				<Swiper

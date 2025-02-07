@@ -4,6 +4,8 @@ import HotNewGames from '../../modules/HotNewGames/HotNewGames';
 import NewPredictionGames from '../../modules/NewPredictionGames/NewPredictionGames';
 import RussianLangGames from '../../modules/russian-lang-games/russian-lang-games';
 import SeriesGames from '../../modules/series-games/series-games';
+import GamePassGames from '../../modules/GamePassGames/GamePassGames';
+import XboxHomeGames from '../../modules/XboxHomeGames/XboxHomeGames';
 import { CategoryBottomSheet } from '../../modules/CategoryBottomSheet/CategoryBottomSheet';
 import { GameInfo } from '../../modules/game-info/game-info';
 import { useStore } from '../../store';
@@ -50,6 +52,8 @@ export const RentGames = () => {
 				<NewPredictionGames />
 				<SeriesGames />
 				<RussianLangGames />
+				<GamePassGames />
+				<XboxHomeGames />
 				<GameOfDay />
 				<AllGames />
 			</main>
