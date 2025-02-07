@@ -72,7 +72,7 @@ const SaleCarousel = memo(function SaleCarousel({ isOdd = false, icon, title }) 
                alt=""
             />
          )}
-         <div className={cls.blurBgAbsolute} />
+         {isOdd && <div className={cls.blurBgAbsolute} />}
          <div className={cls.blurBg}>{content.current}</div>
       </section>
    );

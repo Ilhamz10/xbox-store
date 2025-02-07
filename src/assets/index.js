@@ -40,6 +40,8 @@ import SizeIcon from './icons/size-icon.svg?react';
 import ShowAllIcon from './icons/show-all-icon.svg?react';
 import NewPredictionGamesIcon from './icons/bestseller-icon.svg?react';
 import FireIcon from './icons/fire-icon.svg?react';
+import PcSupportGamesIcon from './icons/pc-support-games.svg?react';
+import Xbox360GamesIcon from './icons/xbox-360-games.svg?react';
 
 export {
 	GamePassIcon,
@@ -83,5 +85,7 @@ export {
 	SizeIcon,
 	ShowAllIcon,
 	NewPredictionGamesIcon,
-	FireIcon
+	FireIcon,
+	PcSupportGamesIcon,
+	Xbox360GamesIcon
 };

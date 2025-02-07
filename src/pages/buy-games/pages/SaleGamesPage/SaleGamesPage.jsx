@@ -1,4 +1,4 @@
-import { memo, useEffect, useMemo } from 'react';
+import { memo, useEffect, useMemo, useState } from 'react';
 import { Timer } from '../../../../UI/Timer/Timer';
 import { shuffleArray } from '../../../../helpers/shuffleArray';
 import SaleCarousel from '../../../../UI/SaleCarousel/SaleCarousel';
@@ -8,18 +8,24 @@ import {
    RussianFlagIcon,
    FireIcon,
 	CalendarIcon,
-	DollarincircleIcon
+	DollarincircleIcon,
+	PcSupportGamesIcon,
+	Xbox360GamesIcon
 } from '../../../../assets';
 import { useStore } from '../../../../store';
 import GameCard from '../../../../components/GameCard/GameCard';
+import { Filters } from '../../../../UI/Filters/Filters';
 import { tempProductsArr } from '../../../../consts/temp-products';
+import { CategoryBottomSheet } from '../../../../modules/CategoryBottomSheet/CategoryBottomSheet';
 import cls from './style.module.css';
+import { GameInfo } from '../../../../modules/game-info/game-info'
 
 const evenComponents = [
 	<SaleCarousel key="UpToThousandGames" title="Игры до 1000р" icon={FireIcon} />,
 	<SaleCarousel key="UpToFiveHundredGames" title="Игры до 500р" icon={FireIcon} />,
 	<SaleCarousel key="UpToThousandFiveHundredGames" title="Хиты до 1500р" icon={DiscountIcon} />,
 	<SaleCarousel key="Currency" title="Валюта" icon={DollarincircleIcon} />,
+	<SaleCarousel key="PCSupportGames" title="Игры с поддержкой PC" icon={PcSupportGamesIcon} />,
 ];
 
 const oddComponents = [
@@ -27,10 +33,20 @@ const oddComponents = [
 	<SaleCarousel key="DiscountedGames" title="Скидки 70-95%" icon={DiscountIcon} isOdd />,
 	<SaleCarousel key="RussianGames" title="Полностью на русском" icon={RussianFlagIcon} isOdd />,
 	<SaleCarousel key="AdditionsForGames" title="Дополнения для игр" icon={StarIcon} isOdd />,
+	<SaleCarousel key="Xbox360Games" title="Xbox 360 games" icon={Xbox360GamesIcon} isOdd />,
 ];
 
 const SaleGamesPage = memo(function SaleGamesPage() {
-   const { queriesCompleted, setLoading } = useStore(state => state);
+	const [page, setPage] = useState(0);
+	const [totalGames, setTotalGames] = useState(0);
+   const {
+		queriesCompleted,
+		setLoading,
+		gameInfoBottomSheetIsOpen,
+		basketBottomSheet,
+		setActiveGame,
+		setGameInfoBottomSheetIsOpen
+	} = useStore(state => state);
 
 	const combinedComponents = [];
 
@@ -51,12 +67,30 @@ const SaleGamesPage = memo(function SaleGamesPage() {
 		}
 	}
 
+	function handleOpenGameInfoBottomSheet(game) {
+		setActiveGame(game);
+		setGameInfoBottomSheetIsOpen(true);
+	}
+
    useEffect(() => {
       if (combinedComponents.length === queriesCompleted) setLoading(false);
    }, [queriesCompleted]);
 
+	useEffect(() => {
+		return () => {
+			setActiveGame(null);
+			setGameInfoBottomSheetIsOpen(false);
+		}
+	}, []);
+
    return (
       <>
+			{/* MODAL FOR CAROUSELS */}
+			<CategoryBottomSheet adjustPosition={gameInfoBottomSheetIsOpen || basketBottomSheet} />
+
+			{/* MODAL FOR PRODUCTS */}
+			<GameInfo adjustPosition={basketBottomSheet} />
+
          <div className="wrapper">
             <p className={cls.productCount}>На распродаже 857 товаров.</p>
          </div>
@@ -75,28 +109,38 @@ const SaleGamesPage = memo(function SaleGamesPage() {
             <div style={{ marginTop: 20 }}>
 					{combinedComponents}
 				</div>
-				{/* temp products */}
-				<div style={{
-					display: 'flex',
-					flexWrap: 'wrap',
-					gap: 11,
-					margin: 10,
-				}}>
-					{tempProductsArr.map(game => (
-						<GameCard
-							key={game.id}
-							release_date={game.release_date}
-							preOrder={game.pre_order}
-							game={game}
-							xs={game.compatibility === 'xbox_series_x_s'}
-							gameTitle={game.title}
-							gamePrice={game.price}
-							imgSrc={game.image}
-							lang={game.voice_acting}
-							in_game_pass={game.in_game_pass}
-							style={{ width: '31.5%' }}
-						/>
-					))}
+
+				{/* FEED OF PRODUCTS */}
+				<div>
+					<Filters
+						content={{ current: null }}
+						isFetching={false}
+						inBottomSheet={false}
+						page={page}
+						setPage={setPage}
+						totalGames={totalGames}
+						filterBtnsStyle={{ marginBottom: 0 }}
+						contStyle={{
+							margin: 0,
+							width: 'fit-content',
+							overflowX: 'visible'
+						}}
+					/>
+
+					<div className={cls.feed}>
+						{tempProductsArr.map(game => (
+							<GameCard
+								key={game.id}
+								release_date={game.release_date}
+								game={game}
+								onClick={() => handleOpenGameInfoBottomSheet(game)}
+								gameTitle={game.title}
+								gamePrice={game.price}
+								imgSrc={game.image}
+								className={cls.gameCard}
+							/>
+						))}
+					</div>
 				</div>
          </div>
       </>
