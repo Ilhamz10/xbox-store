@@ -29,11 +29,14 @@ const GamesFilteredBycategory = ({ inBottomSheet, scrollContainerRef }) => {
 	const {
 		emptyCounter,
 		setGameInfoBottomSheetIsOpen,
+		setIsFromHomeSale,
 		setActiveGame,
 		setIsEnd,
 		activeCategory,
 		activeSeries,
 		voiceActing,
+		isGamePass,
+		setIsGamePass
 	} = useStore((state) => state);
 
 	const { data, isLoading, isSuccess, isError, isFetching } = useQuery({
@@ -43,7 +46,7 @@ const GamesFilteredBycategory = ({ inBottomSheet, scrollContainerRef }) => {
 			`voice_acting_${voiceActing}`,
 		],
 		queryFn: () =>
-			getFilteredGames(activeCategory.id, activeSeries.id, voiceActing, page),
+			getFilteredGames(activeCategory.id, activeSeries.id, voiceActing, isGamePass, page),
 	});
 
 	useScrollDirection(inBottomSheet ? scrollContainerRef : undefined);
@@ -61,6 +64,7 @@ const GamesFilteredBycategory = ({ inBottomSheet, scrollContainerRef }) => {
 	function handleOpenGameInfoBottomSheet(game) {
 		setActiveGame(game);
 		setGameInfoBottomSheetIsOpen(true);
+		setIsFromHomeSale(false);
 	}
 
 	function changePage() {
@@ -85,6 +89,7 @@ const GamesFilteredBycategory = ({ inBottomSheet, scrollContainerRef }) => {
 	useEffect(() => {
 		return () => {
 			allGames.current = [];
+			setIsGamePass(false);
 		};
 	}, []);
 

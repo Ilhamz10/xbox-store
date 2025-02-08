@@ -48,6 +48,7 @@ const AllGames = memo(function AllGames({
 		setGamesCount,
 		gamesCount,
 		setCounter,
+		setIsFromHomeSale
 	} = useStore(useShallow((state) => state));
 
 	const [sortType, setSortType] = useState({
@@ -85,6 +86,7 @@ const AllGames = memo(function AllGames({
 	function handleOpenGameInfoBottomSheet(game) {
 		setActiveGame(game);
 		setGameInfoBottomSheetIsOpen(true);
+		setIsFromHomeSale(false);
 	}
 
 	function handleScroll() {

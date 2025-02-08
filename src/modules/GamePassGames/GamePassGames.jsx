@@ -7,13 +7,18 @@ import { useStore } from '../../store';
 
 const GamePassGames = memo(function GamePassGames() {
 	const content = useRef();
-	const { setCategoryBottomSheetIsOpen } = useStore((state) => state);
+	const { setCategoryBottomSheetIsOpen, setIsGamePass } = useStore((state) => state);
 	const copyOfGames = useRef([]);
 
 	const { data, isSuccess, isLoading, isError } = useQuery({
 		queryKey: [`get-gamepass-games`],
 		queryFn: getGamePassGames,
 	});
+
+	function handleOpen() {
+		setCategoryBottomSheetIsOpen(true);
+		setIsGamePass(true);
+	}
 
 	if (isLoading) {
 		content.current = <p>Loading...</p>;
@@ -42,7 +47,7 @@ const GamePassGames = memo(function GamePassGames() {
 			<SectionWithSlide
 				iconSize={30}
 				withAllBtn={true}
-				allBtnOnClick={() => setCategoryBottomSheetIsOpen(true)}
+				allBtnOnClick={handleOpen}
 				sectionTitle={'Игры из Game Pass'}
 				slides={copyOfGames.current}
 				SectionIcon={GamePassIcon}
