@@ -23,6 +23,7 @@ const GamesCont = ({ inBottomSheet, scrollContainerRef, games }) => {
 		setActiveGame,
 		setIsEnd,
 		activeSeries,
+		setIsFromHomeSale
 	} = useStore((state) => state);
 
 	useScrollDirection(inBottomSheet ? scrollContainerRef : undefined);
@@ -52,6 +53,7 @@ const GamesCont = ({ inBottomSheet, scrollContainerRef, games }) => {
 	function handleOpenGameInfoBottomSheet(game) {
 		setActiveGame(game);
 		setGameInfoBottomSheetIsOpen(true);
+		setIsFromHomeSale(false);
 	}
 
 	return (

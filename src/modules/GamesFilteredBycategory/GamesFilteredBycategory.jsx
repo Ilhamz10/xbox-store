@@ -29,6 +29,7 @@ const GamesFilteredBycategory = ({ inBottomSheet, scrollContainerRef }) => {
 	const {
 		emptyCounter,
 		setGameInfoBottomSheetIsOpen,
+		setIsFromHomeSale,
 		setActiveGame,
 		setIsEnd,
 		activeCategory,
@@ -61,6 +62,7 @@ const GamesFilteredBycategory = ({ inBottomSheet, scrollContainerRef }) => {
 	function handleOpenGameInfoBottomSheet(game) {
 		setActiveGame(game);
 		setGameInfoBottomSheetIsOpen(true);
+		setIsFromHomeSale(false);
 	}
 
 	function changePage() {

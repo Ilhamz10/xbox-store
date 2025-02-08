@@ -19,6 +19,7 @@ export const RentGames = () => {
 		gameInfoBottomSheetIsOpen,
 		basketBottomSheet,
 		setGameInfoBottomSheetIsOpen,
+		setIsFromHomeSale,
 		setActiveGame,
 	} = useStore((state) => state);
 	const [rentId, setRentId] = useState(undefined);
@@ -41,6 +42,7 @@ export const RentGames = () => {
 		if (isSuccess) {
 			setActiveGame(data);
 			setGameInfoBottomSheetIsOpen(true);
+			setIsFromHomeSale(false);
 		}
 	}, [data, isSuccess, setActiveGame, setGameInfoBottomSheetIsOpen]);
 

@@ -21,13 +21,14 @@ const SectionWithSlide = ({
 	withAllBtn = false,
 	filterId = 0,
 }) => {
-	const { setGameInfoBottomSheetIsOpen, setActiveGame } = useStore(
+	const { setGameInfoBottomSheetIsOpen, setActiveGame, setIsFromHomeSale } = useStore(
 		useShallow((state) => state)
 	);
 
 	function handleOpenGameInfoBottomSheet(game) {
 		setActiveGame(game);
 		setGameInfoBottomSheetIsOpen(true);
+		setIsFromHomeSale(homeSalePrice);
 	}
 
 	return (
@@ -70,7 +71,7 @@ const SectionWithSlide = ({
 										xs={game.compatibility === 'xbox_series_x_s'}
 										gameTitle={game.title}
 										gamePrice={homeSalePrice ? game.home_price : game.price}
-										subprice={game.subprice}
+										subprice={!homeSalePrice && game.subprice}
 										imgSrc={game.image}
 										lang={game.voice_acting}
 										size={bigCards ? 'lg' : 'md'}

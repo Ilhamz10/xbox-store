@@ -39,6 +39,7 @@ const HotNewGames = memo(function HotNewGames() {
 		searchBottomSheetIsOpen,
 		setSearchBottomSheetIsOpen,
 		setLoading,
+		setIsFromHomeSale
 	} = useStore((state) => state);
 
 	const [searchIsActive, setSearchIsActive] = useState(false);
@@ -77,6 +78,7 @@ const HotNewGames = memo(function HotNewGames() {
 	function handleOpenGameInfoBottomSheet(game) {
 		setActiveGame(game);
 		setGameInfoBottomSheetIsOpen(true);
+		setIsFromHomeSale(false);
 	}
 
 	function handleSearch(e) {

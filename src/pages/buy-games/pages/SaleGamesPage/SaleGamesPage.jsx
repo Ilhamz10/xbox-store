@@ -45,7 +45,8 @@ const SaleGamesPage = memo(function SaleGamesPage() {
 		gameInfoBottomSheetIsOpen,
 		basketBottomSheet,
 		setActiveGame,
-		setGameInfoBottomSheetIsOpen
+		setGameInfoBottomSheetIsOpen,
+		setIsFromHomeSale
 	} = useStore(state => state);
 
 	const combinedComponents = [];
@@ -70,6 +71,7 @@ const SaleGamesPage = memo(function SaleGamesPage() {
 	function handleOpenGameInfoBottomSheet(game) {
 		setActiveGame(game);
 		setGameInfoBottomSheetIsOpen(true);
+		setIsFromHomeSale(false);
 	}
 
    useEffect(() => {

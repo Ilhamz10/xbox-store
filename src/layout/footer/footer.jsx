@@ -14,10 +14,12 @@ const Footer = () => {
 		setCategoryBottomSheetIsOpen,
 		setGameInfoBottomSheetIsOpen,
 		changeXsIsOpen,
+		setIsFromHomeSale
 	} = useStore((state) => state);
 
 	function closeAllModals() {
 		setGameInfoBottomSheetIsOpen(false);
+		setIsFromHomeSale(false);
 		changeXsIsOpen(false);
 		setCategoryBottomSheetIsOpen(false);
 		setBasketBottomSheet(false);

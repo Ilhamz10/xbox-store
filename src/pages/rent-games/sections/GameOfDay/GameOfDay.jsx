@@ -15,6 +15,7 @@ const GameOfDay = memo(function GameOfDay() {
 		setXsText,
 		setActiveGame,
 		setGameInfoBottomSheetIsOpen,
+		setIsFromHomeSale,
 		setXsTitle,
 	} = useStore((state) => state);
 
@@ -44,6 +45,7 @@ const GameOfDay = memo(function GameOfDay() {
 	function handleOpenGameInfoBottomSheet(game) {
 		setActiveGame(game);
 		setGameInfoBottomSheetIsOpen(true);
+		setIsFromHomeSale(false);
 	}
 
 	if (isLoading) {

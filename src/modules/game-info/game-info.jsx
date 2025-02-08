@@ -27,7 +27,8 @@ export const GameInfo = memo(function GameInfo({ adjustPosition }) {
       changeXsIsOpen,
       isAdmin,
       setXsTitle,
-		setIsGamePass
+		setIsGamePass,
+      isFromHomeSale,
    } = useStore(state => state);
 
    // that state refers to current swiper index that shows number of page (countdown starts from 0)
@@ -124,18 +125,27 @@ export const GameInfo = memo(function GameInfo({ adjustPosition }) {
                      alt=""
                   />
                   <div className={cls.gamePriceCont}>
-                     {data.subprice !== '0.00' ? (
-                        <>
-                           <div className={cls.discount}>{data.price} ₽</div>
-                           <p className={cls.price}>
-                              {data.original_price !== '0.00'
-                                 ? data.original_price
-                                 : data.subprice}{' '}
-                              ₽
-                           </p>
-                        </>
+                     {isFromHomeSale ? (
+                        <p className={cls.price}>
+                           {data.home_price} ₽
+                        </p>
                      ) : (
-                        <p className={cls.price}>{data.price} ₽</p>
+                        data.subprice !== '0.00' ? (
+                           <>
+                              <div className={cls.discount}>{data.price} ₽</div>
+                              <p className={cls.price}>
+                                 {data.original_price !== '0.00'
+                                    ? data.original_price
+                                    : data.subprice}
+                                    {' '}
+                                 ₽
+                              </p>
+                           </>
+                        ) : (
+                           <p className={cls.price}>
+                              {data.price} ₽
+                           </p>
+                        )
                      )}
                   </div>
                   {data.compatibility === 'xbox_series_x_s' && (
