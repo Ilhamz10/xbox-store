@@ -6,7 +6,7 @@ export async function getFilteredGames(categoryId, serieId, voiceActing, gamepas
 		: serieId
 		? `series=${serieId}`
 		: gamepass
-		? `gamepass=true`
+		? `in_game_pass=true`
 		: '';
 
 	const response = await fetch(
