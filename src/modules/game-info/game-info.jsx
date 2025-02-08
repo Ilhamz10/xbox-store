@@ -16,6 +16,7 @@ import GameVideos from './pages/game-videos/game-videos';
 import cls from './game-info.module.css';
 import { getClueText } from '../../helpers/getClueText'
 import { ImageModal } from '../../UI/ImageModal/ImageModal'
+import { getButtonInfoById } from '../../layout/root/api/getButtonInfoById';
 
 export const GameInfo = memo(function GameInfo({ adjustPosition }) {
    const {
@@ -43,6 +44,12 @@ export const GameInfo = memo(function GameInfo({ adjustPosition }) {
       queryKey: [`game-detail-${activeGame?.id}`],
       queryFn: () => getGameDetail(activeGame?.id),
       enabled: activeGame?.id !== undefined,
+   });
+
+   const { data: homeClueInfo } = useQuery({
+      queryKey: ['home-button-info'],
+      queryFn: () => getButtonInfoById(4),
+      enabled: !isFromHomeSale
    });
 
    function handleOpenClue(e, title, text) {
@@ -173,18 +180,32 @@ export const GameInfo = memo(function GameInfo({ adjustPosition }) {
                         }}
                      />
                   )}
-                  {data.pre_order && (
+                  {isFromHomeSale ? (
                      <p
                         onClick={e =>
                            handleOpenClue(
                               e,
-                              CLUE_TITLE,
-                              getClueText(data).pre_order,
+                              homeClueInfo.description,
+                              homeClueInfo.text
                            )
                         }
                         className={cls.banner}>
-                        Предзаказ
+                        Домашка
                      </p>
+                  ) : (
+                     data.pre_order && (
+                        <p
+                           onClick={e =>
+                              handleOpenClue(
+                                 e,
+                                 CLUE_TITLE,
+                                 getClueText(data).pre_order,
+                              )
+                           }
+                           className={cls.banner}>
+                           Предзаказ
+                        </p>
+                     )
                   )}
                   {data.in_game_pass && (
                      <button
