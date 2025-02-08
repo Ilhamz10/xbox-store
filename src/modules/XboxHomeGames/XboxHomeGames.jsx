@@ -66,7 +66,7 @@ const RussianLangGames = memo(function RussianLangGames() {
 				sectionTitle={'Под домашнюю консоль'}
 				slides={copyOfGames.current}
 				SectionIcon={HomeGamesIcon}
-				clueBtnIcon={"❔"}
+				clueBtnIcon={clueData.title}
 				clueOnClick={handleOpenClue}
 			/>
 		);
