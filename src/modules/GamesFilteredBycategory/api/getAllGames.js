@@ -1,10 +1,12 @@
-export async function getFilteredGames(categoryId, serieId, voiceActing, page) {
+export async function getFilteredGames(categoryId, serieId, voiceActing, gamepass, page) {
 	let queries = '';
 
 	queries += categoryId
 		? `categories=${categoryId}`
 		: serieId
 		? `series=${serieId}`
+		: gamepass
+		? `gamepass=true`
 		: '';
 
 	const response = await fetch(

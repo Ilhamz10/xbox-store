@@ -35,6 +35,8 @@ const GamesFilteredBycategory = ({ inBottomSheet, scrollContainerRef }) => {
 		activeCategory,
 		activeSeries,
 		voiceActing,
+		isGamePass,
+		setIsGamePass
 	} = useStore((state) => state);
 
 	const { data, isLoading, isSuccess, isError, isFetching } = useQuery({
@@ -44,7 +46,7 @@ const GamesFilteredBycategory = ({ inBottomSheet, scrollContainerRef }) => {
 			`voice_acting_${voiceActing}`,
 		],
 		queryFn: () =>
-			getFilteredGames(activeCategory.id, activeSeries.id, voiceActing, page),
+			getFilteredGames(activeCategory.id, activeSeries.id, voiceActing, isGamePass, page),
 	});
 
 	useScrollDirection(inBottomSheet ? scrollContainerRef : undefined);
@@ -87,6 +89,7 @@ const GamesFilteredBycategory = ({ inBottomSheet, scrollContainerRef }) => {
 	useEffect(() => {
 		return () => {
 			allGames.current = [];
+			setIsGamePass(false);
 		};
 	}, []);
 
