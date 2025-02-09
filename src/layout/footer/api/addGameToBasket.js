@@ -1,4 +1,4 @@
-export async function addGameToBasket({ product_id, basket_id, game }) {
+export async function addGameToBasket({ product_id, basket_id, game, is_home_sale }) {
 	const response = await fetch(
 		`${import.meta.env.VITE_API_URL}/basket/add_product/`,
 		{
@@ -9,6 +9,7 @@ export async function addGameToBasket({ product_id, basket_id, game }) {
 			body: JSON.stringify({
 				product_id,
 				basket_id,
+				is_home_sale
 			}),
 		}
 	);
