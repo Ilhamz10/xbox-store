@@ -8,10 +8,12 @@ import { useStore } from '../../store';
 
 const RussianLangGames = memo(function RussianLangGames() {
 	const content = useRef();
-	const { setVoiceActing, setCategoryBottomSheetIsOpen } = useStore(
-		(state) => state
-	);
 	const copyOfGames = useRef([]);
+	const {
+		setVoiceActing,
+		setCategoryBottomSheetIsOpen,
+		setActiveModalText
+	} = useStore((state) => state);
 
 	const { data, isSuccess, isLoading, isError } = useQuery({
 		queryKey: [`get-russian-games`],
@@ -20,6 +22,7 @@ const RussianLangGames = memo(function RussianLangGames() {
 
 	function handleOpen() {
 		setVoiceActing('russian');
+		setActiveModalText("Полностью на русском");
 		setCategoryBottomSheetIsOpen(true);
 	}
 

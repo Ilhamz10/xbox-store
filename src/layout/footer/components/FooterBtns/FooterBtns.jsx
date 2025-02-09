@@ -24,6 +24,7 @@ export const FooterBtns = () => {
 		activeGame,
 		gameInfoBottomSheetIsOpen,
 		basketGamesId,
+		isFromHomeSale
 	} = useStore((state) => state);
 
 	const { mutate } = useMutation({
@@ -65,6 +66,7 @@ export const FooterBtns = () => {
 				product_id: activeGame.id,
 				basket_id: basketId,
 				game: activeGame,
+				is_home_sale: isFromHomeSale
 			});
 		}
 	}

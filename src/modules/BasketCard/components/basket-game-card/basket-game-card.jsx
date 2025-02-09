@@ -8,11 +8,6 @@ import { removeGameFromBasket } from '../../../../layout/footer/api/removeGameFr
 import { removeSubFromBasket } from '../../../../layout/footer/api/removeSubFromBasket';
 import { Icon } from '@iconify/react/dist/iconify.js';
 
-const gameType = {
-	rent: 'Аренда',
-	sub: 'Подписки',
-};
-
 export const BasketGameCard = ({
 	game,
 	className,
@@ -108,6 +103,7 @@ export const BasketGameCard = ({
 		});
 	}
 
+console.log(game)
 	return (
 		<div onClick={onClick} className={`${cls.BasketGameCard} ${className}`}>
 			<img className={cls.gameImg} src={game.image} alt='' />
@@ -115,7 +111,9 @@ export const BasketGameCard = ({
 				<div className={cls.gameText}>
 					<h3 className={cls.gameTitle}>
 						{game.title}{' '}
-						<span className={cls.label}>{gameType[game.type]}</span>
+						<span className={cls.label}>
+							{game.is_home_sale ? 'Домашка' : game.type_value}
+						</span>
 					</h3>
 
 					<div className={cls.gamePriceCont}>
