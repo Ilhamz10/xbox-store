@@ -7,8 +7,12 @@ import { useStore } from '../../store';
 
 const GamePassGames = memo(function GamePassGames() {
 	const content = useRef();
-	const { setCategoryBottomSheetIsOpen, setIsGamePass } = useStore((state) => state);
 	const copyOfGames = useRef([]);
+	const {
+		setCategoryBottomSheetIsOpen,
+		setIsGamePass,
+		setActiveModalText
+	} = useStore((state) => state);
 
 	const { data, isSuccess, isLoading, isError } = useQuery({
 		queryKey: [`get-gamepass-games`],
@@ -16,6 +20,7 @@ const GamePassGames = memo(function GamePassGames() {
 	});
 
 	function handleOpen() {
+		setActiveModalText("Игры из Game Pass");
 		setCategoryBottomSheetIsOpen(true);
 		setIsGamePass(true);
 	}

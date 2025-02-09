@@ -10,12 +10,7 @@ import { getButtonInfoById } from '../../layout/root/api/getButtonInfoById'
 const RussianLangGames = memo(function RussianLangGames() {
 	const content = useRef();
 	const copyOfGames = useRef([]);
-	const {
-		setCategoryBottomSheetIsOpen,
-		setXsTitle,
-		setXsText,
-		changeXsIsOpen
-	} = useStore((state) => state);
+	const { setXsTitle, setXsText, changeXsIsOpen } = useStore((state) => state);
 
 	const { data, isSuccess, isLoading, isError } = useQuery({
 		queryKey: [`get-home-games`],
@@ -62,7 +57,6 @@ const RussianLangGames = memo(function RussianLangGames() {
 		content.current = (
 			<SectionWithSlide
 				homeSalePrice
-				allBtnOnClick={() => setCategoryBottomSheetIsOpen(true)}
 				sectionTitle={'Под домашнюю консоль'}
 				slides={copyOfGames.current}
 				SectionIcon={HomeGamesIcon}
