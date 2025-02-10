@@ -18,6 +18,7 @@ export const UpButtons = () => {
 		gameInfoBottomSheetIsOpen,
 		gamesCount,
 		basketGamesCount,
+		categoryGamesCount
 	} = useStore((state) => state);
 
 	const variants = [
@@ -48,9 +49,14 @@ export const UpButtons = () => {
 
 	function handleScrollToTop() {
 		setDirection('up');
-		document
-			.getElementById('hot-new-games')
-			.scrollIntoView({ behavior: 'smooth' });
+		if (categoryGamesCount !== 0)
+			document
+				.getElementById('main-sheet')
+				.scrollTo({ top: 0, behavior: 'smooth' })
+		else
+			document
+				.getElementById('hot-new-games')
+				.scrollIntoView({ behavior: 'smooth' });
 	}
 
 	return (
@@ -84,7 +90,7 @@ export const UpButtons = () => {
 								exit={{ opacity: 0 }}
 							>
 								<ShowAllIcon />
-								{counter}/{gamesCount}
+								{counter}/{categoryGamesCount || gamesCount}
 							</motion.p>
 						</div>
 					) : (
