@@ -22,6 +22,7 @@ const Subscriptions = () => {
 	}, [setLoading, isSuccess, isLoading]);
 
 	if (isSuccess) {
+		setLoading(false);
 		content.current = [];
 		let index = 0;
 		data.results.forEach((result) => {

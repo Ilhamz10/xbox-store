@@ -3,7 +3,7 @@
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
-	z-index: 1001;
+	z-index: 1003;
 }
 
 .bigImage img {
@@ -19,7 +19,7 @@
 	inset: 0;
 	background: #00000081;
 	-webkit-backdrop-filter: blur(3px);
-	z-index: 1000;
+	z-index: 1002;
 }
 
 @media (max-width: 400px) {

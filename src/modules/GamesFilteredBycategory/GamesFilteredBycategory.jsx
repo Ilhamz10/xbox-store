@@ -36,7 +36,10 @@ const GamesFilteredBycategory = ({ inBottomSheet, scrollContainerRef }) => {
 		activeSeries,
 		voiceActing,
 		isGamePass,
-		setIsGamePass
+		setIsGamePass,
+		setCountButtonUpIsShown,
+		setCategoryGamesCount,
+		setCounter,
 	} = useStore((state) => state);
 
 	const { data, isLoading, isSuccess, isError, isFetching } = useQuery({
@@ -52,12 +55,12 @@ const GamesFilteredBycategory = ({ inBottomSheet, scrollContainerRef }) => {
 	useScrollDirection(inBottomSheet ? scrollContainerRef : undefined);
 
 	function enterAllGamesSection() {
-		// setCountButtonUpIsShown(true);
+		setCountButtonUpIsShown(true);
 		setIsEnd(false);
 	}
 
 	function leaveAllGamesSection() {
-		// setCountButtonUpIsShown(false);
+		setCountButtonUpIsShown(false);
 		emptyCounter();
 	}
 
@@ -80,6 +83,28 @@ const GamesFilteredBycategory = ({ inBottomSheet, scrollContainerRef }) => {
 
 	const allGames = useRef([]);
 
+	function handleScroll() {
+		const allGamesContTop =
+			allGamesContRef.current?.getBoundingClientRect().top;
+		const cardHeight = gameCardRef.current?.getBoundingClientRect().height + 16;
+
+		const counterValue = (
+			(allGamesContTop - window.innerHeight) /
+			(cardHeight / 2)
+		).toFixed(0);
+
+		if (counterValue < 0) {
+			setCounter(counterValue * -1);
+		}
+	}
+
+	useEffect(() => {
+		const node = document.getElementById('main-sheet');
+		node.addEventListener('scroll', handleScroll);
+
+		return () => { node.removeEventListener('scroll', handleScroll) };
+	}, []);
+
 	useEffect(() => {
 		if (data) {
 			allGames.current = [...allGames.current, ...data.results];
@@ -90,11 +115,13 @@ const GamesFilteredBycategory = ({ inBottomSheet, scrollContainerRef }) => {
 		return () => {
 			allGames.current = [];
 			setIsGamePass(false);
+			setCategoryGamesCount(0);
 		};
 	}, []);
 
 	useEffect(() => {
 		if (isSuccess) {
+			setCategoryGamesCount(data.count);
 			setTotalGames(data.count);
 		}
 	}, [data?.count, isSuccess]);
@@ -128,7 +155,8 @@ const GamesFilteredBycategory = ({ inBottomSheet, scrollContainerRef }) => {
 				<Loading loading={isLoading && isFirstLoading.current} />
 				<div
 					className='wrapper'
-					style={{ opacity: isLoading && isFirstLoading.current ? 0 : 1 }}>
+					style={{ opacity: isLoading && isFirstLoading.current ? 0 : 1 }}
+				>
 					{!activeSeries && (
 						<div className={cls.filterButtons}>
 							<Button
