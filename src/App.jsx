@@ -11,7 +11,7 @@ import BuyGames from './pages/buy-games/BuyGames';
 import NotFound from './pages/404/404';
 import WorkInProgress from './pages/work-in-progress/WorkInProgress';
 import ForAdmins from './components/ForAdmins';
-// import Subscriptions from './pages/subscriptions/Subscriptions';
+import Subscriptions from './pages/subscriptions/Subscriptions';
 
 const router = createHashRouter([
 	{
@@ -35,13 +35,14 @@ const router = createHashRouter([
 					/>
 				),
 			},
-			// {
-			// 	path: '/subscriptions',
-			// 	element: <Subscriptions />,
-			// },
 			{
 				path: '/subscriptions',
-				element: <WorkInProgress title='Подписки' />,
+				element: (
+					<ForAdmins
+						PageForAdmin={<Subscriptions />}
+						PageForUsers={<WorkInProgress title='Подписки' />}
+					/>
+				),
 			},
 			{
 				path: '/currency',
