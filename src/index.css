@@ -164,19 +164,15 @@ section .section-header {
 	position: absolute;
 	inset: 0;
 	z-index: 99999999999;
-	display: grid;
-	place-content: center;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 	background: url(/src/assets/main-bg.jpg) center/cover no-repeat;
 }
 
-.loading > p {
-	display: flex;
-	align-items: center;
-	animation: loadingAnimation 0.5s infinite alternate linear;
-}
-
-.loading > p > span {
-	margin-right: 10px;
+.loading > svg {
+	width: 60px !important;
+	height: 60px !important;
 }
 
 @keyframes loadingAnimation {

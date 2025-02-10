@@ -25,6 +25,12 @@
    margin-top: 9px;
 }
 
+.loader {
+   height: 63px;
+   display: flex;
+   align-items: center;
+}
+
 @media (max-width: 360px) {
    .timer {
       gap: 7px;

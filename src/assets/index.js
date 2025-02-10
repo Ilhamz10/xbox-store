@@ -43,6 +43,7 @@ import FireIcon from './icons/fire-icon.svg?react';
 import PcSupportGamesIcon from './icons/pc-support-games.svg?react';
 import Xbox360GamesIcon from './icons/xbox-360-games.svg?react';
 import HomeGamesIcon from './icons/home-games.svg?react';
+import XboxLoading from './icons/xbox-loading.svg?react';
 
 export {
 	GamePassIcon,
@@ -89,5 +90,6 @@ export {
 	FireIcon,
 	PcSupportGamesIcon,
 	Xbox360GamesIcon,
-	HomeGamesIcon
+	HomeGamesIcon,
+	XboxLoading,
 };

@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { Fragment, useEffect, useState } from 'react';
 import { translatedDateObj } from '../../consts/translated-date-obj';
-import { XboxLoader } from '../XboxLoader/XboxLoader';
+import { XboxLoading } from '../../assets';
 import cls from './timer.module.css';
 
 export const Timer = ({ date, style }) => {
@@ -38,7 +38,9 @@ export const Timer = ({ date, style }) => {
    return (
       <div style={style}>
          {Object.values(time).reduce((acc, i) => acc + i, 0) === 0 ? (
-            <XboxLoader />
+            <div className={cls.loader}>
+               <XboxLoading width={50} height={50} />
+            </div>
          ) : (
             <motion.div
                className={cls.timer}
