@@ -25,7 +25,7 @@ const SeriesGames = memo(function SeriesGames() {
 	}
 
 	function handleOpenSeries(id, name) {
-		setActiveSeries(id, name);
+		setActiveSeries({ id, name });
 		setCategoryBottomSheetIsOpen(true);
 	}
 
