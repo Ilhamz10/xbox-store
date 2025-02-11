@@ -94,16 +94,6 @@ const HotNewGames = memo(function HotNewGames() {
 		setSearchBottomSheetIsOpen(isOpen);
 	}
 
-	useEffect(() => {
-		if (isLoading) {
-			setLoading(true);
-		}
-
-		if (isSuccess) {
-			setLoading(false);
-		}
-	}, [isLoading, setLoading, isSuccess]);
-
 	if (isLoading) {
 		content.current = (
 			<Icon
@@ -165,8 +155,10 @@ const HotNewGames = memo(function HotNewGames() {
 	}
 
 	if (isSuccess) {
+		setLoading(false);
 		content.current = (
 			<Swiper
+				key={dateFilter.filter}
 				ref={swiperRef}
 				effect={'coverflow'}
 				slidesPerView={1.4}
