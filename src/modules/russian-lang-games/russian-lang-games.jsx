@@ -12,7 +12,7 @@ const RussianLangGames = memo(function RussianLangGames() {
 	const {
 		setVoiceActing,
 		setCategoryBottomSheetIsOpen,
-		setActiveModalText
+		setCategoryBottomSheetObj
 	} = useStore((state) => state);
 
 	const { data, isSuccess, isLoading, isError } = useQuery({
@@ -22,7 +22,10 @@ const RussianLangGames = memo(function RussianLangGames() {
 
 	function handleOpen() {
 		setVoiceActing('russian');
-		setActiveModalText("Полностью на русском");
+		setCategoryBottomSheetObj({
+			name: "Полностью на русском",
+			icon: <RussianFlagIcon width={30} height={30} />
+		});
 		setCategoryBottomSheetIsOpen(true);
 	}
 

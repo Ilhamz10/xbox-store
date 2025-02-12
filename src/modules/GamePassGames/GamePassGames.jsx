@@ -11,7 +11,7 @@ const GamePassGames = memo(function GamePassGames() {
 	const {
 		setCategoryBottomSheetIsOpen,
 		setIsGamePass,
-		setActiveModalText
+		setCategoryBottomSheetObj
 	} = useStore((state) => state);
 
 	const { data, isSuccess, isLoading, isError } = useQuery({
@@ -20,7 +20,10 @@ const GamePassGames = memo(function GamePassGames() {
 	});
 
 	function handleOpen() {
-		setActiveModalText("Игры из Game Pass");
+		setCategoryBottomSheetObj({
+			name: "Игры из Game Pass",
+			icon: <GamePassIcon width={30} height={30} />
+		});
 		setCategoryBottomSheetIsOpen(true);
 		setIsGamePass(true);
 	}

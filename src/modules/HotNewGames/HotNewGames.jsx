@@ -94,16 +94,6 @@ const HotNewGames = memo(function HotNewGames() {
 		setSearchBottomSheetIsOpen(isOpen);
 	}
 
-	useEffect(() => {
-		if (isLoading) {
-			setLoading(true);
-		}
-
-		if (isSuccess) {
-			setLoading(false);
-		}
-	}, [isLoading, setLoading, isSuccess]);
-
 	if (isLoading) {
 		content.current = (
 			<Icon
@@ -113,6 +103,10 @@ const HotNewGames = memo(function HotNewGames() {
 			/>
 		);
 	}
+
+	useEffect(() => {
+		if (isSuccess) setLoading(false);
+	}, [setLoading, isSuccess]);
 
 	useEffect(() => {
 		function handleClickOutside(event) {

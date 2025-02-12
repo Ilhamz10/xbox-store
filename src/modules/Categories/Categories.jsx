@@ -12,7 +12,7 @@ import { getAllCategories } from './api/getAllCategories';
 const CategoryFilter = memo(function CategoryFilter() {
 	const {
 		setCategoryBottomSheetIsOpen,
-		setActiveCategory,
+		setCategoryBottomSheetObj,
 		categoriesHeight,
 		setCategoriesHeight,
 	} = useStore((state) => state);
@@ -52,7 +52,7 @@ const CategoryFilter = memo(function CategoryFilter() {
 	}, [data]);
 
 	function handleSelectCategory(id, name) {
-		setActiveCategory(id, name);
+		setCategoryBottomSheetObj({ id, name, icon: <CategoriesIcon width={30} height={30} /> });
 		setCategoryBottomSheetIsOpen(true);
 	}
 

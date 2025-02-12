@@ -32,7 +32,7 @@ const GamesFilteredBycategory = ({ inBottomSheet, scrollContainerRef }) => {
 		setIsFromHomeSale,
 		setActiveGame,
 		setIsEnd,
-		activeCategory,
+		categoryBottomSheetObj,
 		activeSeries,
 		voiceActing,
 		isGamePass,
@@ -44,12 +44,12 @@ const GamesFilteredBycategory = ({ inBottomSheet, scrollContainerRef }) => {
 
 	const { data, isLoading, isSuccess, isError, isFetching } = useQuery({
 		queryKey: [
-			`categories-${activeCategory.id}-${page}`,
+			`categories-${categoryBottomSheetObj.id}-${page}`,
 			`series-${activeSeries.id}`,
 			`voice_acting_${voiceActing}`,
 		],
 		queryFn: () =>
-			getFilteredGames(activeCategory.id, activeSeries.id, voiceActing, isGamePass, page),
+			getFilteredGames(categoryBottomSheetObj.id, activeSeries.id, voiceActing, isGamePass, page),
 	});
 
 	useScrollDirection(inBottomSheet ? scrollContainerRef : undefined);
