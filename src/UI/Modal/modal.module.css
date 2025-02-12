@@ -1,7 +1,7 @@
 .backdrop {
 	position: fixed;
 	inset: 0;
-	z-index: 9999999;
+	z-index: 999;
 	-webkit-backdrop-filter: blur(4px);
 	backdrop-filter: blur(4px);
 	background-color: rgb(17 24 39 / 0.5);
@@ -12,7 +12,7 @@
 	bottom: 82px;
 	left: 50%;
 	transform: translateX(-50%);
-	z-index: 9999999;
+	z-index: 1000;
 }
 
 .closeModalBtn {

@@ -39,7 +39,7 @@ export const Modal = ({ children, isOpen, setIsopen, className, isGamePass, setI
 								translateY: '0%',
 								translateX: '-50%',
 							}}
-							transition={{ bounce: 0, duration: 0.2 }}
+							transition={{ ease: 'linear', duration: 0.25 }}
 							className={`wrapper ${cls.modal} ${className}`}>
 							{children}
 							{isGamePass && (
