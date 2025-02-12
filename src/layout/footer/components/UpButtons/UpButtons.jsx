@@ -18,7 +18,8 @@ export const UpButtons = () => {
 		gameInfoBottomSheetIsOpen,
 		gamesCount,
 		basketGamesCount,
-		categoryGamesCount
+		categoryGamesCount,
+		activeSeries
 	} = useStore((state) => state);
 
 	const variants = [
@@ -26,7 +27,7 @@ export const UpButtons = () => {
 			up: {
 				y: '0%',
 				bottom:
-					countButtonUpIsShown || gameInfoBottomSheetIsOpen ? '135px' : '85px',
+					(countButtonUpIsShown && !activeSeries.id) || gameInfoBottomSheetIsOpen ? '135px' : '85px',
 				opacity: XsIsOpen || basketBottomSheet ? '0' : '1',
 			},
 			down: {
@@ -77,7 +78,7 @@ export const UpButtons = () => {
 				onClick={handleScrollToTop}
 				variants={variants[1]}
 				animate={
-					countButtonUpIsShown && !gameInfoBottomSheetIsOpen ? 'up' : 'down'
+					countButtonUpIsShown && !gameInfoBottomSheetIsOpen && !activeSeries.id ? 'up' : 'down'
 				}
 				className={cls.buttonUp}>
 				<AnimatePresence initial={false}>
