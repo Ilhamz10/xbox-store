@@ -49,7 +49,7 @@ const GamesFilteredBycategory = ({ inBottomSheet, scrollContainerRef }) => {
 			`voice_acting_${voiceActing}`,
 		],
 		queryFn: () =>
-			getFilteredGames(categoryBottomSheetObj.id, categoryBottomSheetObj.id, voiceActing, isGamePass, page),
+			getFilteredGames(categoryBottomSheetObj.id, activeSeries.id, voiceActing, isGamePass, page),
 	});
 
 	useScrollDirection(inBottomSheet ? scrollContainerRef : undefined);
