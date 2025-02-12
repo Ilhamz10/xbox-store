@@ -105,6 +105,10 @@ const HotNewGames = memo(function HotNewGames() {
 	}
 
 	useEffect(() => {
+		if (isSuccess) setLoading(false);
+	}, [setLoading, isSuccess]);
+
+	useEffect(() => {
 		function handleClickOutside(event) {
 			if (
 				searchInputRef.current &&
@@ -155,10 +159,8 @@ const HotNewGames = memo(function HotNewGames() {
 	}
 
 	if (isSuccess) {
-		setLoading(false);
 		content.current = (
 			<Swiper
-				key={dateFilter.filter}
 				ref={swiperRef}
 				effect={'coverflow'}
 				slidesPerView={1.4}
