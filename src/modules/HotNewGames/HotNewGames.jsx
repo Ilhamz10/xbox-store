@@ -15,11 +15,10 @@ import { useStore } from '../../store';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { getPopularGames } from './api/getPopularGames';
 import { getAllGames } from './api/getAllGames';
-import { Icon } from '@iconify/react/dist/iconify.js';
 import { SearchInput } from './UI';
 import { searchGames } from './api/searchGames';
 import SearchBottomSheet from './components/SearchBottomSheet/SearchBottomSheet';
-import { MenuIcon, StarIcon, TimeIcon, WatchIcon } from '../../assets';
+import { MenuIcon, StarIcon, TimeIcon, WatchIcon, XboxLoading } from '../../assets';
 import { getButtonInfoById } from '../../layout/root/api/getButtonInfoById'
 
 const HotNewGames = memo(function HotNewGames() {
@@ -96,11 +95,9 @@ const HotNewGames = memo(function HotNewGames() {
 
 	if (isLoading) {
 		content.current = (
-			<Icon
-				width={35}
-				style={{ margin: '0 auto', display: 'block' }}
-				icon='eos-icons:loading'
-			/>
+			<div className={cls.loading}>
+				<XboxLoading />
+			</div>
 		);
 	}
 

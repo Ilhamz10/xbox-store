@@ -56,6 +56,16 @@
 	backdrop-filter: blur(8px);
 }
 
+.loading {
+	margin: 0 auto;
+	width: fit-content;
+}
+
+.loading > svg {
+	width: 60px !important;
+	height: 60px !important;
+}
+
 .input {
 	margin-bottom: 32px;
 }
