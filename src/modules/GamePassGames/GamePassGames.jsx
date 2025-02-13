@@ -64,7 +64,7 @@ const GamePassGames = memo(function GamePassGames() {
 	}
 
 	return (
-		<section>
+		<section style={{ margin: 0 }}>
 			<div style={{ padding: '1.75rem 0' }}>
 				{content.current}
 			</div>
