@@ -55,7 +55,7 @@ const GamesFilteredBycategory = ({ inBottomSheet, scrollContainerRef }) => {
 	useScrollDirection(inBottomSheet ? scrollContainerRef : undefined);
 
 	function enterAllGamesSection() {
-		setCountButtonUpIsShown(true);
+		setCountButtonUpIsShown(false);
 		setIsEnd(false);
 	}
 
