@@ -5,14 +5,16 @@ export async function getFilteredGames(categoryId, serieId, voiceActing, gamepas
 		? `categories=${categoryId}`
 		: serieId
 		? `series=${serieId}`
+		: voiceActing !== ''
+		? `voice_acting=${voiceActing}`
 		: gamepass
-		? `in_game_pass=true`
+		? `in_game_pass=${gamepass}`
 		: '';
 
 	const response = await fetch(
 		`${
 			import.meta.env.VITE_API_URL
-		}/catalog/?${queries}&voice_acting=${voiceActing}&limit=20&offset=${
+		}/catalog/?${queries}&limit=20&offset=${
 			(page - 1) * 20
 		}`
 	);
