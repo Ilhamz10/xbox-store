@@ -102,7 +102,11 @@ const GamesFilteredBycategory = ({ inBottomSheet, scrollContainerRef }) => {
 		const node = document.getElementById('main-sheet');
 		node.addEventListener('scroll', handleScroll);
 
-		return () => { node.removeEventListener('scroll', handleScroll) };
+		return () => {
+			node.removeEventListener('scroll', handleScroll)
+			allGames.current = [];
+			setCategoryGamesCount(0);
+		};
 	}, []);
 
 	useEffect(() => {
@@ -110,14 +114,6 @@ const GamesFilteredBycategory = ({ inBottomSheet, scrollContainerRef }) => {
 			allGames.current = [...allGames.current, ...data.results];
 		}
 	}, [data]);
-
-	useEffect(() => {
-		return () => {
-			allGames.current = [];
-			setIsGamePass(false);
-			setCategoryGamesCount(0);
-		};
-	}, []);
 
 	useEffect(() => {
 		if (isSuccess) {
