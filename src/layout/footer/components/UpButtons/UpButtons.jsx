@@ -3,6 +3,7 @@ import cls from './UpButtons.module.css';
 import Button from '../../../../UI/Button/Button';
 import { useStore } from '../../../../store';
 import { BasketIcon, DropdownArrowIcon, ShowAllIcon } from '../../../../assets';
+import { useEffect } from 'react';
 
 const MotionButton = motion(Button);
 
@@ -11,6 +12,7 @@ export const UpButtons = () => {
 		basketBottomSheet,
 		setBasketBottomSheet,
 		countButtonUpIsShown,
+		setCountButtonUpIsShown,
 		XsIsOpen,
 		counter,
 		isEnd,
@@ -19,8 +21,21 @@ export const UpButtons = () => {
 		gamesCount,
 		basketGamesCount,
 		categoryGamesCount,
-		activeSeries
+		activeSeries,
+		categoryBottomSheetIsOpen
 	} = useStore((state) => state);
+
+	useEffect(() => {
+		if (categoryBottomSheetIsOpen) {
+			const node = document.getElementById('main-sheet');
+			if (!node) return;
+
+			const handleScroll = () => setCountButtonUpIsShown(node.scrollTop > 0);
+
+			node.addEventListener('scroll', handleScroll);
+			return () => { node.removeEventListener('scroll', handleScroll) }
+		} 
+	}, [categoryBottomSheetIsOpen]);
 
 	const variants = [
 		{

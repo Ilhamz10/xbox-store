@@ -10,7 +10,7 @@ const GamePassGames = memo(function GamePassGames() {
 	const copyOfGames = useRef([]);
 	const {
 		setCategoryBottomSheetIsOpen,
-		setIsGamePass,
+		setIsFromGamePass,
 		setCategoryBottomSheetObj
 	} = useStore((state) => state);
 
@@ -25,7 +25,7 @@ const GamePassGames = memo(function GamePassGames() {
 			icon: <GamePassIcon width={30} height={30} />
 		});
 		setCategoryBottomSheetIsOpen(true);
-		setIsGamePass(true);
+		setIsFromGamePass(true);
 	}
 
 	if (isLoading) {

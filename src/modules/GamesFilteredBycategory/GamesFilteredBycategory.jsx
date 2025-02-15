@@ -35,8 +35,7 @@ const GamesFilteredBycategory = ({ inBottomSheet, scrollContainerRef }) => {
 		categoryBottomSheetObj,
 		activeSeries,
 		voiceActing,
-		isGamePass,
-		setIsGamePass,
+		isFromGamePass,
 		setCountButtonUpIsShown,
 		setCategoryGamesCount,
 		setCounter,
@@ -47,15 +46,16 @@ const GamesFilteredBycategory = ({ inBottomSheet, scrollContainerRef }) => {
 			`categories-${categoryBottomSheetObj.id}-${page}`,
 			`series-${activeSeries.id}`,
 			`voice_acting_${voiceActing}`,
+			`in_game_pass_${isFromGamePass}`
 		],
 		queryFn: () =>
-			getFilteredGames(categoryBottomSheetObj.id, activeSeries.id, voiceActing, isGamePass, page),
+			getFilteredGames(categoryBottomSheetObj.id, activeSeries.id, voiceActing, isFromGamePass, page),
 	});
 
 	useScrollDirection(inBottomSheet ? scrollContainerRef : undefined);
 
 	function enterAllGamesSection() {
-		setCountButtonUpIsShown(true);
+		setCountButtonUpIsShown(false);
 		setIsEnd(false);
 	}
 
@@ -102,7 +102,11 @@ const GamesFilteredBycategory = ({ inBottomSheet, scrollContainerRef }) => {
 		const node = document.getElementById('main-sheet');
 		node.addEventListener('scroll', handleScroll);
 
-		return () => { node.removeEventListener('scroll', handleScroll) };
+		return () => {
+			node.removeEventListener('scroll', handleScroll)
+			allGames.current = [];
+			setCategoryGamesCount(0);
+		};
 	}, []);
 
 	useEffect(() => {
@@ -110,14 +114,6 @@ const GamesFilteredBycategory = ({ inBottomSheet, scrollContainerRef }) => {
 			allGames.current = [...allGames.current, ...data.results];
 		}
 	}, [data]);
-
-	useEffect(() => {
-		return () => {
-			allGames.current = [];
-			setIsGamePass(false);
-			setCategoryGamesCount(0);
-		};
-	}, []);
 
 	useEffect(() => {
 		if (isSuccess) {
