@@ -58,7 +58,7 @@ const GameCard = (
             ref={ref}
             {...props}>
             <div className={cls.imgWrapper}>
-               <img src={imgSrc} alt="" loading="lazy" />
+               <img src={imgSrc} alt="" fetchPriority="high" />
                {preOrder && (
                   <p
                      onClick={e =>
