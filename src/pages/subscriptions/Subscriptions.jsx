@@ -1,81 +1,56 @@
 import { useQuery } from '@tanstack/react-query';
-import { getSubs } from './api/getSubs';
-import { useStore } from '../../store';
 import { useEffect, useRef } from 'react';
-import SubsSectionSlide from './components/SubsSectionSlide/SubsSectionSlide';
-import subsMainBg from '../../assets/imgs/gamepass-main-bg.jpg';
 
+import { useStore } from '../../store';
+import subsMainBg from '../../assets/imgs/gamepass-main-bg.jpg';
+import { GamePassModal } from './components/GamePassModal/GamePassModal';
+import { getSubs } from './api/getSubs';
 import cls from './style.module.css';
 
 const Subscriptions = () => {
 	const content = useRef(null);
-	const { setLoading } = useStore((state) => state);
+	const {
+		setLoading,
+		basketBottomSheet,
+		setGamePassSubscription,
+		setGamePassBottomSheetIsOpen,
+	} = useStore(state => state);
 
 	const { data, isSuccess, isLoading } = useQuery({
-		queryKey: ['all-subs'],
-		queryFn: getSubs,
+		queryKey: ['subscription-gamepass'],
+		queryFn: () => getSubs(4)
 	});
 
 	useEffect(() => {
-		if (isSuccess) setLoading(false);
 		if (isLoading) setLoading(true);
-	}, [setLoading, isSuccess, isLoading]);
+		else if (isSuccess) {
+			setLoading(false);
+			setGamePassSubscription(data);
+		}
+	}, [isSuccess, isLoading, setLoading]);
 
 	if (isSuccess) {
-		setLoading(false);
-		content.current = [];
-		let index = 0;
-		data.results.forEach((result) => {
-			if (result.is_carousel) {
-				content.current.push(
-					result.types.map((type) => {
-						index++;
-						if (index % 2 !== 0)
-							return (
-								<section key={type.id}>
-									<SubsSectionSlide
-										sectionTitle={`${result.title} ${
-											type.name === '-' ? '' : type.name
-										}`}
-										slides={type.periods}
-										slideImg={type.image || result.image}
-										additionalInfo={type.additional_info}
-										sectionIcon={type.icon}
-									/>
-								</section>
-							);
-						else {
-							return (
-								<section
-									key={type.id}
-									style={{
-										backgroundImage: `url(${result.wallpaper})`,
-										position: 'relative',
-										zIndex: 2,
-									}}
-									className={cls.NewPredictionGames}>
-									<div className={cls.blurBg}>
-										<SubsSectionSlide
-											sectionTitle={`${result.title} ${
-												type.name === '-' ? '' : type.name
-											}`}
-											slides={type.periods}
-											slideImg={type.image || result.image}
-											additionalInfo={type.additional_info}
-											sectionIcon={type.icon}
-										/>
-									</div>
-								</section>
-							);
-						}
-					})
-				);
-			}
-		});
+		content.current = (
+			<div
+				onClick={() => setGamePassBottomSheetIsOpen(true)}
+				className={`${cls.window} wrapper`}
+			>
+				<img
+					src={data.image}
+					alt="game-pass-image"
+				/>
+
+				<div className={cls.text}>
+					<p>{data.title}</p>
+				</div>
+			</div>
+		);
 	}
 
 	return (
-		<main style={{ paddingBottom: '72px' }}>
+		<main style={{ paddingBottom: '90px' }}>
+			<GamePassModal adjustPosition={basketBottomSheet} />
+
 			<section
 				style={{ background: `url(${subsMainBg}) center/cover no-repeat` }}
 				className={cls.subsMainBg}>
@@ -84,6 +59,7 @@ const Subscriptions = () => {
 				</div>
 				<div className={cls.backDrop} />
 			</section>
+
 			{content.current}
 		</main>
 	);

@@ -6,19 +6,6 @@
 	text-wrap: nowrap;
 }
 
-.NewPredictionGames {
-	background-position: center;
-	background-size: cover;
-	background-repeat: no-repeat;
-}
-
-.blurBg {
-	background: rgb(0 0 0 / 0.5);
-	-webkit-backdrop-filter: blur(8px);
-	backdrop-filter: blur(8px);
-	padding: 1.75rem 0;
-}
-
 .subsMainBg {
 	position: relative;
 	min-height: 200px;
@@ -37,4 +24,23 @@
 	background: rgb(0 0 0 / 0.5);
 	-webkit-backdrop-filter: blur(8px);
 	backdrop-filter: blur(8px);
+}
+
+.window {
+	margin-top: 25px;
+	border-radius: 15px;
+	overflow: hidden;
+	cursor: pointer;
+}
+
+.window > img {
+	width: 100%;
+	height: auto;
+}
+
+.text {
+	padding: 20px;
+	background: rgb(55 65 81 / 0.4);
+	backdrop-filter: blur(4px);
+	font-weight: 600;
 }
