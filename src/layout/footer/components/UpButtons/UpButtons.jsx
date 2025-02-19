@@ -69,6 +69,10 @@ export const UpButtons = () => {
 			document
 				.getElementById('main-sheet')
 				.scrollTo({ top: 0, behavior: 'smooth' })
+		else if (window.location.href.replace(/^.*\//, '') === 'buy-games')
+			document
+				.getElementById('feed')
+				.scrollIntoView({ behavior: 'smooth' })
 		else
 			document
 				.getElementById('hot-new-games')
