@@ -20,8 +20,9 @@ import { Filters } from '../../../../UI/Filters/Filters';
 import { CategoryBottomSheet } from '../../../../modules/CategoryBottomSheet/CategoryBottomSheet';
 import { GameInfo } from '../../../../modules/game-info/game-info';
 import { getSaleGames } from './api/getSaleGames';
-import cls from './style.module.css';
+import { saleCategories } from '../../../../consts/sale-categories';
 import { Icon } from '@iconify/react/dist/iconify.js';
+import cls from './style.module.css';
 
 const evenComponents = [
    <SaleCarousel
@@ -83,6 +84,7 @@ const oddComponents = [
 const SaleGamesPage = memo(function SaleGamesPage() {
    const [page, setPage] = useState(0);
    const [totalGames, setTotalGames] = useState(0);
+   const [activeCategory, setActiveCategory] = useState("");
    const {
       queriesCompleted,
       setLoading,
@@ -97,7 +99,6 @@ const SaleGamesPage = memo(function SaleGamesPage() {
       setCounter,
       emptyCounter,
       setCountButtonUpIsShown,
-      setIsAnotherServer
    } = useStore(state => state);
 
    const { data, isSuccess, isFetching } = useQuery({
@@ -113,10 +114,7 @@ const SaleGamesPage = memo(function SaleGamesPage() {
 
    // CAROUSELS
    const shuffledOddComponents = useMemo(() => shuffleArray(oddComponents), []);
-   const shuffledEvenComponents = useMemo(
-      () => shuffleArray(evenComponents),
-      [],
-   );
+   const shuffledEvenComponents = useMemo(() => shuffleArray(evenComponents), []);
    const combinedComponents = [];
 
    const maxLength = Math.max(
@@ -135,7 +133,6 @@ const SaleGamesPage = memo(function SaleGamesPage() {
 
    function handleOpenGameInfoBottomSheet(game) {
       setActiveGame(game);
-      setIsAnotherServer(true);
       setGameInfoBottomSheetIsOpen(true);
       setIsFromHomeSale(false);
    }
@@ -207,7 +204,6 @@ const SaleGamesPage = memo(function SaleGamesPage() {
    useEffect(() => {
       return () => {
          setActiveGame(null);
-         setIsAnotherServer(false);
          setGameInfoBottomSheetIsOpen(false);
       };
    }, []);
@@ -216,8 +212,8 @@ const SaleGamesPage = memo(function SaleGamesPage() {
       content.current = allGames.current.map(game => {
          let obj = {};
 
-         if (Array.isArray(game.price)) {
-            obj = game.price[0];
+         if (Array.isArray(game.prices)) {
+            obj = game.prices[0];
          }
 
          return (
@@ -228,7 +224,7 @@ const SaleGamesPage = memo(function SaleGamesPage() {
                game={game}
                onClick={() => handleOpenGameInfoBottomSheet(game)}
                gameTitle={game.game_name}
-               gamePrice={Object.keys(obj).length === 0 ? undefined : Math.min(...Object.entries(obj).map(([k, v]) => typeof v !== 'string' && v !== null && v).filter(n => typeof n === 'number'))}
+               gamePrice={Object.keys(obj).length === 0 ? undefined : Math.min(...Object.entries(obj).map(([_, v]) => typeof v !== 'string' && v !== null && v).filter(n => typeof n === 'number'))}
                subprice={obj.discount_percentage}
                imgSrc={game.image_url}
                className={cls.gameCard}
@@ -245,10 +241,7 @@ const SaleGamesPage = memo(function SaleGamesPage() {
          />
 
          {/* MODAL FOR PRODUCTS */}
-         <GameInfo
-            adjustPosition={basketBottomSheet}
-            onClose={() => setIsAnotherServer(false)}
-         />
+         <GameInfo adjustPosition={basketBottomSheet} />
 
          <div className="wrapper">
             <p className={cls.productCount}>На распродаже 857 товаров.</p>
@@ -291,7 +284,18 @@ const SaleGamesPage = memo(function SaleGamesPage() {
                />
 
                <div className={cls.categories}>
-                  dfgdfg
+                  {saleCategories
+                     .sort(cat => cat === activeCategory ? -1 : 1)
+                     .map((category, i) => (
+                        <button
+                           key={i}
+                           className={activeCategory === category && cls.activeCategory}
+                           onClick={() =>
+                              setActiveCategory(category === activeCategory ? "" : category)}
+                        >
+                           {category}
+                        </button>
+                     ))}
                </div>
 
                <motion.div

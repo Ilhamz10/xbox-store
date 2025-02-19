@@ -28,6 +28,26 @@
     margin: 16px;
 }
 
+.categories {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    overflow-x: auto;
+    width: 100%;
+    margin-top: 15px;
+}
+
+.categories > button {
+    background: #273446;
+    padding: 5px 20px;
+    border-radius: 9999px;
+    min-width: fit-content;
+}
+
+.categories > .activeCategory {
+    background: rgb(2, 110, 2);
+}
+
 .gameCard > div > h2 {
     -webkit-line-clamp: 3;
     height: fit-content;
