@@ -1,5 +1,5 @@
 export const filterSlice = (set) => ({
-	dateFilter: { filter: 'week', text: 'За неделю' },
+	dateFilter: { filter: 'month', text: 'За месяц' },
 	voiceActing: '',
 	title: '',
 	setVoiceActing: (lang) => set(() => ({ voiceActing: lang })),
