@@ -1,57 +1,102 @@
-.container {
-   position: relative;
-   height: 100%;
-}
-
-.priceCont {
+.gameInfoCont {
 	position: relative;
 }
 
-.prices {
-   position: absolute;
+.editButton {
+	position: absolute;
+	top: 19px;
+	right: 50px;
+}
+
+.gameInfoMainImgCont {
+	position: fixed;
+	max-height: 250px;
+	height: 100%;
+	width: 100%;
+}
+
+.gameInfoMainImg {
+	height: 100%;
+	object-fit: cover;
+}
+
+.gamePriceCont {
+	position: absolute;
 	background: #232222c2;
 	border-radius: 1.5rem;
 	padding: 7px 16px;
 	right: 1rem;
-	bottom: 1rem;
+	bottom: 5rem;
 	width: max-content;
 }
 
-.prices .price {
-	color: #fff;
-	font-weight: 600;
-	font-size: 1.3rem;
-	line-height: 2rem;
-}
-
-.prices:has(.discount) {
+.gamePriceCont:has(.discount) {
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	gap: 8px;
 }
 
-.prices:has(.discount) .discount {
-	color: rgb(239 208 0);
+.gamePriceCont:has(.discount) .discount {
+	color: #efd000;
 	font-weight: 600;
 	font-size: 1.3rem;
 	line-height: 2rem;
 }
 
-.prices:has(.discount) .price {
+.gamePriceCont .price {
+	color: #fff;
+	font-weight: 600;
+	font-size: 1.3rem;
+	line-height: 2rem;
+}
+
+.gamePriceCont:has(.discount) .price {
 	text-decoration: line-through;
 	font-size: 1.1rem;
 }
 
-.background {
-   height: 100%;
-	object-fit: cover;
-   max-height: 250px;
+.gameInfoMain {
+	padding-top: 20px;
+	padding-bottom: 90px;
+	border-top-left-radius: 0.75rem;
+	border-top-right-radius: 0.75rem;
+	background: #232222;
+	transform: translateY(180px);
 }
 
-.content {
-   background: #232222;
-   width: 100%;
-   height: 100%;
-   border-radius: 1.5rem;
+.header {
+	display: flex;
+	align-items: center;
+	gap: 15px;
 }
+
+.header > img {
+	width: 72px;
+	height: 72px;
+	object-fit: cover;
+	border-radius: 0.75rem;
+}
+
+.carousels {
+	margin-top: 15px;
+	display: flex;
+	flex-direction: column;
+	gap: 15px;
+}
+
+.count {
+	font-size: 0.85rem;
+	color: rgb(156 163 175);
+}
+
+.desc {
+	margin-top: 20px;
+}
+
+.desc > p {
+	font-size: 0.85rem;
+	margin-top: 5px;
+	color: rgb(156 163 175);
+}
+
