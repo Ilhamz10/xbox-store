@@ -136,6 +136,11 @@
 	border-radius: 0.5rem;
 	height: 300px;
 	object-fit: cover;
+	transition: .3s;
+}
+
+.sliderImg:active {
+	transform: scale(0.9);
 }
 
 .aboutRentWrapper {

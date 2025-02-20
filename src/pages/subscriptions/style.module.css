@@ -30,7 +30,11 @@
 	margin-top: 25px;
 	border-radius: 15px;
 	overflow: hidden;
-	cursor: pointer;
+	transition: .3s;
+}
+
+.window:active {
+	transform: scale(0.9);
 }
 
 .window > img {
@@ -39,6 +43,7 @@
 }
 
 .text {
+	width: 100%;
 	padding: 20px;
 	background: rgb(55 65 81 / 0.4);
 	backdrop-filter: blur(4px);
