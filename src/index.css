@@ -29,6 +29,7 @@ body {
 	overflow: hidden;
 	padding: var(--sat) var(--sar) var(--sab) var(--sal);
 	user-select: none;
+	background: black;
 }
 
 a {
