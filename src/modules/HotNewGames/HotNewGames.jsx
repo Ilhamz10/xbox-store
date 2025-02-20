@@ -43,6 +43,7 @@ const HotNewGames = memo(function HotNewGames() {
 
 	const [searchIsActive, setSearchIsActive] = useState(false);
 	const [searchValue, setSearchValue] = useState('');
+	const [activeIndex, setActiveIndex] = useState(0);
 
 	const { data, isLoading, isSuccess, isError } = useQuery({
 		queryKey: [
@@ -162,6 +163,7 @@ const HotNewGames = memo(function HotNewGames() {
 				effect={'coverflow'}
 				slidesPerView={1.4}
 				centeredSlides={true}
+				onSlideChange={sw => setActiveIndex(sw.realIndex)}
 				autoplay={{
 					delay: 2000,
 				}}
@@ -188,7 +190,7 @@ const HotNewGames = memo(function HotNewGames() {
 				id='hot-new-games'
 				style={{
 					backgroundImage: data
-						? `url(${data[0].image})`
+						? `url(${data[activeIndex].image})`
 						: `url(
 					'https://project-green.ru/pgstore/webapp/fastapi/app/games/9PLTKZZK35RF/images/tile.webp'
 				)`,
