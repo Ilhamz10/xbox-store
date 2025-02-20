@@ -24,7 +24,9 @@ export const FooterBtns = () => {
 		activeGame,
 		gameInfoBottomSheetIsOpen,
 		basketGamesId,
-		isFromHomeSale
+		isFromHomeSale,
+		gamePassBottomSheetIsOpen,
+		activeSub
 	} = useStore((state) => state);
 
 	const { mutate } = useMutation({
@@ -57,10 +59,12 @@ export const FooterBtns = () => {
 		},
 	});
 
-	const gameInBasket = basketGamesId.includes(activeGame?.id);
+	const gameInBasket = basketGamesId.includes(
+		gamePassBottomSheetIsOpen ? activeSub.id : activeGame?.id
+	);
 
 	function handleAddGameToBasket() {
-		if (!gameInBasket) {
+		if (!gameInBasket && !gamePassBottomSheetIsOpen) {
 			WebApp.HapticFeedback.impactOccurred('light');
 			addGameToBasketMutate({
 				product_id: activeGame.id,
@@ -83,16 +87,21 @@ export const FooterBtns = () => {
 			<motion.div
 				initial={{ transform: 'translateY(-110%)' }}
 				animate={
-					productAddToCardIsVisiible &&
+					(productAddToCardIsVisiible &&
 					!basketBottomSheet &&
-					gameInfoBottomSheetIsOpen
+					gameInfoBottomSheetIsOpen) ||
+					gamePassBottomSheetIsOpen
 						? 'up'
 						: 'down'
 				}
 				variants={footerBtnsVariants}
 				className={cls.footerBtns}>
 				<button onClick={handleAddGameToBasket} className={cls.addToCart}>
-					{gameInBasket ? 'Добавлено' : 'Добавить в корзину'}
+					{gamePassBottomSheetIsOpen && !activeSub.duration_months
+						? 'Выберите срок подписки'
+						: gameInBasket
+						? 'Добавлено'
+						: 'Добавить в корзину'}
 				</button>
 				{/* <button className={cls.likeBtn}>
 					<HeartIcon width={20} height={20} />

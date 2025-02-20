@@ -14,6 +14,8 @@ const Subscriptions = () => {
 		basketBottomSheet,
 		setGamePassSubscription,
 		setGamePassBottomSheetIsOpen,
+		setActiveSub,
+		setActiveGame
 	} = useStore(state => state);
 
 	const { data, isSuccess, isLoading } = useQuery({
@@ -28,6 +30,15 @@ const Subscriptions = () => {
 			setGamePassSubscription(data);
 		}
 	}, [isSuccess, isLoading, setLoading]);
+
+	useEffect(() => {
+			setActiveGame({});
+
+			return () => {
+				setActiveSub({});
+				setGamePassBottomSheetIsOpen(false)
+			}
+		}, []);
 
 	if (isSuccess) {
 		content.current = (
