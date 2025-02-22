@@ -8,6 +8,48 @@
 	right: 50px;
 }
 
+.gameInfoHeader {
+	padding: 1rem 0 0;
+	position: sticky;
+	top: -191px;
+	border-top-left-radius: 0.75rem;
+	border-top-right-radius: 0.75rem;
+	z-index: 5;
+	background: rgb(35 34 34);
+	transform: translateY(181px);
+}
+
+.gameInfoHeaderLinks {
+	display: flex;
+	justify-content: space-between;
+	padding: 0 9px;
+	align-items: center;
+	position: relative;
+}
+
+.gameInfoHeader .navBtn {
+	text-decoration: none;
+	display: block;
+	font-size: 0.85rem;
+	line-height: 1.06rem;
+	font-weight: 700;
+	width: max-content;
+	padding-bottom: 8px;
+	color: #6b7280;
+}
+
+.gameInfoHeader .navBtn.active {
+	color: #fff;
+}
+
+.activeBar {
+	position: absolute;
+	height: 2px;
+	background: white;
+	bottom: 0px;
+	transition: left .3s ease, width .2s ease;
+}
+
 .gameInfoMainImgCont {
 	position: fixed;
 	max-height: 250px;
@@ -22,81 +64,21 @@
 
 .gamePriceCont {
 	position: absolute;
-	background: #232222c2;
-	border-radius: 1.5rem;
 	padding: 7px 16px;
 	right: 1rem;
 	bottom: 5rem;
 	width: max-content;
-}
-
-.gamePriceCont:has(.discount) {
-	display: flex;
+   display: flex;
 	justify-content: center;
 	align-items: center;
 	gap: 8px;
-}
-
-.gamePriceCont:has(.discount) .discount {
-	color: #efd000;
-	font-weight: 600;
-	font-size: 1.3rem;
-	line-height: 2rem;
+   background: #232222c2;
+   border-radius: 1.5rem;
 }
 
 .gamePriceCont .price {
 	color: #fff;
 	font-weight: 600;
-	font-size: 1.3rem;
+	font-size: 1rem;
 	line-height: 2rem;
 }
-
-.gamePriceCont:has(.discount) .price {
-	text-decoration: line-through;
-	font-size: 1.1rem;
-}
-
-.gameInfoMain {
-	padding-top: 20px;
-	padding-bottom: 90px;
-	border-top-left-radius: 0.75rem;
-	border-top-right-radius: 0.75rem;
-	background: #232222;
-	transform: translateY(180px);
-}
-
-.header {
-	display: flex;
-	align-items: center;
-	gap: 15px;
-}
-
-.header > img {
-	width: 72px;
-	height: 72px;
-	object-fit: cover;
-	border-radius: 0.75rem;
-}
-
-.carousels {
-	margin-top: 15px;
-	display: flex;
-	flex-direction: column;
-	gap: 15px;
-}
-
-.count {
-	font-size: 0.85rem;
-	color: rgb(156 163 175);
-}
-
-.desc {
-	margin-top: 20px;
-}
-
-.desc > p {
-	font-size: 0.85rem;
-	margin-top: 5px;
-	color: rgb(156 163 175);
-}
-
