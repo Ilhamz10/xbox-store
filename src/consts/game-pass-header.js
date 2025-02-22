@@ -1,0 +1,1 @@
+export const gamePassHeader = ["О подписке", "Список игр"];

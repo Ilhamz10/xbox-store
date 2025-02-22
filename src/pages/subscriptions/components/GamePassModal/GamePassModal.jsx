@@ -1,19 +1,71 @@
 import { Icon } from '@iconify/react/dist/iconify.js';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { useRef, useState } from 'react';
 
 import { useStore } from '../../../../store';
+import { ImageModal } from '../../../../UI/ImageModal/ImageModal';
+import { gamePassHeader } from '../../../../consts/game-pass-header';
 import { CustomBottomSheet } from '../../../../UI/BottomSheet/BottomSheet';
-import { GamePassCarousel } from '../GamePassCarousel/GamePassCarousel';
+import { AboutGamePass } from '../AboutGamePass/AboutGamePass';
 import cls from './GamePassModal.module.css';
 
 export const GamePassModal = ({ adjustPosition }) => {
+   const [bigImage, setBigImage] = useState('');
+   const [page, setPage] = useState(0);
    const {
       isAdmin,
-      gamePassSubscription,
       gamePassBottomSheetIsOpen,
       setGamePassBottomSheetIsOpen,
+      gamePassSubscription,
       activeSub,
-      setActiveSub
+      setActiveSub,
    } = useStore(state => state);
+
+   // REFS
+   const activeBarRef = useRef(null);
+   const swiperRef = useRef(null);
+
+   function handleActiveBarWidth(index) {
+      const node = document.querySelector(`#active-page-${index}`);
+      if (!node || !activeBarRef.current) return;
+
+      const widthOfCurrentNode = window.getComputedStyle(node).width;
+      activeBarRef.current.style.width = widthOfCurrentNode;
+   }
+
+   function handleSwiper(sw) {
+      swiperRef.current = sw;
+      handleActiveBarWidth(sw.activeIndex);
+      sw.on('setTranslate', () => handleDiscardScroll(sw));
+   }
+
+   function handleSlideChange(sw) {
+      handleActiveBarWidth(sw.activeIndex);
+      setPage(sw.activeIndex);
+   }
+
+   function handleDiscardScroll(sw) {
+      const maxTranslate = sw.maxTranslate();
+
+      if (sw.translate > 0) sw.setTranslate(0);
+      else if (sw.translate < maxTranslate) sw.setTranslate(maxTranslate);
+   }
+
+   function handleProgress(sw) {
+      if (!activeBarRef.current) return;
+
+      const swiperWrapper = sw.wrapperEl;
+      const slidesCount = sw.slides.length;
+      const totalWidth = swiperWrapper.clientWidth;
+      const slidesWidth = totalWidth / slidesCount;
+
+      const left =
+         (totalWidth - slidesWidth) * sw.progress +
+         (slidesWidth - 110) * sw.progress;
+      activeBarRef.current.style.left = `${
+         sw.progress == 1 ? left - 6 : left || 9
+      }px`;
+   }
 
    return (
       <CustomBottomSheet
@@ -25,7 +77,7 @@ export const GamePassModal = ({ adjustPosition }) => {
          {isAdmin && (
             <a
                target="_blank"
-               href={`https://api.xbox-rent.ru/admin/webapp/subscription/${gamePassSubscription.id}`}
+               href={`https://api.xbox-rent.ru/admin/webapp/subscription`}
                className={cls.editButton}>
                <Icon
                   style={{ display: 'block' }}
@@ -34,6 +86,10 @@ export const GamePassModal = ({ adjustPosition }) => {
                   icon="cuida:edit-outline"
                />
             </a>
+         )}
+
+         {bigImage && (
+            <ImageModal bigImage={bigImage} setBigImage={setBigImage} />
          )}
 
          <section
@@ -57,17 +113,15 @@ export const GamePassModal = ({ adjustPosition }) => {
                   />
                   <div className={cls.gamePriceCont}>
                      {activeSub.price ? (
-                        <p
-                           style={{ color: '#efd000' }}
-                           className={cls.price}
-                        >
+                        <p style={{ color: '#efd000' }} className={cls.price}>
                            {activeSub.price} ₽
                         </p>
                      ) : gamePassSubscription.subprice !== '0.00' ? (
                         <>
-                           <div className={cls.discount}>
+                           <p className={cls.price}>
                               {gamePassSubscription.price} ₽
-                           </div>
+                           </p>
+                           -
                            <p className={cls.price}>
                               {gamePassSubscription.subprice} ₽
                            </p>
@@ -80,38 +134,52 @@ export const GamePassModal = ({ adjustPosition }) => {
                   </div>
                </div>
                <div style={{ background: '#232222' }}>
-                  <main className={cls.gameInfoMain}>
+                  <header className={cls.gameInfoHeader}>
                      <div className="wrapper">
-                        <div className={cls.header}>
-                           <img
-                              src={gamePassSubscription.image}
-                              alt="game-pass-image"
-                              fetchpriority="high"
-                           />
-
-                           <div>
-                              <h2>{gamePassSubscription.title}</h2>
-                              <p className={cls.count}>Сейчас в подписке 456 игр</p>
-                           </div>
-                        </div>
-
-                        <div className={cls.carousels}>
-                           {gamePassSubscription.types?.map(type => (
-                              <GamePassCarousel
-                                 key={type.id}
-                                 subscription={type}
-                                 setActiveSub={setActiveSub}
-                                 activeSub={activeSub}
-                              />
+                        <div className={cls.gameInfoHeaderLinks}>
+                           {gamePassHeader.map((str, i) => (
+                              <button
+                                 key={i}
+                                 id={`active-page-${i}`}
+                                 className={`${cls.navBtn} ${page == i && cls.active}`}
+                                 onClick={() => swiperRef.current.slideTo(i)}
+                              >
+                                 {str}
+                              </button>
                            ))}
-                        </div>
-
-                        <div className={cls.desc}>
-                           <h4>Описание:</h4>
-                           <p>{gamePassSubscription.description}</p>
+                           <span ref={activeBarRef} className={cls.activeBar} />
                         </div>
                      </div>
-                  </main>
+                  </header>
+                  <div>
+                     <Swiper
+                        autoHeight
+                        onSwiper={handleSwiper}
+                        onProgress={handleProgress}
+                        onSlideChange={handleSlideChange}
+                        style={{ paddingBottom: 150 }}
+                     >
+                        <SwiperSlide>
+                           <AboutGamePass
+                              activeSub={activeSub}
+                              setBigImage={setBigImage}
+                              setActiveSub={setActiveSub}
+                              gamePassSubscription={gamePassSubscription}
+                           />
+                        </SwiperSlide>
+                        <SwiperSlide>
+                           <div
+                              style={{
+                                 background: '#232222',
+                                 transform: 'translateY(180px)',
+                                 paddingTop: 20,
+                                 paddingBottom: 90,
+                                 height: 1000
+                              }}
+                           />
+                        </SwiperSlide>
+                     </Swiper>
+                  </div>
                </div>
             </div>
          </section>
