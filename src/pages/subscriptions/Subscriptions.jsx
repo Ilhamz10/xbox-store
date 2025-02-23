@@ -3,8 +3,14 @@ import { useEffect, useRef } from 'react';
 
 import { useStore } from '../../store';
 import subsMainBg from '../../assets/imgs/gamepass-main-bg.jpg';
-import { GamePassModal } from './components/GamePassModal/GamePassModal';
+import ubisoftBg from '../../assets/imgs/ubisoft-bg.jpg';
+import esoPlusBg from '../../assets/imgs/eso-plus-bg.webp';
+import eaPlayBg from '../../assets/imgs/ea-play-bg.webp';
+import fortniteBg from '../../assets/imgs/fortnite-bg.webp';
+import GameCard from '../../components/GameCard/GameCard';
+import { MainSubModal } from './components/MainSubModal/MainSubModal';
 import { getSubs } from './api/getSubs';
+import { HorizontalSub } from './components/HorizontalSub/HorizontalSub';
 import cls from './style.module.css';
 
 const Subscriptions = () => {
@@ -12,23 +18,25 @@ const Subscriptions = () => {
 	const {
 		setLoading,
 		basketBottomSheet,
-		setGamePassSubscription,
-		setGamePassBottomSheetIsOpen,
+		setMainSubscription,
+		setMainSubBottomSheetIsOpen,
 		setActiveSub,
 		setActiveGame
 	} = useStore(state => state);
 
 	const { data, isSuccess, isLoading } = useQuery({
-		queryKey: ['subscription-gamepass'],
-		queryFn: () => getSubs(4)
+		queryKey: ['subscriptions'],
+		queryFn: getSubs
 	});
+
+	function handleOpenModal(data) {
+		setMainSubscription(data);
+		setMainSubBottomSheetIsOpen(true);
+	}
 
 	useEffect(() => {
 		if (isLoading) setLoading(true);
-		else if (isSuccess) {
-			setLoading(false);
-			setGamePassSubscription(data);
-		}
+		else if (isSuccess) setLoading(false);
 	}, [isSuccess, isLoading, setLoading]);
 
 	useEffect(() => {
@@ -36,31 +44,78 @@ const Subscriptions = () => {
 
 			return () => {
 				setActiveSub({});
-				setGamePassBottomSheetIsOpen(false)
+				setMainSubBottomSheetIsOpen(false);
 			}
 		}, []);
 
 	if (isSuccess) {
-		content.current = (
-			<div
-				onClick={() => setGamePassBottomSheetIsOpen(true)}
-				className={`${cls.window} wrapper`}
-			>
-				<img
-					src={data.image}
-					alt="game-pass-image"
-				/>
+		const ubisoftData = data.results.find(r => r.id === 10);
+		const gamePassData = data.results.find(r => r.id === 4);
+		const fortniteData = data.results.find(r => r.id === 8);
+		const esoPlusData = data.results.find(r => r.id === 9);
+		const eaPlayData = data.results.find(r => r.id === 7);
 
-				<div className={cls.text}>
-					<p>{data.title}</p>
+		const otherSubs = data.results.filter(r => !([4, 7, 8, 9, 10].includes(r.id)));
+
+		content.current = (
+			<>
+				<div className={`${cls.firstSub} wrapper`}>
+					<GameCard
+						isDayGame
+						imgSrc={gamePassData.image}
+						gamePrice={`от ${gamePassData.price}`}
+						gameTitle={gamePassData.title}
+						onClick={() => handleOpenModal(gamePassData)}
+					/>
 				</div>
-			</div>
+				<HorizontalSub
+					background={ubisoftBg}
+					title={ubisoftData.title}
+					onClick={() => handleOpenModal(ubisoftData)}
+				/>
+				<div className={`${cls.inlineSubs} wrapper`}>
+					<GameCard
+						isDayGame
+						imgSrc={fortniteBg}
+						gamePrice={fortniteData.price}
+						gameTitle={fortniteData.title}
+						subprice={fortniteData.subprice}
+						onClick={() => handleOpenModal(fortniteData)}
+					/>
+					<GameCard
+						isDayGame
+						imgSrc={esoPlusBg}
+						gamePrice={esoPlusData.price}
+						gameTitle={esoPlusData.title}
+						subprice={esoPlusData.subprice}
+						onClick={() => handleOpenModal(esoPlusData)}
+					/>
+				</div>
+				<HorizontalSub
+					background={eaPlayBg}
+					title={eaPlayData.title}
+					onClick={() => handleOpenModal(eaPlayData)}
+				/>
+				<div className={`${cls.subs} wrapper`}>
+					{otherSubs.map(sub => (
+						<GameCard
+							isDayGame
+							key={sub.id}
+							imgSrc={sub.image}
+							gamePrice={sub.price}
+							gameTitle={sub.title}
+							subprice={sub.subprice}
+						/>
+					))}
+				</div>
+			</>
 		);
 	}
 
 	return (
 		<main style={{ paddingBottom: '90px' }}>
-			<GamePassModal adjustPosition={basketBottomSheet} />
+			<MainSubModal adjustPosition={basketBottomSheet} />
+			{/* <OtherSubModal adjustPosition={basketBottomSheet} /> */}
 
 			<section
 				style={{ background: `url(${subsMainBg}) center/cover no-repeat` }}

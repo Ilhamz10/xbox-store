@@ -1,0 +1,22 @@
+.container {
+	padding: 40px 22px;
+	margin-top: 28px;
+	width: 100%;
+	background-repeat: no-repeat !important;
+	background-position: center !important;
+	background-size: cover !important;
+	display: flex;
+	flex-direction: column;
+}
+
+.container > h3 {
+	font-size: 1.1rem;
+}
+
+.container > button {
+	border-radius: 8px;
+	margin-top: 95px;
+	width: fit-content;
+	padding: 0.625rem 1.7rem;
+	background-color: #5aad5dc5;
+}
