@@ -17,7 +17,7 @@ export const AboutGamePass = ({ setBigImage }) => {
       changeXsIsOpen,
       activeSub,
       setActiveSub,
-      gamePassSubscription,
+      mainSubscription,
       setXsText,
    } = useStore(store => store);
    const [activeIndex, setActiveIndex] = useState(null);
@@ -40,15 +40,15 @@ export const AboutGamePass = ({ setBigImage }) => {
          <div className="wrapper">
             <div className={cls.header}>
                <img
-                  src={gamePassSubscription.image}
+                  src={mainSubscription.image}
                   alt="game-pass-image"
                   fetchpriority="high"
-                  onClick={() => setBigImage(gamePassSubscription.image)}
+                  onClick={() => setBigImage(mainSubscription.image)}
                />
 
                <div className={cls.head}>
                   <div className={cls.titleHead}>
-                     <h3>{gamePassSubscription.title}</h3>
+                     <h3>{mainSubscription.title}</h3>
                      <button onClick={handleOpenClue}>
                         <Info2Icon width={22} height={22} />
                      </button>
@@ -58,7 +58,7 @@ export const AboutGamePass = ({ setBigImage }) => {
             </div>
 
             <div className={cls.carousels}>
-               {gamePassSubscription.types.map((type, i) => (
+               {mainSubscription.types.map((type, i) => (
                   <div
                      key={type.id}
                      onClick={() => setActiveIndex(i == activeIndex ? null : i)}
@@ -82,7 +82,7 @@ export const AboutGamePass = ({ setBigImage }) => {
                         nested
                         slidesPerView={'auto'}
                      >
-                        {gamePassSubscription.types[activeIndex].periods.map(
+                        {mainSubscription.types[activeIndex].periods.map(
                            (period, i) => (
                               <SwiperSlide
                                  key={period.id}
@@ -99,7 +99,7 @@ export const AboutGamePass = ({ setBigImage }) => {
                                              ? {}
                                              : {
                                                 id: period.id,
-                                                name: gamePassSubscription.types[
+                                                name: mainSubscription.types[
                                                    activeIndex
                                                 ].name,
                                                 duration_months:
@@ -123,7 +123,7 @@ export const AboutGamePass = ({ setBigImage }) => {
                )}
             </AnimatePresence>
 
-            <p className={cls.desc}>{gamePassSubscription.description}</p>
+            <p className={cls.desc}>{mainSubscription.description}</p>
          </div>
       </main>
    );

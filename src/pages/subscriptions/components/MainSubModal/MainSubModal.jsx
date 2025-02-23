@@ -7,16 +7,16 @@ import { ImageModal } from '../../../../UI/ImageModal/ImageModal';
 import { gamePassHeader } from '../../../../consts/game-pass-header';
 import { CustomBottomSheet } from '../../../../UI/BottomSheet/BottomSheet';
 import { AboutGamePass } from '../AboutGamePass/AboutGamePass';
-import cls from './GamePassModal.module.css';
+import cls from './MainSubModal.module.css';
 
-export const GamePassModal = ({ adjustPosition }) => {
+export const MainSubModal = ({ adjustPosition }) => {
    const [bigImage, setBigImage] = useState('');
    const [page, setPage] = useState(0);
    const {
       isAdmin,
-      gamePassBottomSheetIsOpen,
-      setGamePassBottomSheetIsOpen,
-      gamePassSubscription,
+      mainSubBottomSheetIsOpen,
+      setMainSubBottomSheetIsOpen,
+      mainSubscription,
       activeSub,
       setActiveSub,
    } = useStore(state => state);
@@ -71,8 +71,8 @@ export const GamePassModal = ({ adjustPosition }) => {
       <CustomBottomSheet
          shareIcon
          adjustPosition={adjustPosition}
-         isOpen={gamePassBottomSheetIsOpen}
-         setIsopen={setGamePassBottomSheetIsOpen}
+         isOpen={mainSubBottomSheetIsOpen}
+         setIsopen={setMainSubBottomSheetIsOpen}
          sheetBgColor="#232222">
          {isAdmin && (
             <a
@@ -98,7 +98,7 @@ export const GamePassModal = ({ adjustPosition }) => {
                <div className={cls.gameInfoMainImgCont}>
                   <img
                      className={cls.gameInfoMainImg}
-                     src={gamePassSubscription.wallpaper}
+                     src={mainSubscription.wallpaper}
                      alt="wallpaper"
                      fetchpriority="high"
                   />
@@ -108,7 +108,7 @@ export const GamePassModal = ({ adjustPosition }) => {
                         transform: 'rotate(180deg) scaleX(-1)',
                      }}
                      className={cls.gameInfoMainImg}
-                     src={gamePassSubscription.wallpaper}
+                     src={mainSubscription.wallpaper}
                      alt="wallpaper"
                   />
                   <div className={cls.gamePriceCont}>
@@ -116,19 +116,19 @@ export const GamePassModal = ({ adjustPosition }) => {
                         <p style={{ color: '#efd000' }} className={cls.price}>
                            {activeSub.price} ₽
                         </p>
-                     ) : gamePassSubscription.subprice !== '0.00' ? (
+                     ) : mainSubscription.subprice !== '0.00' ? (
                         <>
                            <p className={cls.price}>
-                              {gamePassSubscription.price} ₽
+                              {mainSubscription.price} ₽
                            </p>
                            -
                            <p className={cls.price}>
-                              {gamePassSubscription.subprice} ₽
+                              {mainSubscription.subprice} ₽
                            </p>
                         </>
                      ) : (
                         <p className={cls.price}>
-                           {gamePassSubscription.price} ₽
+                           {mainSubscription.price} ₽
                         </p>
                      )}
                   </div>
@@ -164,7 +164,7 @@ export const GamePassModal = ({ adjustPosition }) => {
                               activeSub={activeSub}
                               setBigImage={setBigImage}
                               setActiveSub={setActiveSub}
-                              gamePassSubscription={gamePassSubscription}
+                              gamePassSubscription={mainSubscription}
                            />
                         </SwiperSlide>
                         <SwiperSlide>

@@ -26,27 +26,37 @@
 	backdrop-filter: blur(8px);
 }
 
-.window {
-	margin-top: 25px;
-	border-radius: 15px;
-	overflow: hidden;
-	transition: .3s;
+.firstSub > div > div:has(h2) {
+	padding: 13px;
+	display: flex;
+	justify-content: space-between;
 }
 
-.window:active {
-	transform: scale(0.9);
+.firstSub > div > div > h2 {
+	font-size: 1rem !important;
 }
 
-.window > img {
-	width: 100%;
-	height: auto;
+.inlineSubs {
+	margin-top: 28px !important;
+	display: flex;
+	gap: 15px;
 }
 
-.text {
-	width: 100%;
-	padding: 20px;
-	background: rgb(55 65 81 / 0.4);
-	backdrop-filter: blur(4px);
-	font-weight: 600;
-	font-size: 1.1rem;
+.inlineSubs > div > img {
+	max-height: 230px;
+}
+
+.inlineSubs > div {
+	flex: 1;
+}
+
+.inlineSubs > div > div > h2, .firstSub > div > div > h2 {
+	max-height: fit-content;
+}
+
+.subs {
+	margin-top: 28px !important;
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: 20px;
 }

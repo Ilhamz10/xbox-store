@@ -1,8 +1,8 @@
 export const subsSlice = (set) => ({
-	gamePassBottomSheetIsOpen: false,
-	gamePassSubscription: {},
+	mainSubBottomSheetIsOpen: false,
+	mainSubscription: {},
 	activeSub: {},
 	setActiveSub: obj => set(() => ({ activeSub: obj })),
-	setGamePassBottomSheetIsOpen: (bool) => set(() => ({ gamePassBottomSheetIsOpen: bool })),
-	setGamePassSubscription: obj => set(() => ({ gamePassSubscription: obj })),
+	setMainSubBottomSheetIsOpen: bool => set(() => ({ mainSubBottomSheetIsOpen: bool })),
+	setMainSubscription: obj => set(() => ({ mainSubscription: obj })),
 });
