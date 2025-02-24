@@ -32,10 +32,6 @@
 	justify-content: space-between;
 }
 
-.firstSub > div > div > h2 {
-	font-size: 1rem !important;
-}
-
 .inlineSubs {
 	margin-top: 28px !important;
 	display: flex;

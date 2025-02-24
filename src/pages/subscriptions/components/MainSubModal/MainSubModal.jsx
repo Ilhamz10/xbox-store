@@ -135,21 +135,23 @@ export const MainSubModal = ({ adjustPosition }) => {
                </div>
                <div style={{ background: '#232222' }}>
                   <header className={cls.gameInfoHeader}>
-                     <div className="wrapper">
-                        <div className={cls.gameInfoHeaderLinks}>
-                           {gamePassHeader.map((str, i) => (
-                              <button
-                                 key={i}
-                                 id={`active-page-${i}`}
-                                 className={`${cls.navBtn} ${page == i && cls.active}`}
-                                 onClick={() => swiperRef.current.slideTo(i)}
-                              >
-                                 {str}
-                              </button>
-                           ))}
-                           <span ref={activeBarRef} className={cls.activeBar} />
+                     {mainSubscription.games_list_enabled && (
+                        <div className="wrapper">
+                           <div className={cls.gameInfoHeaderLinks}>
+                              {gamePassHeader.map((str, i) => (
+                                 <button
+                                    key={i}
+                                    id={`active-page-${i}`}
+                                    className={`${cls.navBtn} ${page == i && cls.active}`}
+                                    onClick={() => swiperRef.current.slideTo(i)}
+                                 >
+                                    {str}
+                                 </button>
+                              ))}
+                              <span ref={activeBarRef} className={cls.activeBar} />
+                           </div>
                         </div>
-                     </div>
+                     )}
                   </header>
                   <div>
                      <Swiper
@@ -167,17 +169,19 @@ export const MainSubModal = ({ adjustPosition }) => {
                               gamePassSubscription={mainSubscription}
                            />
                         </SwiperSlide>
-                        <SwiperSlide>
-                           <div
-                              style={{
-                                 background: '#232222',
-                                 transform: 'translateY(180px)',
-                                 paddingTop: 20,
-                                 paddingBottom: 90,
-                                 height: 1000
-                              }}
-                           />
-                        </SwiperSlide>
+                        {mainSubscription.games_list_enabled && (
+                           <SwiperSlide>
+                              <div
+                                 style={{
+                                    background: '#232222',
+                                    transform: 'translateY(180px)',
+                                    paddingTop: 20,
+                                    paddingBottom: 90,
+                                    height: 1000
+                                 }}
+                              />
+                           </SwiperSlide>
+                        )}
                      </Swiper>
                   </div>
                </div>
