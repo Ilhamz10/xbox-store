@@ -62,7 +62,7 @@ const SectionWithSlide = ({
 					{slides.map(
 						(game) =>
 							game.id !== filterId && (
-								<SwiperSlide key={game.id}>
+								<SwiperSlide style={{ width: 200 }} key={game.id}>
 									<GameCard
 										release_date={game.release_date}
 										preOrder={game.pre_order}
@@ -76,6 +76,7 @@ const SectionWithSlide = ({
 										lang={game.voice_acting}
 										size={bigCards ? 'lg' : 'md'}
 										in_game_pass={game.in_game_pass}
+										isDayGame
 									/>
 								</SwiperSlide>
 							)

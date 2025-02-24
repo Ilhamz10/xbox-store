@@ -136,6 +136,7 @@
 	backdrop-filter: blur(4px);
 	background-color: rgb(55 65 81 / 0.4);
 	bottom: 0;
+	gap: 0;
 }
 
 .gameInfo:has(.seriesCardTitle) {
@@ -154,7 +155,7 @@
 }
 
 .gameCard.dayGame .gameTitle {
-	font-size: 1.25rem;
+	font-size: 0.95rem;
 }
 
 .gameTitle.seriesCardTitle {
