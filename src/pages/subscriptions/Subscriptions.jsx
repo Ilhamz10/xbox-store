@@ -9,6 +9,7 @@ import eaPlayBg from '../../assets/imgs/ea-play-bg.webp';
 import fortniteBg from '../../assets/imgs/fortnite-bg.webp';
 import GameCard from '../../components/GameCard/GameCard';
 import { MainSubModal } from './components/MainSubModal/MainSubModal';
+import { OtherSubModal } from './components/OtherSubModal/OtherSubModal';
 import { getSubs } from './api/getSubs';
 import { HorizontalSub } from './components/HorizontalSub/HorizontalSub';
 import cls from './style.module.css';
@@ -20,6 +21,7 @@ const Subscriptions = () => {
 		basketBottomSheet,
 		setMainSubscription,
 		setMainSubBottomSheetIsOpen,
+		setOtherSubBottomSheetIsOpen,
 		setActiveSub,
 		setActiveGame
 	} = useStore(state => state);
@@ -29,9 +31,10 @@ const Subscriptions = () => {
 		queryFn: getSubs
 	});
 
-	function handleOpenModal(data) {
+	function handleOpenModal(data, isFeed) {
 		setMainSubscription(data);
-		setMainSubBottomSheetIsOpen(true);
+		if (isFeed) setOtherSubBottomSheetIsOpen(true);
+		else setMainSubBottomSheetIsOpen(true);
 	}
 
 	useEffect(() => {
@@ -105,6 +108,7 @@ const Subscriptions = () => {
 							gamePrice={sub.price}
 							gameTitle={sub.title}
 							subprice={sub.subprice}
+							onClick={() => handleOpenModal(sub, true)}
 						/>
 					))}
 				</div>
@@ -115,7 +119,7 @@ const Subscriptions = () => {
 	return (
 		<main style={{ paddingBottom: '90px' }}>
 			<MainSubModal adjustPosition={basketBottomSheet} />
-			{/* <OtherSubModal adjustPosition={basketBottomSheet} /> */}
+			<OtherSubModal adjustPosition={basketBottomSheet} />
 
 			<section
 				style={{ background: `url(${subsMainBg}) center/cover no-repeat` }}

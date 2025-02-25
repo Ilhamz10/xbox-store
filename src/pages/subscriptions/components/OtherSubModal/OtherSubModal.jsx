@@ -7,15 +7,15 @@ import { ImageModal } from '../../../../UI/ImageModal/ImageModal';
 import { gamePassHeader } from '../../../../consts/game-pass-header';
 import { CustomBottomSheet } from '../../../../UI/BottomSheet/BottomSheet';
 import { AboutGamePass } from '../AboutGamePass/AboutGamePass';
-import cls from './MainSubModal.module.css';
+import cls from './OtherSubModal.module.css';
 
-export const MainSubModal = ({ adjustPosition }) => {
+export const OtherSubModal = ({ adjustPosition }) => {
    const [bigImage, setBigImage] = useState('');
    const [page, setPage] = useState(0);
    const {
       isAdmin,
-      mainSubBottomSheetIsOpen,
-      setMainSubBottomSheetIsOpen,
+      otherSubBottomSheetIsOpen,
+      setOtherSubBottomSheetIsOpen,
       mainSubscription,
       activeSub,
       setActiveSub,
@@ -71,8 +71,8 @@ export const MainSubModal = ({ adjustPosition }) => {
       <CustomBottomSheet
          shareIcon
          adjustPosition={adjustPosition}
-         isOpen={mainSubBottomSheetIsOpen}
-         setIsopen={setMainSubBottomSheetIsOpen}
+         isOpen={otherSubBottomSheetIsOpen}
+         setIsopen={setOtherSubBottomSheetIsOpen}
          sheetBgColor="#232222">
          {isAdmin && (
             <a
@@ -127,39 +127,31 @@ export const MainSubModal = ({ adjustPosition }) => {
                            </p>
                         </>
                      ) : (
-                        <p className={cls.price}>{mainSubscription.price} ₽</p>
+                        <p className={cls.price}>
+                           {mainSubscription.price} ₽
+                        </p>
                      )}
                   </div>
                </div>
                <div style={{ background: '#232222' }}>
                   <header className={cls.gameInfoHeader}>
-                     <div className="wrapper">
-                        <div className={cls.gameInfoHeaderLinks}>
-                           {mainSubscription.games_list_enabled ? (
-                              gamePassHeader.map((str, i) => (
+                     {mainSubscription.games_list_enabled && (
+                        <div className="wrapper">
+                           <div className={cls.gameInfoHeaderLinks}>
+                              {gamePassHeader.map((str, i) => (
                                  <button
                                     key={i}
                                     id={`active-page-${i}`}
-                                    className={`${cls.navBtn} ${
-                                       page == i && cls.active
-                                    }`}
-                                    onClick={() =>
-                                       swiperRef.current.slideTo(i)
-                                    }>
+                                    className={`${cls.navBtn} ${page == i && cls.active}`}
+                                    onClick={() => swiperRef.current.slideTo(i)}
+                                 >
                                     {str}
                                  </button>
-                              ))
-                           ) : (
-                              <button
-                                 id="active-page-0"
-                                 className={`${cls.navBtn} ${cls.active}`}
-                              >
-                                 О подписке
-                              </button>
-                           )}
-                           <span ref={activeBarRef} className={cls.activeBar} />
+                              ))}
+                              <span ref={activeBarRef} className={cls.activeBar} />
+                           </div>
                         </div>
-                     </div>
+                     )}
                   </header>
                   <div>
                      <Swiper
@@ -167,7 +159,8 @@ export const MainSubModal = ({ adjustPosition }) => {
                         onSwiper={handleSwiper}
                         onProgress={handleProgress}
                         onSlideChange={handleSlideChange}
-                        style={{ paddingBottom: 150 }}>
+                        style={{ paddingBottom: 150 }}
+                     >
                         <SwiperSlide>
                            <AboutGamePass
                               activeSub={activeSub}
@@ -184,7 +177,7 @@ export const MainSubModal = ({ adjustPosition }) => {
                                     transform: 'translateY(180px)',
                                     paddingTop: 20,
                                     paddingBottom: 90,
-                                    height: 1000,
+                                    height: 1000
                                  }}
                               />
                            </SwiperSlide>
