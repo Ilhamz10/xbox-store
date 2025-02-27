@@ -190,7 +190,7 @@ const HotNewGames = memo(function HotNewGames() {
 				id='hot-new-games'
 				style={{
 					backgroundImage: data
-						? `url(${data[activeIndex].image})`
+						? `url(${data[activeIndex]?.image})`
 						: `url(
 					'https://project-green.ru/pgstore/webapp/fastapi/app/games/9PLTKZZK35RF/images/tile.webp'
 				)`,
