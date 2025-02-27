@@ -236,7 +236,13 @@ const HotNewGames = memo(function HotNewGames() {
 						</div>
 					</div>
 					<div className={cls.swiperCont}>
-						{content.current}
+						{data?.length === 0 ? (
+							<p style={{ textAlign: 'center' }}>
+								There is an error
+							</p>
+						) : (
+							content.current
+						)}
 						<div className={cls.customSliderNav}>
 							<button className={cls.prevBtn} onClick={handlePrev}>
 								<SliderPrevIcon width={36} height={36} fill={'#e5e7eba6'} />
