@@ -58,10 +58,6 @@
    overflow-y: hidden;
 }
 
-.periods > div {
-   margin-top: 6.5px; 
-}
-
 .slide {
    width: fit-content !important;
 }

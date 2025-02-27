@@ -88,10 +88,13 @@ export const AboutGamePass = ({ setBigImage }) => {
                      initial={{ height: 0 }}
                      animate={{ height: 'auto' }}
                      className={cls.periods}>
-                     <h4>Выберите срок подписки:</h4>
+                     {mainSubscription.types.length > 1 && (
+                        <h4>Выберите срок подписки:</h4>
+                     )}
                      <Swiper
                         nested
                         slidesPerView={'auto'}
+                        style={{ marginTop: mainSubscription.types.length <= 1 ? 0 : 6.5 }}
                      >
                         {mainSubscription.types[activeIndex].periods.map(
                            (period, i) => (
