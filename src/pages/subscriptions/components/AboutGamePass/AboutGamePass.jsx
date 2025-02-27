@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useQuery } from '@tanstack/react-query';
 import { Swiper, SwiperSlide } from 'swiper/react'
@@ -20,7 +20,7 @@ export const AboutGamePass = ({ setBigImage }) => {
       mainSubscription,
       setXsText,
    } = useStore(store => store);
-   const [activeIndex, setActiveIndex] = useState(null);
+   const [activeIndex, setActiveIndex] = useState(mainSubscription.types.length <= 1 ? 0 : null);
 
    const { data } = useQuery({
       queryKey: ['home-button-info'],
@@ -34,6 +34,15 @@ export const AboutGamePass = ({ setBigImage }) => {
       setIsGamePass(false);
       changeXsIsOpen(true);
    }
+
+   function handleSetActive(index) {
+      setActiveIndex(index == activeIndex ? null : index);
+      if (activeIndex === null || activeIndex !== index) setActiveSub({});
+   }
+
+   useEffect(() => {
+      return () => { setActiveSub({}) };
+   }, []);
 
    return (
       <main className={cls.gameInfoMain}>
@@ -57,21 +66,23 @@ export const AboutGamePass = ({ setBigImage }) => {
                </div>
             </div>
 
-            <div className={cls.carousels}>
-               {mainSubscription.types.map((type, i) => (
-                  <div
-                     key={type.id}
-                     onClick={() => setActiveIndex(i == activeIndex ? null : i)}
-                     className={`${cls.card} ${
-                        i == activeIndex && cls.active
-                     }`}>
-                     <h3>{type.name}</h3>
-                  </div>
-               ))}
-            </div>
+            {mainSubscription.types.length > 1 && (
+               <div className={cls.carousels}>
+                  {mainSubscription.types.map((type, i) => (
+                     <div
+                        key={type.id}
+                        onClick={() => handleSetActive(i)}
+                        className={`${cls.card} ${
+                           i == activeIndex && cls.active
+                        }`}>
+                        <h3>{type.name}</h3>
+                     </div>
+                  ))}
+               </div>
+            )}
 
             <AnimatePresence>
-               {activeIndex !== null && (
+               {activeIndex !== null && mainSubscription.types.length > 0 && (
                   <motion.div
                      exit={{ height: 0 }}
                      initial={{ height: 0 }}
