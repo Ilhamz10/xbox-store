@@ -4,6 +4,17 @@
 }
 
 .slider > div {
-	width: 250px !important;
-	height: 250px !important;
+	width: 250px;
+	height: 250px;
+}
+
+.slideBtn {
+	display: flex;
+	align-items: center;
+	width: fit-content;
+}
+
+.slideBtn > button {
+	height: 60%;
+	background: transparent;
 }

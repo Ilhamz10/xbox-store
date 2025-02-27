@@ -6,6 +6,7 @@ import DropdownIcon from '../../assets/icons/dropdown-arrows-icon.svg?react';
 import cls from './SectionWithSlide.module.css';
 import { useStore } from '../../store';
 import { useShallow } from 'zustand/react/shallow';
+import { ArrowIcon } from '../../assets'
 
 const SectionWithSlide = ({
 	sectionTitle,
@@ -80,6 +81,13 @@ const SectionWithSlide = ({
 									/>
 								</SwiperSlide>
 							)
+					)}
+					{withAllBtn && (
+						<SwiperSlide className={cls.slideBtn}>
+							<Button onClick={allBtnOnClick}>
+								<ArrowIcon width={20} height={20} />
+							</Button>
+						</SwiperSlide>
 					)}
 				</Swiper>
 			</div>

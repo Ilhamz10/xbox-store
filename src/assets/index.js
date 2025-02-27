@@ -45,6 +45,7 @@ import Xbox360GamesIcon from './icons/xbox-360-games.svg?react';
 import HomeGamesIcon from './icons/home-games.svg?react';
 import XboxLoading from './icons/xbox-loading.svg?react';
 import Info2Icon from './icons/info2-icon.svg?react';
+import ArrowIcon from './icons/arrow-icon.svg?react';
 
 export {
 	GamePassIcon,
@@ -93,5 +94,6 @@ export {
 	Xbox360GamesIcon,
 	HomeGamesIcon,
 	XboxLoading,
-	Info2Icon
+	Info2Icon,
+	ArrowIcon,
 };
