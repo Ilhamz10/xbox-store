@@ -1,6 +1,6 @@
 import SectionWithSlide from '../../components/SectionWithSlide/SectionWithSlide';
 import cls from './XboxHomeGames.module.css';
-import { HomeGamesIcon } from '../../assets';
+import { HomeGamesIcon, Info2Icon } from '../../assets';
 import { memo, useEffect, useRef } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { getHomeGames } from './api/getHomeGames';
@@ -60,7 +60,7 @@ const RussianLangGames = memo(function RussianLangGames() {
 				sectionTitle={'Под домашнюю консоль'}
 				slides={copyOfGames.current}
 				SectionIcon={HomeGamesIcon}
-				clueBtnIcon={clueData.title}
+				clueBtnIcon={<Info2Icon width={22} height={22} />}
 				clueOnClick={handleOpenClue}
 			/>
 		);
