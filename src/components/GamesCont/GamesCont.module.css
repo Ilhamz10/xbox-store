@@ -6,6 +6,7 @@
 
 .gameCarCont {
 	position: relative;
+	height: 250px;
 }
 
 .filterButtons {
