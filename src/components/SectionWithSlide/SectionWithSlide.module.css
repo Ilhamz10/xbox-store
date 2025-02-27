@@ -2,3 +2,19 @@
 	overflow-x: clip;
 	overflow-y: visible;
 }
+
+.slider > div {
+	width: 250px;
+	height: 250px;
+}
+
+.slideBtn {
+	display: flex;
+	align-items: center;
+	width: fit-content;
+}
+
+.slideBtn > button {
+	height: 60%;
+	background: transparent;
+}

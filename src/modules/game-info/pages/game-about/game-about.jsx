@@ -91,6 +91,10 @@ const GameAbout = memo(function GameAbout({ data, setBigImage }) {
 							{data.in_game_pass && (
 								<div className={cls.label}>Есть в Game Pass Ultimate</div>
 							)}
+							{data.compatibility !== 'xbox_series_x_s' && (
+								<div className={cls.label}>Xbox One</div>
+							)}
+							<div className={cls.label}>Xbox Series X|S</div>
 						</>
 					</motion.div>
 					<button

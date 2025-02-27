@@ -82,13 +82,13 @@
 }
 
 .gameCard.dayGame .imgWrapper .XSCont {
-	bottom: 95px;
+	bottom: 72px;
 }
 
 .imgWrapper .flagCont {
 	position: absolute;
 	left: 3px;
-	top: 0px;
+	top: 0;
 	display: flex;
 	align-items: center;
 }
@@ -125,7 +125,7 @@
 }
 
 .gameInfo {
-	padding: 12px;
+	padding: 6px 12px;
 	display: grid;
 	gap: 8px;
 }
@@ -136,6 +136,7 @@
 	backdrop-filter: blur(4px);
 	background-color: rgb(55 65 81 / 0.4);
 	bottom: 0;
+	gap: 0;
 }
 
 .gameInfo:has(.seriesCardTitle) {
@@ -154,7 +155,7 @@
 }
 
 .gameCard.dayGame .gameTitle {
-	font-size: 1.25rem;
+	font-size: 0.95rem;
 }
 
 .gameTitle.seriesCardTitle {
@@ -169,7 +170,6 @@
 }
 
 .gameCard.dayGame .gamePriceCont {
-	justify-content: flex-start;
 	gap: 14px;
 }
 

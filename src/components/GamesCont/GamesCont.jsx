@@ -94,6 +94,7 @@ const GamesCont = ({ inBottomSheet, scrollContainerRef, games }) => {
 							games.map((game, i) => (
 								<div className={cls.gameCarCont} key={game.id}>
 									<GameCard
+										isDayGame
 										onClick={() => handleOpenGameInfoBottomSheet(game)}
 										game={game}
 										xs={game.compatibility === 'xbox_series_x_s'}

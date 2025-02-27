@@ -6,6 +6,7 @@ import DropdownIcon from '../../assets/icons/dropdown-arrows-icon.svg?react';
 import cls from './SectionWithSlide.module.css';
 import { useStore } from '../../store';
 import { useShallow } from 'zustand/react/shallow';
+import { ArrowIcon } from '../../assets'
 
 const SectionWithSlide = ({
 	sectionTitle,
@@ -62,7 +63,7 @@ const SectionWithSlide = ({
 					{slides.map(
 						(game) =>
 							game.id !== filterId && (
-								<SwiperSlide key={game.id}>
+								<SwiperSlide style={{ width: 200, height: 250 }} key={game.id}>
 									<GameCard
 										release_date={game.release_date}
 										preOrder={game.pre_order}
@@ -76,9 +77,17 @@ const SectionWithSlide = ({
 										lang={game.voice_acting}
 										size={bigCards ? 'lg' : 'md'}
 										in_game_pass={game.in_game_pass}
+										isDayGame
 									/>
 								</SwiperSlide>
 							)
+					)}
+					{withAllBtn && (
+						<SwiperSlide className={cls.slideBtn}>
+							<Button onClick={allBtnOnClick}>
+								<ArrowIcon width={20} height={20} />
+							</Button>
+						</SwiperSlide>
 					)}
 				</Swiper>
 			</div>

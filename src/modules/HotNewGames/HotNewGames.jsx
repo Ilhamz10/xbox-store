@@ -190,7 +190,7 @@ const HotNewGames = memo(function HotNewGames() {
 				id='hot-new-games'
 				style={{
 					backgroundImage: data
-						? `url(${data[activeIndex].image})`
+						? `url(${data[activeIndex]?.image})`
 						: `url(
 					'https://project-green.ru/pgstore/webapp/fastapi/app/games/9PLTKZZK35RF/images/tile.webp'
 				)`,
@@ -236,7 +236,13 @@ const HotNewGames = memo(function HotNewGames() {
 						</div>
 					</div>
 					<div className={cls.swiperCont}>
-						{content.current}
+						{data?.length === 0 ? (
+							<p style={{ textAlign: 'center' }}>
+								There is an error
+							</p>
+						) : (
+							content.current
+						)}
 						<div className={cls.customSliderNav}>
 							<button className={cls.prevBtn} onClick={handlePrev}>
 								<SliderPrevIcon width={36} height={36} fill={'#e5e7eba6'} />

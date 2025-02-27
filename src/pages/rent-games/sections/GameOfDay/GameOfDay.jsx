@@ -5,7 +5,7 @@ import { getRecommendedGame } from '../../../../modules/BasketCard/api/getRecomm
 import { Icon } from '@iconify/react/dist/iconify.js';
 import Button from '../../../../UI/Button/Button';
 import { useStore } from '../../../../store';
-import { DiscountIcon } from '../../../../assets';
+import { DiscountIcon, Info2Icon } from '../../../../assets';
 import { getButtonInfoById } from '../../../../layout/root/api/getButtonInfoById';
 import { memo } from 'react';
 
@@ -72,7 +72,7 @@ const GameOfDay = memo(function GameOfDay() {
 					</h3>
 					{buttonInfoIsSuccess && (
 						<Button onClick={handleOpenInfo} className={cls.infoBtn}>
-							{buttonInfo.title}
+							<Info2Icon width={22} height={22} />
 						</Button>
 					)}
 					{buttonInfoIsError && <p>Произошла ошибка при загрузке кнопки</p>}

@@ -181,6 +181,7 @@ const AllGames = memo(function AllGames({
 					imgSrc={game.image}
 					lang={game.voice_acting}
 					in_game_pass={game.in_game_pass}
+					isDayGame
 				/>
 			</div>
 		));

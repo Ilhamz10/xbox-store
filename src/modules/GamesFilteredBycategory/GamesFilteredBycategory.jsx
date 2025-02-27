@@ -126,6 +126,7 @@ const GamesFilteredBycategory = ({ inBottomSheet, scrollContainerRef }) => {
 		content.current = allGames.current.map((game) => (
 			<div className={cls.gameCarCont} key={game.id}>
 				<MotionGameCard
+					isDayGame
 					ref={gameCardRef}
 					onClick={() => handleOpenGameInfoBottomSheet(game)}
 					game={game}
