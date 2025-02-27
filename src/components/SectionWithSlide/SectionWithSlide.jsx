@@ -62,7 +62,7 @@ const SectionWithSlide = ({
 					{slides.map(
 						(game) =>
 							game.id !== filterId && (
-								<SwiperSlide style={{ width: 200 }} key={game.id}>
+								<SwiperSlide style={{ width: 200, height: 250 }} key={game.id}>
 									<GameCard
 										release_date={game.release_date}
 										preOrder={game.pre_order}
