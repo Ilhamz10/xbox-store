@@ -23,7 +23,8 @@ export const UpButtons = () => {
 		categoryGamesCount,
 		activeSeries,
 		categoryBottomSheetIsOpen,
-		gamePassBottomSheetIsOpen
+		gamePassBottomSheetIsOpen,
+		searchBottomSheetIsOpen
 	} = useStore((state) => state);
 
 	useEffect(() => {
@@ -98,7 +99,7 @@ export const UpButtons = () => {
 				onClick={handleScrollToTop}
 				variants={variants[1]}
 				animate={
-					countButtonUpIsShown && !gameInfoBottomSheetIsOpen && !activeSeries.id ? 'up' : 'down'
+					countButtonUpIsShown && !gameInfoBottomSheetIsOpen && !activeSeries.id && !searchBottomSheetIsOpen ? 'up' : 'down'
 				}
 				className={cls.buttonUp}>
 				<AnimatePresence initial={false}>
