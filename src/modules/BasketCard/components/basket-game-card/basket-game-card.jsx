@@ -7,12 +7,19 @@ import { addGameToBasket } from '../../../../layout/footer/api/addGameToBasket';
 import { removeGameFromBasket } from '../../../../layout/footer/api/removeGameFromBasket';
 import { removeSubFromBasket } from '../../../../layout/footer/api/removeSubFromBasket';
 import { Icon } from '@iconify/react/dist/iconify.js';
+import { num_word } from '../../../../helpers';
 
 const gameType = {
-	subs: 'Подписки',
+	sub: 'Подписка',
 	rent: 'Аренда',
 	home: 'Домашка'
 }
+
+const accountType = {
+	new: 'На новый аккаунт',
+	old: 'На старый аккаунт',
+	rent: 'Аренда подписки'
+};
 
 export const BasketGameCard = ({
 	game,
@@ -120,6 +127,14 @@ export const BasketGameCard = ({
 							{game.is_home_sale ? gameType['home'] : gameType[game.type]}
 						</span>
 					</h3>
+
+					{game.type === 'sub' && (
+						<p className={cls.subInfo}>
+							{game.period}{' '}
+							{num_word(game.period, ['месяц', 'месяца', 'месяцев'])}{' '}
+							/ {accountType[game.sub_type]}
+						</p>
+					)}
 
 					<div className={cls.gamePriceCont}>
 						{game.subprice && game.subprice !== '0.00' ? (

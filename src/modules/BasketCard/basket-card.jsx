@@ -90,7 +90,7 @@ export const BasketCard = ({ adjustPosition }) => {
 						<BasketGameCard key={game.id} game={game} />
 					))}
 					{basketGames.subs.map((sub) => (
-						<BasketGameCard key={sub.id} game={{ type: 'sub', ...sub }} />
+						<BasketGameCard key={sub.id} game={{ ...sub, type: 'sub' }} />
 					))}
 					<div className={cls.priceCont}>
 						{/* {basketPrice !== basketDiscountPrice && (

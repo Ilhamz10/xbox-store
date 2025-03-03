@@ -12,7 +12,7 @@ export async function getAllGames(sortType, page, filterType) {
 	const response = await fetch(
 		`${
 			import.meta.env.VITE_API_URL
-		}/catalog/?${queries}limit=10&offset=${(page - 1) * 10}`
+		}/catalog/?${queries}limit=10&offset=${(page - 1) * 10}&type=rent`
 	);
 	const result = await response.json();
 

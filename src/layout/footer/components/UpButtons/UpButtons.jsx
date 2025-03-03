@@ -23,8 +23,9 @@ export const UpButtons = () => {
 		categoryGamesCount,
 		activeSeries,
 		categoryBottomSheetIsOpen,
-		gamePassBottomSheetIsOpen,
-		searchBottomSheetIsOpen
+		mainSubBottomSheetIsOpen,
+		searchBottomSheetIsOpen,
+		otherSubBottomSheetIsOpen
 	} = useStore((state) => state);
 
 	useEffect(() => {
@@ -44,7 +45,7 @@ export const UpButtons = () => {
 			up: {
 				y: '0%',
 				bottom:
-					(countButtonUpIsShown && !activeSeries.id) || gameInfoBottomSheetIsOpen || gamePassBottomSheetIsOpen ? '135px' : '85px',
+					(countButtonUpIsShown && !activeSeries.id) || gameInfoBottomSheetIsOpen || mainSubBottomSheetIsOpen || otherSubBottomSheetIsOpen ? '135px' : '85px',
 				opacity: XsIsOpen || basketBottomSheet ? '0' : '1',
 			},
 			down: {
