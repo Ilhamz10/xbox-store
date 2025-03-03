@@ -5,6 +5,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { checkoutBasket } from '../../api/checkoutBasket';
 import WebApp from '@twa-dev/sdk';
 import { addGameToBasket } from '../../api/addGameToBasket';
+import { addSubToBasket } from '../../api/addSubToBasket';
 
 const footerBtnsVariants = {
 	up: {
@@ -25,7 +26,8 @@ export const FooterBtns = () => {
 		gameInfoBottomSheetIsOpen,
 		basketGamesId,
 		isFromHomeSale,
-		gamePassBottomSheetIsOpen,
+		mainSubBottomSheetIsOpen,
+		otherSubBottomSheetIsOpen,
 		activeSub
 	} = useStore((state) => state);
 
@@ -59,12 +61,43 @@ export const FooterBtns = () => {
 		},
 	});
 
+	const { mutate: addSubToBasketMutate } = useMutation({
+		mutationFn: addSubToBasket,
+		onMutate: async ({ period_id }) => {
+			await queryClient.cancelQueries({ queryKey: ['create-basket'] });
+
+			const previousBasket = queryClient.getQueryData(['create-basket']);
+
+			queryClient.setQueryData(['create-basket'], (old) => ({
+				...old,
+				current_item_ids: [...old.current_item_ids, period_id],
+			}));
+
+			return { previousBasket };
+		},
+		onError: (_, __, context) => {
+			queryClient.setQueryData(['create-basket'], context.previousBasket);
+		},
+		onSettled: () => {
+			queryClient.invalidateQueries('create-basket');
+		},
+	})
+
 	const gameInBasket = basketGamesId.includes(
-		gamePassBottomSheetIsOpen ? activeSub.id : activeGame?.id
+		mainSubBottomSheetIsOpen ? activeSub.id : activeGame?.id
 	);
 
 	function handleAddGameToBasket() {
-		if (!gameInBasket && !gamePassBottomSheetIsOpen) {
+		if ((mainSubBottomSheetIsOpen || otherSubBottomSheetIsOpen) && !gameInBasket) {
+			WebApp.HapticFeedback.impactOccurred('light');
+			addSubToBasketMutate({
+				basket_id: basketId,
+				period_id: activeSub.id
+			});
+			return;
+		}
+
+		if (!gameInBasket) {
 			WebApp.HapticFeedback.impactOccurred('light');
 			addGameToBasketMutate({
 				product_id: activeGame.id,
@@ -90,14 +123,15 @@ export const FooterBtns = () => {
 					(productAddToCardIsVisiible &&
 					!basketBottomSheet &&
 					gameInfoBottomSheetIsOpen) ||
-					gamePassBottomSheetIsOpen
+					mainSubBottomSheetIsOpen ||
+					otherSubBottomSheetIsOpen
 						? 'up'
 						: 'down'
 				}
 				variants={footerBtnsVariants}
 				className={cls.footerBtns}>
 				<button onClick={handleAddGameToBasket} className={cls.addToCart}>
-					{gamePassBottomSheetIsOpen && !activeSub.duration_months
+					{(mainSubBottomSheetIsOpen || otherSubBottomSheetIsOpen) && !activeSub.duration_months
 						? 'Выберите срок подписки'
 						: gameInBasket
 						? 'Добавлено'

@@ -23,7 +23,7 @@
 
 .gameTitle {
 	font-size: 1rem;
-	line-height: 1.5rem;
+	line-height: 1rem;
 	font-weight: 600;
 }
 
@@ -35,7 +35,13 @@
 	fill: rgb(156 163 175);
 }
 
+.subInfo {
+	font-size: 0.8rem;
+	color: rgb(156 163 175);
+}
+
 .gamePriceCont {
+	margin-top: 5px;
 	display: flex;
 	gap: 0.25rem;
 }
