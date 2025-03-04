@@ -131,8 +131,8 @@ export const BasketGameCard = ({
 					{game.type === 'sub' && (
 						<p className={cls.subInfo}>
 							{game.period}{' '}
-							{num_word(game.period, ['месяц', 'месяца', 'месяцев'])}{' '}
-							/ {accountType[game.sub_type]}
+							{num_word(game.period, ['месяц', 'месяца', 'месяцев'])}
+							{accountType[game.sub_type] && ` / ${accountType[game.sub_type]}`}
 						</p>
 					)}
 
