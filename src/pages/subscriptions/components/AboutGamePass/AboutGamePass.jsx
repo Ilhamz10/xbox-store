@@ -113,7 +113,7 @@ export const AboutGamePass = ({ setBigImage }) => {
                      animate={{ height: 'auto' }}
                      className={cls.periods}>
                      {mainSubscription.types.length > 1 && (
-                        <h4>Выберите срок подписки:</h4>
+                        <h4>{mainSubscription.types[activeIndex].name}:</h4>
                      )}
                      {mainSubscription.types[activeIndex].periods.length > 1 && (
                         <Swiper
