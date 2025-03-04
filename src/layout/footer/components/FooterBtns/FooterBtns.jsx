@@ -123,19 +123,15 @@ export const FooterBtns = () => {
 					(productAddToCardIsVisiible &&
 					!basketBottomSheet &&
 					gameInfoBottomSheetIsOpen) ||
-					mainSubBottomSheetIsOpen ||
-					otherSubBottomSheetIsOpen
+					((mainSubBottomSheetIsOpen ||otherSubBottomSheetIsOpen)
+						&& activeSub.duration_months)
 						? 'up'
 						: 'down'
 				}
 				variants={footerBtnsVariants}
 				className={cls.footerBtns}>
 				<button onClick={handleAddGameToBasket} className={cls.addToCart}>
-					{(mainSubBottomSheetIsOpen || otherSubBottomSheetIsOpen) && !activeSub.duration_months
-						? 'Выберите срок подписки'
-						: gameInBasket
-						? 'Добавлено'
-						: 'Добавить в корзину'}
+					{gameInBasket ? 'Добавлено' : 'Добавить в корзину'}
 				</button>
 				{/* <button className={cls.likeBtn}>
 					<HeartIcon width={20} height={20} />
