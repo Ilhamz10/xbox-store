@@ -8,6 +8,7 @@ import { gamePassHeader } from '../../../../consts/game-pass-header';
 import { CustomBottomSheet } from '../../../../UI/BottomSheet/BottomSheet';
 import { AboutGamePass } from '../AboutGamePass/AboutGamePass';
 import cls from './MainSubModal.module.css';
+import { num_word } from '../../../../helpers'
 
 export const MainSubModal = ({ adjustPosition }) => {
    const [bigImage, setBigImage] = useState('');
@@ -114,6 +115,8 @@ export const MainSubModal = ({ adjustPosition }) => {
                   <div className={cls.gamePriceCont}>
                      {activeSub.price ? (
                         <p style={{ color: '#efd000' }} className={cls.price}>
+                           {activeSub.duration_months}{' '}
+                           {num_word(activeSub.duration_months, ['месяц', 'месяца', 'месяцев'])} -{' '}
                            {activeSub.price} ₽
                         </p>
                      ) : mainSubscription.subprice !== '0.00' ? (

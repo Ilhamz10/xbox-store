@@ -27,6 +27,7 @@
 	height: 72px;
 	object-fit: cover;
 	border-radius: 0.75rem;
+   aspect-ratio: 1 / 1;
 }
 
 .carousels {

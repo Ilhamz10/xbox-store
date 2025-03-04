@@ -25,7 +25,8 @@ export const UpButtons = () => {
 		categoryBottomSheetIsOpen,
 		mainSubBottomSheetIsOpen,
 		searchBottomSheetIsOpen,
-		otherSubBottomSheetIsOpen
+		otherSubBottomSheetIsOpen,
+		activeSub
 	} = useStore((state) => state);
 
 	useEffect(() => {
@@ -45,7 +46,7 @@ export const UpButtons = () => {
 			up: {
 				y: '0%',
 				bottom:
-					(countButtonUpIsShown && !activeSeries.id) || gameInfoBottomSheetIsOpen || mainSubBottomSheetIsOpen || otherSubBottomSheetIsOpen ? '135px' : '85px',
+					(countButtonUpIsShown && !activeSeries.id) || gameInfoBottomSheetIsOpen || ((mainSubBottomSheetIsOpen || otherSubBottomSheetIsOpen) && activeSub.duration_months) ? '135px' : '85px',
 				opacity: XsIsOpen || basketBottomSheet ? '0' : '1',
 			},
 			down: {

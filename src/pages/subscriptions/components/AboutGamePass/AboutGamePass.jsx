@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useQuery } from '@tanstack/react-query';
-import { Swiper, SwiperSlide } from 'swiper/react'
+import { Swiper, SwiperSlide } from 'swiper/react';
 
 import bg from '../../../../assets/imgs/duration-bg.jpg';
 import { num_word } from '../../../../helpers';
@@ -20,11 +20,14 @@ export const AboutGamePass = ({ setBigImage }) => {
       mainSubscription,
       setXsText,
    } = useStore(store => store);
-   const [activeIndex, setActiveIndex] = useState(mainSubscription.types.length <= 1 ? 0 : null);
+   const [activeIndex, setActiveIndex] = useState(
+      mainSubscription.types.length <= 1 ? 0 : null,
+   );
 
    const { data } = useQuery({
       queryKey: ['home-button-info'],
       queryFn: () => getButtonInfoById(6),
+      enabled: mainSubscription.title === 'Game Pass Ultimate'
    });
 
    function handleOpenClue(e) {
@@ -40,8 +43,28 @@ export const AboutGamePass = ({ setBigImage }) => {
       if (activeIndex === null || activeIndex !== index) setActiveSub({});
    }
 
+   function handleSetActiveSub(period) {
+      setActiveSub(
+         period.id === activeSub.id
+            ? {}
+            : {
+                 id: period.id,
+                 name: mainSubscription.types[activeIndex].name,
+                 duration_months: period.duration_months,
+                 price: period.period_price,
+              },
+      )
+   }
+
    useEffect(() => {
-      return () => { setActiveSub({}) };
+      if (
+         mainSubscription.types.length <= 1 &&
+         mainSubscription.types[0].periods.length <= 1
+      ) handleSetActiveSub(mainSubscription.types[0].periods[0])
+
+      return () => {
+         setActiveSub({});
+      };
    }, []);
 
    return (
@@ -58,11 +81,15 @@ export const AboutGamePass = ({ setBigImage }) => {
                <div className={cls.head}>
                   <div className={cls.titleHead}>
                      <h3>{mainSubscription.title}</h3>
-                     <button onClick={handleOpenClue}>
-                        <Info2Icon width={22} height={22} />
-                     </button>
+                     {mainSubscription.title === 'Game Pass Ultimate' && (
+                        <button onClick={handleOpenClue}>
+                           <Info2Icon width={22} height={22} />
+                        </button>
+                     )}
                   </div>
-                  <p className={cls.count}>Сейчас в подписке 456 игр</p>
+                  {mainSubscription.games_list_enabled && (
+                     <p className={cls.count}>Сейчас в подписке 456 игр</p>
+                  )}
                </div>
             </div>
 
@@ -89,50 +116,44 @@ export const AboutGamePass = ({ setBigImage }) => {
                      animate={{ height: 'auto' }}
                      className={cls.periods}>
                      {mainSubscription.types.length > 1 && (
-                        <h4>Выберите срок подписки:</h4>
+                        <h4>{mainSubscription.types[activeIndex].name}:</h4>
                      )}
-                     <Swiper
-                        nested
-                        slidesPerView={'auto'}
-                        style={{ marginTop: mainSubscription.types.length <= 1 ? 0 : 6.5 }}
-                     >
-                        {mainSubscription.types[activeIndex].periods.map(
-                           (period, i) => (
-                              <SwiperSlide
-                                 key={period.id}
-                                 className={cls.slide}
-                                 style={{ marginLeft: i !== 0 && 15 }}
-                              >
-                                 <div
-                                    className={`${cls.period} ${
-                                       period.id === activeSub.id && cls.active
-                                    }`}
-                                    onClick={() =>
-                                       setActiveSub(
-                                          period.id === activeSub.id
-                                             ? {}
-                                             : {
-                                                id: period.id,
-                                                name: mainSubscription.types[
-                                                   activeIndex
-                                                ].name,
-                                                duration_months:
-                                                   period.duration_months,
-                                                price: period.period_price,
-                                             },
-                                       )
-                                    }>
-                                    <img src={bg} alt="card-bg" />
-                                    <p>
-                                       {period.duration_months}{' '}
-                                       {num_word(period.duration_months, ['месяц', 'месяца', 'месяцев'])}
-                                    </p>
-                                    <span>{+period.period_price} ₽</span>
-                                 </div>
-                              </SwiperSlide>
-                           ),
-                        )}
-                     </Swiper>
+                     {mainSubscription.types[activeIndex].periods.length > 1 && (
+                        <Swiper
+                           nested
+                           slidesPerView={'auto'}
+                           style={{
+                              marginTop:
+                                 mainSubscription.types.length <= 1 ? 0 : 6.5,
+                           }}>
+                           {mainSubscription.types[activeIndex].periods.map(
+                              (period, i) => (
+                                 <SwiperSlide
+                                    key={period.id}
+                                    className={cls.slide}
+                                    style={{ marginLeft: i !== 0 && 15 }}>
+                                    <div
+                                       className={`${cls.period} ${
+                                          period.id === activeSub.id &&
+                                          cls.active
+                                       }`}
+                                       onClick={() => handleSetActiveSub(period)}>
+                                       <img src={bg} alt="card-bg" />
+                                       <p>
+                                          {period.duration_months}{' '}
+                                          {num_word(period.duration_months, [
+                                             'месяц',
+                                             'месяца',
+                                             'месяцев',
+                                          ])}
+                                       </p>
+                                       <span>{+period.period_price} ₽</span>
+                                    </div>
+                                 </SwiperSlide>
+                              ),
+                           )}
+                        </Swiper>
+                     )}
                   </motion.div>
                )}
             </AnimatePresence>
