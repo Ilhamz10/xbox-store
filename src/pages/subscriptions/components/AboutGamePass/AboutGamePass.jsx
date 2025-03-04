@@ -27,6 +27,7 @@ export const AboutGamePass = ({ setBigImage }) => {
    const { data } = useQuery({
       queryKey: ['home-button-info'],
       queryFn: () => getButtonInfoById(6),
+      enabled: mainSubscription.title === 'Game Pass Ultimate'
    });
 
    function handleOpenClue(e) {
@@ -80,9 +81,11 @@ export const AboutGamePass = ({ setBigImage }) => {
                <div className={cls.head}>
                   <div className={cls.titleHead}>
                      <h3>{mainSubscription.title}</h3>
-                     <button onClick={handleOpenClue}>
-                        <Info2Icon width={22} height={22} />
-                     </button>
+                     {mainSubscription.title === 'Game Pass Ultimate' && (
+                        <button onClick={handleOpenClue}>
+                           <Info2Icon width={22} height={22} />
+                        </button>
+                     )}
                   </div>
                   {mainSubscription.games_list_enabled && (
                      <p className={cls.count}>Сейчас в подписке 456 игр</p>
