@@ -6,11 +6,12 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import bg from '../../../../assets/imgs/duration-bg.jpg';
 import { num_word } from '../../../../helpers';
 import { getButtonInfoById } from '../../../../layout/root/api/getButtonInfoById';
+import SectionWithSlide from '../../../../components/SectionWithSlide/SectionWithSlide';
 import { useStore } from '../../../../store';
 import { Info2Icon } from '../../../../assets';
 import cls from './AboutGamePass.module.css';
 
-export const AboutGamePass = ({ setBigImage }) => {
+export const AboutGamePass = ({ setBigImage, similarSubs }) => {
    const {
       setXsTitle,
       setIsGamePass,
@@ -159,6 +160,13 @@ export const AboutGamePass = ({ setBigImage }) => {
             </AnimatePresence>
 
             <p className={cls.desc}>{mainSubscription.description}</p>
+         </div>
+
+         <div style={{ marginTop: '0.75rem' }}>
+            <SectionWithSlide
+               sectionTitle={'Похожие подписки'}
+               slides={similarSubs}
+            />
          </div>
       </main>
    );

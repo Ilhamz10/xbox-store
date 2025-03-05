@@ -1,9 +1,9 @@
 .gameInfoMain {
-	padding-top: 20px;
-	padding-bottom: 90px;
 	background: #232222;
 	transform: translateY(180px);
-   height: 100vh;
+   padding-top: 20px;
+   padding-bottom: 90px;
+   min-height: 100vh;
 }
 
 .header {
@@ -108,7 +108,7 @@
 }
 
 .desc {
-	margin-top: 20px;
+	margin-top: 20px !important;
    line-height: 1.15rem;
 	color: #fff;
    white-space: pre-wrap;

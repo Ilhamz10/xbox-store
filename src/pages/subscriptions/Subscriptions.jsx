@@ -62,6 +62,9 @@ const Subscriptions = () => {
 
 		content.current = (
 			<>
+				<MainSubModal adjustPosition={basketBottomSheet} similarSubs={data.results} />
+				<OtherSubModal adjustPosition={basketBottomSheet} similarSubs={data.results} />
+
 				<div className={`${cls.firstSub} wrapper`}>
 					<GameCard
 						isDayGame
@@ -118,9 +121,6 @@ const Subscriptions = () => {
 
 	return (
 		<main style={{ paddingBottom: '90px' }}>
-			<MainSubModal adjustPosition={basketBottomSheet} />
-			<OtherSubModal adjustPosition={basketBottomSheet} />
-
 			<section
 				style={{ background: `url(${subsMainBg}) center/cover no-repeat` }}
 				className={cls.subsMainBg}>

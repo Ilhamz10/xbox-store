@@ -9,7 +9,7 @@ import { CustomBottomSheet } from '../../../../UI/BottomSheet/BottomSheet';
 import { AboutGamePass } from '../AboutGamePass/AboutGamePass';
 import cls from './OtherSubModal.module.css';
 
-export const OtherSubModal = ({ adjustPosition }) => {
+export const OtherSubModal = ({ adjustPosition, similarSubs }) => {
    const [bigImage, setBigImage] = useState('');
    const [page, setPage] = useState(0);
    const {
@@ -163,6 +163,7 @@ export const OtherSubModal = ({ adjustPosition }) => {
                      >
                         <SwiperSlide>
                            <AboutGamePass
+                              similarSubs={similarSubs}
                               activeSub={activeSub}
                               setBigImage={setBigImage}
                               setActiveSub={setActiveSub}

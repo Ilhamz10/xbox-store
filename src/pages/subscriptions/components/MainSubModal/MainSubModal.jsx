@@ -10,7 +10,7 @@ import { AboutGamePass } from '../AboutGamePass/AboutGamePass';
 import cls from './MainSubModal.module.css';
 import { num_word } from '../../../../helpers'
 
-export const MainSubModal = ({ adjustPosition }) => {
+export const MainSubModal = ({ adjustPosition, similarSubs }) => {
    const [bigImage, setBigImage] = useState('');
    const [page, setPage] = useState(0);
    const {
@@ -173,6 +173,7 @@ export const MainSubModal = ({ adjustPosition }) => {
                         style={{ paddingBottom: 150 }}>
                         <SwiperSlide>
                            <AboutGamePass
+                              similarSubs={similarSubs}
                               activeSub={activeSub}
                               setBigImage={setBigImage}
                               setActiveSub={setActiveSub}
