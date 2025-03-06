@@ -75,11 +75,6 @@ export const AboutGamePass = ({ setBigImage }) => {
                <div className={cls.head}>
                   <div className={cls.titleHead}>
                      <h3>{mainSubscription.title}</h3>
-                     {mainSubscription.description !== '' && (
-                        <button onClick={e => handleOpenClue(e, mainSubscription.title, mainSubscription.description)}>
-                           <Info2Icon width={22} height={22} />
-                        </button>
-                     )}
                   </div>
                   {mainSubscription.games_list_enabled && (
                      <p className={cls.count}>Сейчас в подписке 456 игр</p>
