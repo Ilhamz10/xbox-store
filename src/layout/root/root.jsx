@@ -45,7 +45,8 @@ const Root = () => {
 		setBasketGamesId,
 		XsTitle,
 		isGamePass,
-		setIsGamePass
+		setIsGamePass,
+		setUser
 	} = useStore((state) => state);
 
 	// eslint-disable-next-line no-unused-vars
@@ -124,6 +125,7 @@ const Root = () => {
 				setOpenConsoleModal(true);
 			}
 			setIsAdmin(data.is_admin);
+			setUser(data);
 		}
 	}, [data, isSuccess, setIsAdmin]);
 

@@ -1,4 +1,6 @@
 export const userSlice = (set) => ({
+	user: {},
 	isAdmin: false,
-	setIsAdmin: (isAdmin) => set(() => ({ isAdmin })),
+	setUser: obj => set(() => ({ user: obj })),
+	setIsAdmin: isAdmin => set(() => ({ isAdmin })),
 });
