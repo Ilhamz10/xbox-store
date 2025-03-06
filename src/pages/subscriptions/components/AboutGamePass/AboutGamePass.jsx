@@ -24,16 +24,10 @@ export const AboutGamePass = ({ setBigImage }) => {
       mainSubscription.types.length <= 1 ? 0 : null,
    );
 
-   const { data } = useQuery({
-      queryKey: ['home-button-info'],
-      queryFn: () => getButtonInfoById(6),
-      enabled: mainSubscription.title === 'Game Pass Ultimate'
-   });
-
-   function handleOpenClue(e) {
+   function handleOpenClue(e, title, text) {
       e.stopPropagation();
-      setXsTitle(data.description);
-      setXsText(data.text);
+      setXsTitle(title);
+      setXsText(text);
       setIsGamePass(false);
       changeXsIsOpen(true);
    }
@@ -81,8 +75,8 @@ export const AboutGamePass = ({ setBigImage }) => {
                <div className={cls.head}>
                   <div className={cls.titleHead}>
                      <h3>{mainSubscription.title}</h3>
-                     {mainSubscription.title === 'Game Pass Ultimate' && (
-                        <button onClick={handleOpenClue}>
+                     {mainSubscription.description !== '' && (
+                        <button onClick={e => handleOpenClue(e, mainSubscription.title, mainSubscription.description)}>
                            <Info2Icon width={22} height={22} />
                         </button>
                      )}
@@ -116,7 +110,20 @@ export const AboutGamePass = ({ setBigImage }) => {
                      animate={{ height: 'auto' }}
                      className={cls.periods}>
                      {mainSubscription.types.length > 1 && (
-                        <h4>{mainSubscription.types[activeIndex].name}:</h4>
+                        <div className={cls.periodsHead}>
+                           <h4>{mainSubscription.types[activeIndex].name}</h4>
+                           {mainSubscription.types[activeIndex].description !== '' && (
+                              <button onClick={e =>
+                                 handleOpenClue(
+                                    e,
+                                    'Подсказка',
+                                    mainSubscription.types[activeIndex].description
+                                 )
+                              }>
+                                 <Info2Icon width={22} height={22} />
+                              </button>
+                           )}
+                        </div>
                      )}
                      {mainSubscription.types[activeIndex].periods.length > 1 && (
                         <Swiper

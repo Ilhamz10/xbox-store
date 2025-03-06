@@ -59,6 +59,12 @@
    overflow-y: hidden;
 }
 
+.periodsHead {
+   display: flex;
+   align-items: center;
+   gap: 8px;
+}
+
 .slide {
    width: fit-content !important;
 }
