@@ -18,7 +18,6 @@ export const OtherSubModal = ({ adjustPosition, similarSubs }) => {
       setOtherSubBottomSheetIsOpen,
       mainSubscription,
       activeSub,
-      setActiveSub,
    } = useStore(state => state);
 
    // REFS
