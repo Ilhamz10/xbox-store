@@ -134,7 +134,6 @@ const Root = () => {
 
 	return (
 		<>
-			<ToastContainer />
 			<ScrollToTop />
 			<img className='main-bg' src={MainBg} alt='Main bg' />
 			<Loading loading={loading} />
@@ -144,6 +143,7 @@ const Root = () => {
 			/>
 			<div style={{ opacity: 1 }} className='allContent'>
 				<Outlet />
+				<ToastContainer />
 				<Modal
 					isGamePass={isGamePass}
 					setIsGamePass={setIsGamePass}
