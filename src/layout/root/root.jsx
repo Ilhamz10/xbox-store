@@ -20,6 +20,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { getAndCreateBasket } from './api/getAndCreateBasket';
 import parse from 'html-react-parser';
 import { removeMessages } from './api/removeMessages';
+import { ToastContainer } from 'react-toastify'
 
 // const allContentVariants = {
 // 	isHidden: {
@@ -46,7 +47,9 @@ const Root = () => {
 		XsTitle,
 		isGamePass,
 		setIsGamePass,
-		setUser
+		setUser,
+		mainSubBottomSheetIsOpen,
+		otherSubBottomSheetIsOpen
 	} = useStore((state) => state);
 
 	// eslint-disable-next-line no-unused-vars
@@ -131,6 +134,7 @@ const Root = () => {
 
 	return (
 		<>
+			<ToastContainer />
 			<ScrollToTop />
 			<img className='main-bg' src={MainBg} alt='Main bg' />
 			<Loading loading={loading} />
@@ -148,7 +152,13 @@ const Root = () => {
 				>
 					<div className='xs-info'>
 						<h3 className='xs-title section-title'>{XsTitle}</h3>
-						<p>{parse(XsText)}</p>
+						<p
+						style={{
+							whiteSpace: (mainSubBottomSheetIsOpen || otherSubBottomSheetIsOpen) && 'pre-wrap'
+						}}
+						>
+							{parse(XsText)}
+						</p>
 					</div>
 				</Modal>
 				<BasketCard />
