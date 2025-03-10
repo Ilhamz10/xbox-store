@@ -164,6 +164,12 @@ export const AboutGamePass = ({ setBigImage, similarSubs, sub }) => {
                               ),
                            )}
                         </Swiper>
+
+                        {mainSubscription.types[activeIndex].additional_info !== '' && (
+                           <p className={cls.additionalInfo}>
+                              {mainSubscription.types[activeIndex].additional_info}
+                           </p>
+                        )}
                      </motion.div>
                   )}
             </AnimatePresence>

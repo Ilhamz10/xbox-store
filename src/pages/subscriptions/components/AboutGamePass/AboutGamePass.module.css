@@ -68,6 +68,11 @@
    width: fit-content !important;
 }
 
+.additionalInfo {
+   margin-top: 10px;
+   white-space: pre-wrap;
+}
+
 .period {
    width: fit-content;
    padding: 10px 30px;
