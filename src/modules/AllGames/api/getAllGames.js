@@ -1,4 +1,4 @@
-export async function getAllGames(sortType, page, filterType) {
+export async function getAllGames(sortType, page, filterType, limit = 10) {
 	let queries = '';
 
 	if (sortType) {
@@ -12,7 +12,7 @@ export async function getAllGames(sortType, page, filterType) {
 	const response = await fetch(
 		`${
 			import.meta.env.VITE_API_URL
-		}/catalog/?${queries}limit=10&offset=${(page - 1) * 10}&type=rent`
+		}/catalog/?${queries}limit=${limit}&offset=${(page - 1) * 10}&type=rent`
 	);
 	const result = await response.json();
 
