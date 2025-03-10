@@ -19,7 +19,6 @@ export const MainSubModal = ({ adjustPosition, similarSubs }) => {
       setMainSubBottomSheetIsOpen,
       mainSubscription,
       activeSub,
-      setActiveSub,
    } = useStore(state => state);
 
    // REFS
@@ -175,6 +174,7 @@ export const MainSubModal = ({ adjustPosition, similarSubs }) => {
                            <AboutGamePass
                               setBigImage={setBigImage}
                               similarSubs={similarSubs}
+                              sub={'main'}
                            />
                         </SwiperSlide>
                         {mainSubscription.games_list_enabled && (

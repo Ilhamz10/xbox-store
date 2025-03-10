@@ -164,6 +164,7 @@ export const OtherSubModal = ({ adjustPosition, similarSubs }) => {
                            <AboutGamePass
                               setBigImage={setBigImage}
                               similarSubs={similarSubs}
+                              sub={'other'}
                            />
                         </SwiperSlide>
                         {mainSubscription.games_list_enabled && (
