@@ -57,7 +57,7 @@ const SeriesGames = memo(function SeriesGames() {
 				spaceBetween={20}
 				slidesPerView={2.3}>
 				{copyOfGames.current.map((serie) => (
-					<SwiperSlide key={serie.id}>
+					<SwiperSlide style={{ minWidth: 200 }} key={serie.id}>
 						<GameCard
 							seriesCard={true}
 							onClick={() => handleOpenSeries(serie.id, serie.title)}
