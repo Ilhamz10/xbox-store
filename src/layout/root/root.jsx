@@ -49,7 +49,8 @@ const Root = () => {
 		setIsGamePass,
 		setUser,
 		mainSubBottomSheetIsOpen,
-		otherSubBottomSheetIsOpen
+		otherSubBottomSheetIsOpen,
+		setParentSubsIds
 	} = useStore((state) => state);
 
 	// eslint-disable-next-line no-unused-vars
@@ -66,6 +67,7 @@ const Root = () => {
 			setBasketId(basket.basket_id);
 			setBasketGamesCount(basket.items.length + basket.subs.length);
 			setBasketGamesId(basket.current_item_ids);
+			setParentSubsIds(basket.parent_subs_ids);
 		}
 	}, [
 		basketCreateIsSuccess,
@@ -141,9 +143,9 @@ const Root = () => {
 				openConsoleModal={openConsoleModal}
 				setOpenConsoleModal={setOpenConsoleModal}
 			/>
-			<div style={{ opacity: 1 }} className='allContent'>
+			<div style={{ opacity: 1, position: 'relative' }} className='allContent'>
 				<Outlet />
-				<ToastContainer />
+				<ToastContainer pauseOnHover={false} theme='dark' />
 				<Modal
 					isGamePass={isGamePass}
 					setIsGamePass={setIsGamePass}
