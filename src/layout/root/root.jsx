@@ -143,9 +143,8 @@ const Root = () => {
 				openConsoleModal={openConsoleModal}
 				setOpenConsoleModal={setOpenConsoleModal}
 			/>
-			<div style={{ opacity: 1, position: 'relative' }} className='allContent'>
+			<div style={{ opacity: 1 }} className='allContent'>
 				<Outlet />
-				<ToastContainer pauseOnHover={false} theme='dark' />
 				<Modal
 					isGamePass={isGamePass}
 					setIsGamePass={setIsGamePass}
@@ -166,6 +165,7 @@ const Root = () => {
 				<BasketCard />
 			</div>
 			<Footer />
+			<ToastContainer pauseOnHover={false} theme='dark' />
 		</>
 	);
 };
