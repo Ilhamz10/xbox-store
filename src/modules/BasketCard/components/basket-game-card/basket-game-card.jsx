@@ -83,8 +83,26 @@ export const BasketGameCard = ({
 
 	const { mutate: removeSubFromBasketMutate } = useMutation({
 		mutationFn: removeSubFromBasket,
-		onSuccess: () => {
-			queryClient.invalidateQueries('create-basket');
+		onMutate: async ({ period_id }) => {
+			await queryClient.cancelQueries({ queryKey: ['create-basket'] });
+			const previousBasket = queryClient.getQueryData(['create-basket']);
+
+			queryClient.setQueryData(['create-basket'], (old) => ({
+				...old,
+				amount: old.amount - +game.price,
+				subs: old.subs.filter((oldGame) => oldGame.id !== period_id),
+				current_item_ids: old.current_item_ids.filter(
+					(itemId) => itemId !== period_id
+				),
+			}));
+
+			return { previousBasket };
+		},
+		onError: (_, __, context) => {
+			queryClient.setQueryData(['create-basket'], context.previousBasket);
+		},
+		onSettled: () => {
+			queryClient.invalidateQueries(['create-basket']);
 		},
 	});
 
