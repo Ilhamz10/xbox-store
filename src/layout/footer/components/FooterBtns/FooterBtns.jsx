@@ -100,7 +100,8 @@ export const FooterBtns = () => {
 		if ((mainSubBottomSheetIsOpen || otherSubBottomSheetIsOpen) && !gameInBasket) {
 			WebApp.HapticFeedback.impactOccurred('light');
 
-			if (parentSubsIds.includes(activeSub.parent_id)) toast.success('Подписка заменена!');
+			if (parentSubsIds.includes(activeSub.parent_id))
+				toast.success('Подписка заменена!',  { autoClose: 2300 });
 
 			addSubToBasketMutate({
 				basket_id: basketId,
