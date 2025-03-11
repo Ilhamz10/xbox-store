@@ -55,16 +55,26 @@ const Subscriptions = () => {
    }, []);
 
    if (isSuccess) {
+      // SUBSCRIPTIONS DATA
       const ubisoftData = data.results.find(r => r.id === 10);
       const gamePassData = data.results.find(r => r.id === 4);
       const fortniteData = data.results.find(r => r.id === 8);
       const esoPlusData = data.results.find(r => r.id === 9);
       const eaPlayData = data.results.find(r => r.id === 7);
-
       const otherSubs = data.results.filter(r => ![4, 7, 8, 9, 10].includes(r.id));
+
+      // FINISH DATE CALCULATION
+      const finishDate = user.game_pass_subscribe.finish_date
+      const [day, month, year] = finishDate ? finishDate.split('.').map(Number) : [];
+      const dateObjFinishDate = new Date(year, month - 1, day);
+      const diff = dateObjFinishDate - new Date();
+      const remainDays = Math.ceil(diff / (1000 * 60 * 60 * 24));
 
       content.current = (
          <>
+            <MainSubModal adjustPosition={basketBottomSheet} similarSubs={data.results} />
+            <OtherSubModal adjustPosition={basketBottomSheet} similarSubs={data.results} />
+
             <section
                style={{
                   background: `url(${subsMainBg}) center/cover no-repeat`,
@@ -77,8 +87,8 @@ const Subscriptions = () => {
                      {user.game_pass_subscribe.status ? (
                         <p>
                            Ваша подписка Game Pass Ultimate закончится{' '}
-                           {finishDate.toLocaleDateString()}г через {remainDays}{' '}
-                           {num_word(remainDays, ['день', 'дня', 'дней'])}!
+                           {finishDate} через{' '}
+                           {remainDays} {num_word(remainDays, ["день", "дня", "дней"])}!
                         </p>
                      ) : (
                         <>
@@ -148,13 +158,8 @@ const Subscriptions = () => {
       );
    }
 
-   const finishDate = new Date(user.game_pass_subscribe.finish_date);
-   const remainDays = new Date().getDate() - finishDate.getDate();
-
    return (
       <main style={{ paddingBottom: '90px' }}>
-         <MainSubModal adjustPosition={basketBottomSheet} />
-         <OtherSubModal adjustPosition={basketBottomSheet} />
          {content.current}
       </main>
    );

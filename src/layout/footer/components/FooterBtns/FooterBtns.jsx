@@ -6,6 +6,7 @@ import { checkoutBasket } from '../../api/checkoutBasket';
 import WebApp from '@twa-dev/sdk';
 import { addGameToBasket } from '../../api/addGameToBasket';
 import { addSubToBasket } from '../../api/addSubToBasket';
+import { toast } from 'react-toastify'
 
 const footerBtnsVariants = {
 	up: {
@@ -28,7 +29,8 @@ export const FooterBtns = () => {
 		isFromHomeSale,
 		mainSubBottomSheetIsOpen,
 		otherSubBottomSheetIsOpen,
-		activeSub
+		activeSub,
+		parentSubsIds
 	} = useStore((state) => state);
 
 	const { mutate } = useMutation({
@@ -65,13 +67,20 @@ export const FooterBtns = () => {
 		mutationFn: addSubToBasket,
 		onMutate: async ({ period_id }) => {
 			await queryClient.cancelQueries({ queryKey: ['create-basket'] });
-
 			const previousBasket = queryClient.getQueryData(['create-basket']);
 
-			queryClient.setQueryData(['create-basket'], (old) => ({
-				...old,
-				current_item_ids: [...old.current_item_ids, period_id],
-			}));
+			queryClient.setQueryData(['create-basket'], (old) => {
+				const newBasket = {
+					...old,
+					current_item_ids: [...old.current_item_ids, period_id],
+					items: [...old.items]
+				};
+
+				if (!parentSubsIds.includes(activeSub.parent_id)) 
+					newBasket.items.push(activeSub);
+
+				return newBasket;
+			});
 
 			return { previousBasket };
 		},
@@ -79,17 +88,21 @@ export const FooterBtns = () => {
 			queryClient.setQueryData(['create-basket'], context.previousBasket);
 		},
 		onSettled: () => {
-			queryClient.invalidateQueries('create-basket');
+			queryClient.invalidateQueries(['create-basket']);
 		},
-	})
+	});
 
 	const gameInBasket = basketGamesId.includes(
-		mainSubBottomSheetIsOpen ? activeSub.id : activeGame?.id
+		mainSubBottomSheetIsOpen || otherSubBottomSheetIsOpen ? activeSub.id : activeGame?.id
 	);
 
 	function handleAddGameToBasket() {
 		if ((mainSubBottomSheetIsOpen || otherSubBottomSheetIsOpen) && !gameInBasket) {
 			WebApp.HapticFeedback.impactOccurred('light');
+
+			if (parentSubsIds.includes(activeSub.parent_id))
+				toast.success('Подписка заменена!',  { autoClose: 2300 });
+
 			addSubToBasketMutate({
 				basket_id: basketId,
 				period_id: activeSub.id

@@ -1,16 +1,15 @@
 import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { useQuery } from '@tanstack/react-query';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 import bg from '../../../../assets/imgs/duration-bg.jpg';
+import SectionWithSlide from '../../../../components/SectionWithSlide/SectionWithSlide';
 import { num_word } from '../../../../helpers';
-import { getButtonInfoById } from '../../../../layout/root/api/getButtonInfoById';
 import { useStore } from '../../../../store';
 import { Info2Icon } from '../../../../assets';
 import cls from './AboutGamePass.module.css';
 
-export const AboutGamePass = ({ setBigImage }) => {
+export const AboutGamePass = ({ setBigImage, similarSubs, sub }) => {
    const {
       setXsTitle,
       setIsGamePass,
@@ -46,15 +45,17 @@ export const AboutGamePass = ({ setBigImage }) => {
                  name: mainSubscription.types[activeIndex].name,
                  duration_months: period.duration_months,
                  price: period.period_price,
+                 parent_id: mainSubscription.id,
               },
-      )
+      );
    }
 
    useEffect(() => {
       if (
          mainSubscription.types.length <= 1 &&
          mainSubscription.types[0].periods.length <= 1
-      ) handleSetActiveSub(mainSubscription.types[0].periods[0])
+      )
+         handleSetActiveSub(mainSubscription.types[0].periods[0]);
 
       return () => {
          setActiveSub({});
@@ -75,11 +76,6 @@ export const AboutGamePass = ({ setBigImage }) => {
                <div className={cls.head}>
                   <div className={cls.titleHead}>
                      <h3>{mainSubscription.title}</h3>
-                     {mainSubscription.description !== '' && (
-                        <button onClick={e => handleOpenClue(e, mainSubscription.title, mainSubscription.description)}>
-                           <Info2Icon width={22} height={22} />
-                        </button>
-                     )}
                   </div>
                   {mainSubscription.games_list_enabled && (
                      <p className={cls.count}>Сейчас в подписке 456 игр</p>
@@ -103,29 +99,35 @@ export const AboutGamePass = ({ setBigImage }) => {
             )}
 
             <AnimatePresence>
-               {activeIndex !== null && mainSubscription.types.length > 0 && (
-                  <motion.div
-                     exit={{ height: 0 }}
-                     initial={{ height: 0 }}
-                     animate={{ height: 'auto' }}
-                     className={cls.periods}>
-                     {mainSubscription.types.length > 1 && (
-                        <div className={cls.periodsHead}>
-                           <h4>{mainSubscription.types[activeIndex].name}</h4>
-                           {mainSubscription.types[activeIndex].description !== '' && (
-                              <button onClick={e =>
-                                 handleOpenClue(
-                                    e,
-                                    'Подсказка',
-                                    mainSubscription.types[activeIndex].description
-                                 )
-                              }>
-                                 <Info2Icon width={22} height={22} />
-                              </button>
-                           )}
-                        </div>
-                     )}
-                     {mainSubscription.types[activeIndex].periods.length > 1 && (
+               {activeIndex !== null &&
+                  mainSubscription.types.length > 0 &&
+                  mainSubscription.types[activeIndex].periods.length > 1 && (
+                     <motion.div
+                        exit={{ height: 0 }}
+                        initial={{ height: 0 }}
+                        animate={{ height: 'auto' }}
+                        className={cls.periods}>
+                        {mainSubscription.types.length > 1 && (
+                           <div className={cls.periodsHead}>
+                              <h4>
+                                 {mainSubscription.types[activeIndex].name}
+                              </h4>
+                              {mainSubscription.types[activeIndex]
+                                 .description !== '' && (
+                                 <button
+                                    onClick={e =>
+                                       handleOpenClue(
+                                          e,
+                                          'Подсказка',
+                                          mainSubscription.types[activeIndex]
+                                             .description,
+                                       )
+                                    }>
+                                    <Info2Icon width={22} height={22} />
+                                 </button>
+                              )}
+                           </div>
+                        )}
                         <Swiper
                            nested
                            slidesPerView={'auto'}
@@ -144,7 +146,9 @@ export const AboutGamePass = ({ setBigImage }) => {
                                           period.id === activeSub.id &&
                                           cls.active
                                        }`}
-                                       onClick={() => handleSetActiveSub(period)}>
+                                       onClick={() =>
+                                          handleSetActiveSub(period)
+                                       }>
                                        <img src={bg} alt="card-bg" />
                                        <p>
                                           {period.duration_months}{' '}
@@ -160,12 +164,27 @@ export const AboutGamePass = ({ setBigImage }) => {
                               ),
                            )}
                         </Swiper>
-                     )}
-                  </motion.div>
-               )}
+
+                        {mainSubscription.types[activeIndex].additional_info !== '' && (
+                           <p className={cls.additionalInfo}>
+                              {mainSubscription.types[activeIndex].additional_info}
+                           </p>
+                        )}
+                     </motion.div>
+                  )}
             </AnimatePresence>
 
             <p className={cls.desc}>{mainSubscription.description}</p>
+         </div>
+
+         <div style={{ marginTop: 15 }}>
+            <SectionWithSlide
+               sectionTitle={'Похожие подписки'}
+               slides={similarSubs.filter(
+                  sub => sub.id !== mainSubscription.id,
+               )}
+               sub={sub}
+            />
          </div>
       </main>
    );

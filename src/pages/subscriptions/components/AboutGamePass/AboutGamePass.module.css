@@ -3,7 +3,6 @@
 	padding-bottom: 90px;
 	background: #232222;
 	transform: translateY(180px);
-   height: 100vh;
 }
 
 .header {
@@ -69,6 +68,14 @@
    width: fit-content !important;
 }
 
+.additionalInfo {
+   margin-top: 15px;
+   white-space: pre-wrap;
+   padding: 8px 13px;
+   border: 1px solid rgb(146, 146, 146);
+   border-radius: 0.75rem;
+}
+
 .period {
    width: fit-content;
    padding: 10px 30px;
@@ -114,7 +121,7 @@
 }
 
 .desc {
-	margin-top: 20px;
+	margin-top: 13px;
    line-height: 1.15rem;
 	color: #fff;
    white-space: pre-wrap;

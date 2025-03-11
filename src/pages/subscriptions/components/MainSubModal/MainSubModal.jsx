@@ -10,7 +10,7 @@ import { AboutGamePass } from '../AboutGamePass/AboutGamePass';
 import cls from './MainSubModal.module.css';
 import { num_word } from '../../../../helpers'
 
-export const MainSubModal = ({ adjustPosition }) => {
+export const MainSubModal = ({ adjustPosition, similarSubs }) => {
    const [bigImage, setBigImage] = useState('');
    const [page, setPage] = useState(0);
    const {
@@ -19,7 +19,6 @@ export const MainSubModal = ({ adjustPosition }) => {
       setMainSubBottomSheetIsOpen,
       mainSubscription,
       activeSub,
-      setActiveSub,
    } = useStore(state => state);
 
    // REFS
@@ -173,10 +172,9 @@ export const MainSubModal = ({ adjustPosition }) => {
                         style={{ paddingBottom: 150 }}>
                         <SwiperSlide>
                            <AboutGamePass
-                              activeSub={activeSub}
                               setBigImage={setBigImage}
-                              setActiveSub={setActiveSub}
-                              gamePassSubscription={mainSubscription}
+                              similarSubs={similarSubs}
+                              sub={'main'}
                            />
                         </SwiperSlide>
                         {mainSubscription.games_list_enabled && (

@@ -9,7 +9,7 @@ import { CustomBottomSheet } from '../../../../UI/BottomSheet/BottomSheet';
 import { AboutGamePass } from '../AboutGamePass/AboutGamePass';
 import cls from './OtherSubModal.module.css';
 
-export const OtherSubModal = ({ adjustPosition }) => {
+export const OtherSubModal = ({ adjustPosition, similarSubs }) => {
    const [bigImage, setBigImage] = useState('');
    const [page, setPage] = useState(0);
    const {
@@ -18,7 +18,6 @@ export const OtherSubModal = ({ adjustPosition }) => {
       setOtherSubBottomSheetIsOpen,
       mainSubscription,
       activeSub,
-      setActiveSub,
    } = useStore(state => state);
 
    // REFS
@@ -163,10 +162,9 @@ export const OtherSubModal = ({ adjustPosition }) => {
                      >
                         <SwiperSlide>
                            <AboutGamePass
-                              activeSub={activeSub}
                               setBigImage={setBigImage}
-                              setActiveSub={setActiveSub}
-                              gamePassSubscription={mainSubscription}
+                              similarSubs={similarSubs}
+                              sub={'other'}
                            />
                         </SwiperSlide>
                         {mainSubscription.games_list_enabled && (
