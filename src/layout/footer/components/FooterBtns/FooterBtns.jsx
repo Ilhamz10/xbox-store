@@ -17,6 +17,8 @@ const footerBtnsVariants = {
 	},
 };
 
+const UNIQ_TOAST_ID = "uniqToastId";
+
 export const FooterBtns = () => {
 	const queryClient = useQueryClient();
 	const {
@@ -100,8 +102,11 @@ export const FooterBtns = () => {
 		if ((mainSubBottomSheetIsOpen || otherSubBottomSheetIsOpen) && !gameInBasket) {
 			WebApp.HapticFeedback.impactOccurred('light');
 
-			if (parentSubsIds.includes(activeSub.parent_id))
-				toast.success('Подписка заменена!',  { autoClose: 2300 });
+			if (toast.isActive(UNIQ_TOAST_ID))
+				toast.update(UNIQ_TOAST_ID);
+			else if (parentSubsIds.includes(activeSub.parent_id))
+				toast.success('Подписка заменена!',  { autoClose: 2300, toastId: UNIQ_TOAST_ID });
+
 
 			addSubToBasketMutate({
 				basket_id: basketId,
