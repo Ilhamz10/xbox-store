@@ -17,6 +17,8 @@ const footerBtnsVariants = {
 	},
 };
 
+const UNIQ_TOAST_ID = "uniqToastId";
+
 export const FooterBtns = () => {
 	const queryClient = useQueryClient();
 	const {
@@ -28,9 +30,13 @@ export const FooterBtns = () => {
 		basketGamesId,
 		isFromHomeSale,
 		mainSubBottomSheetIsOpen,
-		otherSubBottomSheetIsOpen,
 		activeSub,
-		parentSubsIds
+		parentSubsIds,
+		isNewAcc,
+		setXsTitle,
+		setXsText,
+		setIsGamePass,
+		changeXsIsOpen,
 	} = useStore((state) => state);
 
 	const { mutate } = useMutation({
@@ -93,15 +99,25 @@ export const FooterBtns = () => {
 	});
 
 	const gameInBasket = basketGamesId.includes(
-		mainSubBottomSheetIsOpen || otherSubBottomSheetIsOpen ? activeSub.id : activeGame?.id
+		mainSubBottomSheetIsOpen ? activeSub.id : activeGame?.id
 	);
 
 	function handleAddGameToBasket() {
-		if ((mainSubBottomSheetIsOpen || otherSubBottomSheetIsOpen) && !gameInBasket) {
+		if (isNewAcc && !gameInBasket) {
+			setXsTitle('Создать новый аккаунт за вас?');
+			setXsText('');
+			setIsGamePass(false);
+			changeXsIsOpen(true);
+		}
+
+		if (mainSubBottomSheetIsOpen && !gameInBasket) {
 			WebApp.HapticFeedback.impactOccurred('light');
 
-			if (parentSubsIds.includes(activeSub.parent_id))
-				toast.success('Подписка заменена!',  { autoClose: 2300 });
+			if (toast.isActive(UNIQ_TOAST_ID))
+				toast.update(UNIQ_TOAST_ID);
+			else if (parentSubsIds.includes(activeSub.parent_id))
+				toast.success('Подписка заменена!',  { autoClose: 2300, toastId: UNIQ_TOAST_ID });
+
 
 			addSubToBasketMutate({
 				basket_id: basketId,
@@ -136,7 +152,7 @@ export const FooterBtns = () => {
 					(productAddToCardIsVisiible &&
 					!basketBottomSheet &&
 					gameInfoBottomSheetIsOpen) ||
-					((mainSubBottomSheetIsOpen ||otherSubBottomSheetIsOpen)
+					(mainSubBottomSheetIsOpen
 						&& activeSub.duration_months)
 						? 'up'
 						: 'down'

@@ -9,12 +9,11 @@ import eaPlayBg from '../../assets/imgs/ea-play-bg.webp';
 import fortniteBg from '../../assets/imgs/fortnite-bg.webp';
 import GameCard from '../../components/GameCard/GameCard';
 import { MainSubModal } from './components/MainSubModal/MainSubModal';
-import { OtherSubModal } from './components/OtherSubModal/OtherSubModal';
 import { getSubs } from './api/getSubs';
 import { HorizontalSub } from './components/HorizontalSub/HorizontalSub';
 import Button from '../../UI/Button/Button';
-import cls from './style.module.css';
 import { num_word } from '../../helpers';
+import cls from './style.module.css';
 
 const Subscriptions = () => {
    const content = useRef(null);
@@ -23,7 +22,6 @@ const Subscriptions = () => {
       basketBottomSheet,
       setMainSubscription,
       setMainSubBottomSheetIsOpen,
-      setOtherSubBottomSheetIsOpen,
       setActiveSub,
       setActiveGame,
       user,
@@ -34,10 +32,9 @@ const Subscriptions = () => {
       queryFn: getSubs,
    });
 
-   function handleOpenModal(data, isFeed) {
+   function handleOpenModal(data) {
       setMainSubscription(data);
-      if (isFeed) setOtherSubBottomSheetIsOpen(true);
-      else setMainSubBottomSheetIsOpen(true);
+      setMainSubBottomSheetIsOpen(true);
    }
 
    useEffect(() => {
@@ -73,7 +70,6 @@ const Subscriptions = () => {
       content.current = (
          <>
             <MainSubModal adjustPosition={basketBottomSheet} similarSubs={data.results} />
-            <OtherSubModal adjustPosition={basketBottomSheet} similarSubs={data.results} />
 
             <section
                style={{
@@ -84,22 +80,27 @@ const Subscriptions = () => {
                <div style={{ position: 'relative' }} className="wrapper">
                   <h3 className={`${cls.categoryTitle}`}>Подписки</h3>
                   <div className={cls.subInfo}>
+                     <div />
                      {user.game_pass_subscribe.status ? (
-                        <p>
-                           Ваша подписка Game Pass Ultimate закончится{' '}
-                           {finishDate} через{' '}
-                           {remainDays} {num_word(remainDays, ["день", "дня", "дней"])}!
-                        </p>
+                        <div>
+                           <h2>Game Pass Ultimate</h2>
+                           <div className={cls.dayOfExpire}>
+                              Закончится {day}.{month}.{year}
+                           </div>
+                        </div>
                      ) : (
-                        <>
-                           <p>Ваша подписка не найдена!</p>
+                        <div className={cls.subNotFound}>
+                           <h2>Game Pass Ultimate</h2>
+                           <div className={cls.dayOfExpire}>
+                              <p>Ваша подписка не найдена</p>
+                           </div>
                            <div className={cls.subscribe}>
-                              <Button>Добавить дату своей подписки</Button>
                               <Button onClick={() => handleOpenModal(gamePassData)}>
                                  Приобрести подписку Ultimate
                               </Button>
+                              <Button>Добавить дату своей подписки</Button>
                            </div>
-                        </>
+                        </div>
                      )}
                   </div>
                </div>

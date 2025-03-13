@@ -18,10 +18,9 @@ export const AboutGamePass = ({ setBigImage, similarSubs, sub }) => {
       setActiveSub,
       mainSubscription,
       setXsText,
+      setIsNewAcc,
    } = useStore(store => store);
-   const [activeIndex, setActiveIndex] = useState(
-      mainSubscription.types.length <= 1 ? 0 : null,
-   );
+   const [activeIndex, setActiveIndex] = useState(mainSubscription.types.length <= 1 ? 0 : null);
 
    function handleOpenClue(e, title, text) {
       e.stopPropagation();
@@ -32,8 +31,15 @@ export const AboutGamePass = ({ setBigImage, similarSubs, sub }) => {
    }
 
    function handleSetActive(index) {
+      setIsNewAcc(mainSubscription.types[index].name === 'На новый аккаунт');
       setActiveIndex(index == activeIndex ? null : index);
-      if (activeIndex === null || activeIndex !== index) setActiveSub({});
+
+      if (activeIndex === null) setActiveSub({});
+      if (activeIndex !== index && activeIndex !== null) {
+         setActiveIndex(null);
+         setActiveSub({});
+         setTimeout(() => setActiveIndex(index), 300);
+      }
    }
 
    function handleSetActiveSub(period) {
@@ -59,6 +65,7 @@ export const AboutGamePass = ({ setBigImage, similarSubs, sub }) => {
 
       return () => {
          setActiveSub({});
+         setIsNewAcc(false);
       };
    }, []);
 
@@ -69,7 +76,7 @@ export const AboutGamePass = ({ setBigImage, similarSubs, sub }) => {
                <img
                   src={mainSubscription.image}
                   alt="game-pass-image"
-                  fetchpriority="high"
+                  fetchPriority="high"
                   onClick={() => setBigImage(mainSubscription.image)}
                />
 
@@ -132,9 +139,9 @@ export const AboutGamePass = ({ setBigImage, similarSubs, sub }) => {
                            nested
                            slidesPerView={'auto'}
                            style={{
-                              marginTop:
-                                 mainSubscription.types.length <= 1 ? 0 : 6.5,
-                           }}>
+                              marginTop: mainSubscription.types.length <= 1 ? 0 : 6.5,
+                           }}
+                        >
                            {mainSubscription.types[activeIndex].periods.map(
                               (period, i) => (
                                  <SwiperSlide
@@ -167,7 +174,10 @@ export const AboutGamePass = ({ setBigImage, similarSubs, sub }) => {
 
                         {mainSubscription.types[activeIndex].additional_info !== '' && (
                            <p className={cls.additionalInfo}>
-                              {mainSubscription.types[activeIndex].additional_info}
+                              {
+                                 mainSubscription.types[activeIndex]
+                                    .additional_info
+                              }
                            </p>
                         )}
                      </motion.div>

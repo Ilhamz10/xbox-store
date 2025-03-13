@@ -12,7 +12,8 @@ import { num_word } from '../../../../helpers';
 const gameType = {
 	sub: 'Подписка',
 	rent: 'Аренда',
-	home: 'Домашка'
+	home: 'Домашка',
+	subscribe: 'Услуга'
 }
 
 const accountType = {

@@ -28,14 +28,13 @@ const SectionWithSlide = ({
 		setActiveGame,
 		setIsFromHomeSale,
 		setMainSubBottomSheetIsOpen,
-		setOtherSubBottomSheetIsOpen,
 		setMainSubscription
 	} = useStore(useShallow((state) => state));
 
 	function handleOpenGameInfoBottomSheet(game) {
 		if (sub) {
 			setMainSubscription(game);
-			sub === 'main' ? setOtherSubBottomSheetIsOpen(true) : setMainSubBottomSheetIsOpen(true);
+			setMainSubBottomSheetIsOpen(true);
 		} else {
 			setActiveGame(game);
 			setGameInfoBottomSheetIsOpen(true);

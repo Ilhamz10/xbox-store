@@ -49,8 +49,8 @@ const Root = () => {
 		setIsGamePass,
 		setUser,
 		mainSubBottomSheetIsOpen,
-		otherSubBottomSheetIsOpen,
-		setParentSubsIds
+		setParentSubsIds,
+		isNewAcc,
 	} = useStore((state) => state);
 
 	// eslint-disable-next-line no-unused-vars
@@ -151,15 +151,18 @@ const Root = () => {
 					isOpen={XsIsOpen}
 					setIsopen={changeXsIsOpen}
 				>
-					<div className='xs-info'>
-						<h3 className='xs-title section-title'>{XsTitle}</h3>
-						<p
-						style={{
-							whiteSpace: (mainSubBottomSheetIsOpen || otherSubBottomSheetIsOpen) && 'pre-wrap'
-						}}
+					<div className={`${!isNewAcc && 'xs-info'}`}>
+						<h3
+							style={{ marginBottom: XsText === '' ? 0 : 'inherit'}}
+							className='xs-title section-title'
 						>
-							{parse(XsText)}
-						</p>
+							{XsTitle}
+						</h3>
+						{XsText !== '' && (
+							<p style={{ whiteSpace: mainSubBottomSheetIsOpen && 'pre-wrap' }}>
+								{parse(XsText)}
+							</p>
+						)}
 					</div>
 				</Modal>
 				<BasketCard />
