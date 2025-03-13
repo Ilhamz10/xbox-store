@@ -49,7 +49,6 @@ const Root = () => {
 		setIsGamePass,
 		setUser,
 		mainSubBottomSheetIsOpen,
-		otherSubBottomSheetIsOpen,
 		setParentSubsIds,
 		isNewAcc,
 	} = useStore((state) => state);
@@ -160,11 +159,7 @@ const Root = () => {
 							{XsTitle}
 						</h3>
 						{XsText !== '' && (
-							<p
-							style={{
-								whiteSpace: (mainSubBottomSheetIsOpen || otherSubBottomSheetIsOpen) && 'pre-wrap'
-							}}
-							>
+							<p style={{ whiteSpace: mainSubBottomSheetIsOpen && 'pre-wrap' }}>
 								{parse(XsText)}
 							</p>
 						)}

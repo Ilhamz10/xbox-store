@@ -30,7 +30,6 @@ export const FooterBtns = () => {
 		basketGamesId,
 		isFromHomeSale,
 		mainSubBottomSheetIsOpen,
-		otherSubBottomSheetIsOpen,
 		activeSub,
 		parentSubsIds,
 		isNewAcc,
@@ -100,7 +99,7 @@ export const FooterBtns = () => {
 	});
 
 	const gameInBasket = basketGamesId.includes(
-		mainSubBottomSheetIsOpen || otherSubBottomSheetIsOpen ? activeSub.id : activeGame?.id
+		mainSubBottomSheetIsOpen ? activeSub.id : activeGame?.id
 	);
 
 	function handleAddGameToBasket() {
@@ -111,7 +110,7 @@ export const FooterBtns = () => {
 			changeXsIsOpen(true);
 		}
 
-		if ((mainSubBottomSheetIsOpen || otherSubBottomSheetIsOpen) && !gameInBasket) {
+		if (mainSubBottomSheetIsOpen && !gameInBasket) {
 			WebApp.HapticFeedback.impactOccurred('light');
 
 			if (toast.isActive(UNIQ_TOAST_ID))
@@ -153,7 +152,7 @@ export const FooterBtns = () => {
 					(productAddToCardIsVisiible &&
 					!basketBottomSheet &&
 					gameInfoBottomSheetIsOpen) ||
-					((mainSubBottomSheetIsOpen || otherSubBottomSheetIsOpen)
+					(mainSubBottomSheetIsOpen
 						&& activeSub.duration_months)
 						? 'up'
 						: 'down'
