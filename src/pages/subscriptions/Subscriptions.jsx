@@ -80,22 +80,27 @@ const Subscriptions = () => {
                <div style={{ position: 'relative' }} className="wrapper">
                   <h3 className={`${cls.categoryTitle}`}>Подписки</h3>
                   <div className={cls.subInfo}>
+                     <div />
                      {user.game_pass_subscribe.status ? (
-                        <p>
-                           Ваша подписка Game Pass Ultimate закончится{' '}
-                           {finishDate} через{' '}
-                           {remainDays} {num_word(remainDays, ["день", "дня", "дней"])}!
-                        </p>
+                        <div>
+                           <h2>Game Pass Ultimate</h2>
+                           <div className={cls.dayOfExpire}>
+                              Закончится {day}.{month}.{year}
+                           </div>
+                        </div>
                      ) : (
-                        <>
-                           <p>Ваша подписка не найдена!</p>
+                        <div className={cls.subNotFound}>
+                           <h2>Game Pass Ultimate</h2>
+                           <div className={cls.dayOfExpire}>
+                              <p>Ваша подписка не найдена</p>
+                           </div>
                            <div className={cls.subscribe}>
-                              <Button>Добавить дату своей подписки</Button>
                               <Button onClick={() => handleOpenModal(gamePassData)}>
                                  Приобрести подписку Ultimate
                               </Button>
+                              <Button>Добавить дату своей подписки</Button>
                            </div>
-                        </>
+                        </div>
                      )}
                   </div>
                </div>
