@@ -32,7 +32,12 @@ export const FooterBtns = () => {
 		mainSubBottomSheetIsOpen,
 		otherSubBottomSheetIsOpen,
 		activeSub,
-		parentSubsIds
+		parentSubsIds,
+		isNewAcc,
+		setXsTitle,
+		setXsText,
+		setIsGamePass,
+		changeXsIsOpen,
 	} = useStore((state) => state);
 
 	const { mutate } = useMutation({
@@ -99,6 +104,13 @@ export const FooterBtns = () => {
 	);
 
 	function handleAddGameToBasket() {
+		if (isNewAcc && !gameInBasket) {
+			setXsTitle('Создать новый аккаунт за вас?');
+			setXsText('');
+			setIsGamePass(false);
+			changeXsIsOpen(true);
+		}
+
 		if ((mainSubBottomSheetIsOpen || otherSubBottomSheetIsOpen) && !gameInBasket) {
 			WebApp.HapticFeedback.impactOccurred('light');
 
@@ -141,7 +153,7 @@ export const FooterBtns = () => {
 					(productAddToCardIsVisiible &&
 					!basketBottomSheet &&
 					gameInfoBottomSheetIsOpen) ||
-					((mainSubBottomSheetIsOpen ||otherSubBottomSheetIsOpen)
+					((mainSubBottomSheetIsOpen || otherSubBottomSheetIsOpen)
 						&& activeSub.duration_months)
 						? 'up'
 						: 'down'

@@ -9,10 +9,30 @@
 
 .modal {
 	position: fixed;
-	bottom: 82px;
 	left: 50%;
-	transform: translateX(-50%);
+	transform: translate(-50%, -50%);
 	z-index: 1000;
+	bottom: 80px;
+	top: auto;
+}
+
+.newAccModal {
+	top: 40%;
+	bottom: 50%;
+}
+
+.modalButtons {
+	margin-top: 10px;
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+}
+
+.modalButtons button {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	background: rgb(59, 69, 86);
 }
 
 .closeModalBtn {

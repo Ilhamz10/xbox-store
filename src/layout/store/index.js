@@ -17,6 +17,8 @@ export const layoutSlice = set => ({
    isFromHomeSale: false,
    isFromGamePass: false,
    XsTitle: 'Подсказка',
+   isNewAcc: false,
+   setIsNewAcc: bool => set(() => ({ isNewAcc: bool })),
    setActiveSeries: obj => set(() => ({ activeSeries: obj })),
    setCategoryBottomSheetObj: obj => set(() => ({ categoryBottomSheetObj: obj })),
    setCategoriesHeight: height => set(() => ({ categoriesHeight: height })),
