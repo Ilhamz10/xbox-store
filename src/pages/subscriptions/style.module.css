@@ -13,6 +13,7 @@
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+	gap: 10px;
 }
 
 .subInfo > p, .subNotFound > div >p {
@@ -20,15 +21,53 @@
 	text-align: center;
 }
 
-.subNotFound {
-	width: 60%;
+.xboxLabel {
+	position: relative;
+	width: 130px;
+	height: 120px;
+}
+
+.xboxLabel > img {
+	width: 100%;
+	height: 100%;
+}
+
+.remainDays {
+	position: absolute;
+	top: 45%;
+	left: 57%;
+	transform: translate(-50%, -50%);
+}
+
+.remainDays > p {
+	font-size: 2rem;
+	font-weight: 600;
+	text-align: center;
+	line-height: 1.7rem;
+}
+
+.remainDays > p > span {
+	color: #fff;
+	font-size: 1.3rem;
 }
 
 .dayOfExpire {
 	margin-top: 10px;
 	padding: 12px 0;
 	width: 100%;
-	background-color: #000;
+	background: rgba(255 255 255 / 0.05);
+	border: 1px solid rgba(255 255 255 / 0.05);
+	border-radius: 8px;
+	backdrop-filter: blur(8px);
+	text-align: center;
+}
+
+.subNotFound {
+	width: 60%;
+}
+
+.gamePassTitle {
+	text-align: center;
 }
 
 .subscribe {
@@ -39,8 +78,13 @@
 
 .subscribe > button {
 	white-space: unset;
+	background-color: rgb(55 65 81 / 0.45);
 	font-size: 0.6rem;
 	padding: 5px 8px;
+
+	width: 50%;
+	display: flex;
+	justify-content: center;
 }
 
 .subsMainBg {
@@ -96,4 +140,42 @@
 
 .subs > div {
 	height: 250px;
+}
+
+@media (max-width: 420px) {
+	.xboxLabel {
+		width: 115px;
+		height: 100px;
+	}
+
+	.remainDays > p {
+		font-size: 1.4rem;
+		line-height: 1.35rem;
+	}
+
+	.remainDays > p > span {
+		font-size: 1.1rem;
+	}
+
+	.gamePassTitle {
+		font-size: 1.2rem;
+	}
+
+	.dayOfExpire {
+		font-size: 0.8rem;
+	}
+
+	.subscribe {
+		margin-top: 10px;
+	}
+
+	.subscribe > button {
+		font-size: 0.55rem;
+	}
+}
+
+@media (max-width: 340px) {
+	.gamePassTitle {
+		font-size: 1rem;
+	}
 }

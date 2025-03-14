@@ -7,6 +7,9 @@ import ubisoftBg from '../../assets/imgs/ubisoft-bg.jpg';
 import esoPlusBg from '../../assets/imgs/eso-plus-bg.webp';
 import eaPlayBg from '../../assets/imgs/ea-play-bg.webp';
 import fortniteBg from '../../assets/imgs/fortnite-bg.webp';
+import redXbox from '../../assets/imgs/red-xbox.webp';
+import yellowXbox from '../../assets/imgs/yellow-xbox.webp';
+import greenXbox from '../../assets/imgs/green-xbox.webp';
 import GameCard from '../../components/GameCard/GameCard';
 import { MainSubModal } from './components/MainSubModal/MainSubModal';
 import { getSubs } from './api/getSubs';
@@ -65,7 +68,15 @@ const Subscriptions = () => {
       const [day, month, year] = finishDate ? finishDate.split('.').map(Number) : [];
       const dateObjFinishDate = new Date(year, month - 1, day);
       const diff = dateObjFinishDate - new Date();
-      const remainDays = Math.ceil(diff / (1000 * 60 * 60 * 24));
+      const remainDays = Number.isNaN(diff) ? 0 : Math.ceil(diff / (1000 * 60 * 60 * 24));
+
+      const getSettings = () => {
+         if (remainDays <= 10) return { image: redXbox, color: '#d02900' };
+         else if (remainDays < 30) return { image: yellowXbox, color: '#c3be00' };
+         else return { image: greenXbox, color: '#018808' };
+      };
+
+      const { image, color } = getSettings();
 
       content.current = (
          <>
@@ -80,17 +91,27 @@ const Subscriptions = () => {
                <div style={{ position: 'relative' }} className="wrapper">
                   <h3 className={`${cls.categoryTitle}`}>Подписки</h3>
                   <div className={cls.subInfo}>
-                     <div />
+                     <div className={cls.xboxLabel}>
+                        <img src={image} alt="xbox" />
+                        <div className={cls.remainDays}>
+                           <p style={{ color }}>
+                              {remainDays}
+                              <br />
+                              <span>{num_word(remainDays, ['День', 'Дня', 'Дней'])}</span>
+                           </p>
+                        </div>
+                     </div>
+
                      {user.game_pass_subscribe.status ? (
                         <div>
-                           <h2>Game Pass Ultimate</h2>
+                           <h2 className={cls.gamePassTitle}>Game Pass Ultimate</h2>
                            <div className={cls.dayOfExpire}>
-                              Закончится {day}.{month}.{year}
+                              <p>Закончится {finishDate}</p> 
                            </div>
                         </div>
                      ) : (
                         <div className={cls.subNotFound}>
-                           <h2>Game Pass Ultimate</h2>
+                           <h2 className={cls.gamePassTitle}>Game Pass Ultimate</h2>
                            <div className={cls.dayOfExpire}>
                               <p>Ваша подписка не найдена</p>
                            </div>
