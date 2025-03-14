@@ -98,14 +98,13 @@ export const FooterBtns = () => {
 		},
 	});
 
-	const gameInBasket = basketGamesId.includes(
-		mainSubBottomSheetIsOpen ? activeSub.id : activeGame?.id
-	);
+	const serviceInBasket = basketGamesId.includes(299);
+	const gameInBasket = basketGamesId.includes(mainSubBottomSheetIsOpen ? activeSub.id : activeGame?.id);
 
 	function handleAddGameToBasket() {
-		if (isNewAcc && !gameInBasket) {
-			setXsTitle('Создать новый аккаунт за вас?');
-			setXsText('');
+		if (isNewAcc && !gameInBasket && !serviceInBasket) {
+			setXsTitle('Дополнительная услуга');
+			setXsText('Создать новую учетную запись Xbox за вас?');
 			setIsGamePass(false);
 			changeXsIsOpen(true);
 		}

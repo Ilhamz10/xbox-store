@@ -1,11 +1,13 @@
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { createPortal } from 'react-dom';
-import cls from './modal.module.css';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { useStore } from '../../store';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+
 import { addGameToBasket } from '../../layout/footer/api/addGameToBasket';
+import { useStore } from '../../store';
+import { NewAccIcon } from '../../assets';
 import Button from '../Button/Button';
+import cls from './modal.module.css';
 
 export const Modal = ({
    children,
@@ -16,7 +18,7 @@ export const Modal = ({
    setIsGamePass,
 }) => {
    const queryClient = useQueryClient();
-   const { isNewAcc, basketId, basketGamesId } = useStore(state => state);
+   const { isNewAcc, basketId, basketGamesId, XsTitle, XsText } = useStore(state => state);
 
    const { mutate } = useMutation({
       mutationFn: addGameToBasket,
@@ -109,18 +111,32 @@ export const Modal = ({
                      className={`wrapper ${cls.modal} ${
                         isNewAcc && cls.newAccModal
                      } ${className}`}>
-                     {!isNewAcc && children}
                      {isNewAcc ? (
-                        <div className="xs-info">
-                           {children}
+                        <div
+                           style={{
+                              display: 'flex',
+                              flexDirection: 'column',
+                              alignItems: 'center'
+                           }}
+                           className="xs-info"
+                        >
+                           <h3 className="xs-title section-title">{XsTitle}</h3>
+                           <hr className={cls.hr} />
+                           <NewAccIcon width={85} height={85} />
+                           <p style={{ textAlign: 'center', marginTop: 10 }}>{XsText}</p>
 
                            <div className={cls.modalButtons}>
-                              <Button onClick={handleCreateNewAcc}>Создать</Button>
-                              <Button onClick={handleClose}>Я сам создам</Button>
+                              <Button onClick={handleCreateNewAcc}>
+                                 Создать
+                              </Button>
+                              <Button onClick={handleClose}>
+                                 Я сам создам
+                              </Button>
                            </div>
                         </div>
                      ) : (
                         <>
+                           {children}
                            {isGamePass && (
                               <Link
                                  to="/subscriptions"
