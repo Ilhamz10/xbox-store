@@ -92,16 +92,20 @@ export const AboutGamePass = ({ setBigImage, similarSubs, sub }) => {
 
             {mainSubscription.types.length > 1 && (
                <div className={cls.carousels}>
-                  {mainSubscription.types.map((type, i) => (
-                     <div
-                        key={type.id}
-                        onClick={() => handleSetActive(i)}
-                        className={`${cls.card} ${
-                           i == activeIndex && cls.active
-                        }`}>
-                        <h3>{type.name}</h3>
-                     </div>
-                  ))}
+                  {mainSubscription.types.map((type, i) => {
+                     if (type.name === '-') return;
+
+                     return (
+                        <div
+                           key={type.id}
+                           onClick={() => handleSetActive(i)}
+                           className={`${cls.card} ${
+                              i == activeIndex && cls.active
+                           }`}>
+                           <h3>{type.name}</h3>
+                        </div>
+                     );
+                  })}
                </div>
             )}
 
