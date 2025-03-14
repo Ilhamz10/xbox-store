@@ -13,7 +13,7 @@ const gameType = {
 	sub: 'Подписка',
 	rent: 'Аренда',
 	home: 'Домашка',
-	subscribe: 'Услуга'
+	service: 'Услуга'
 }
 
 const accountType = {
