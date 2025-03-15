@@ -33,10 +33,7 @@ export const FooterBtns = () => {
 		activeSub,
 		parentSubsIds,
 		isNewAcc,
-		setXsTitle,
-		setXsText,
-		setIsGamePass,
-		changeXsIsOpen,
+		setIsNewAccOpen,
 	} = useStore((state) => state);
 
 	const { mutate } = useMutation({
@@ -102,12 +99,7 @@ export const FooterBtns = () => {
 	const gameInBasket = basketGamesId.includes(mainSubBottomSheetIsOpen ? activeSub.id : activeGame?.id);
 
 	function handleAddGameToBasket() {
-		if (isNewAcc && !gameInBasket && !serviceInBasket) {
-			setXsTitle('Дополнительная услуга');
-			setXsText('Создать новую учетную запись Xbox за вас?');
-			setIsGamePass(false);
-			changeXsIsOpen(true);
-		}
+		if (isNewAcc && !gameInBasket && !serviceInBasket) setIsNewAccOpen(true);
 
 		if (mainSubBottomSheetIsOpen && !gameInBasket) {
 			WebApp.HapticFeedback.impactOccurred('light');

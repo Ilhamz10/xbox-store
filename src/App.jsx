@@ -3,6 +3,7 @@ import { createHashRouter, RouterProvider } from 'react-router-dom';
 import 'swiper/css';
 import 'swiper/css/effect-coverflow';
 import 'swiper/css/navigation';
+import "react-datepicker/dist/react-datepicker.css";
 import Root from './layout/root/root';
 import { Account, RentGames, Search } from './pages';
 import { useEffect } from 'react';

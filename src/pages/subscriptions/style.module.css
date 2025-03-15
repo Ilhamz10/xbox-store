@@ -1,3 +1,52 @@
+/* NEW ACC MODAL */
+.accModalCont {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	position: relative;
+}
+
+.hr {
+	width: 100%;
+	border: 1px solid rgba(113, 113, 113, 0.351);
+	margin-bottom: 10px;
+}
+
+.modalButtons {
+	margin-top: 10px;
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+	width: 100%;
+}
+
+.modalButtons button {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	background: rgb(59, 69, 86);
+}
+/* ================== */
+
+.subCalendarModal {
+	width: 85% !important;
+}
+
+.datePicker {
+	margin-top: 10px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+}
+
+.warning {
+	margin-top: 6px;
+	font-size: 0.7rem;
+	color: rgb(229, 229, 229);
+	text-align: left;
+}
+
 .categoryTitle {
 	margin: 1rem 0;
 	font-size: 1.8rem;
@@ -7,7 +56,7 @@
 
 .subInfo {
 	position: absolute;
-	top: 70px;
+	top: 60px;
 	width: 100%;
 	border-radius: 15px;
 	display: flex;
@@ -16,15 +65,15 @@
 	gap: 10px;
 }
 
-.subInfo > p, .subNotFound > div >p {
+.subInfo > p, .subNotFound > div > p {
 	font-weight: 500;
 	text-align: center;
 }
 
 .xboxLabel {
 	position: relative;
-	width: 130px;
-	height: 120px;
+	width: 125px;
+	height: 110px;
 }
 
 .xboxLabel > img {
@@ -35,12 +84,12 @@
 .remainDays {
 	position: absolute;
 	top: 45%;
-	left: 57%;
+	left: 58%;
 	transform: translate(-50%, -50%);
 }
 
 .remainDays > p {
-	font-size: 2rem;
+	font-size: 1.8rem;
 	font-weight: 600;
 	text-align: center;
 	line-height: 1.7rem;
@@ -48,7 +97,7 @@
 
 .remainDays > p > span {
 	color: #fff;
-	font-size: 1.3rem;
+	font-size: 1.15rem;
 }
 
 .dayOfExpire {
@@ -66,6 +115,10 @@
 	width: 60%;
 }
 
+.subInfoItem, .subNotFound {
+	margin-right: 18px;
+}
+
 .gamePassTitle {
 	text-align: center;
 }
@@ -76,15 +129,22 @@
 	gap: 15px;
 }
 
-.subscribe > button {
+.subscribe > button, .extendBtn {
 	white-space: unset;
 	background-color: rgb(55 65 81 / 0.45);
-	font-size: 0.6rem;
+	font-size: 0.71rem;
 	padding: 5px 8px;
 
 	width: 50%;
 	display: flex;
 	justify-content: center;
+}
+
+.extendBtn {
+	font-size: 0.8rem;
+	width: 100%;
+	margin-top: 15px;
+	padding: 10px 8px;
 }
 
 .subsMainBg {
@@ -165,7 +225,7 @@
 		font-size: 0.8rem;
 	}
 
-	.subscribe {
+	.subscribe, .extendBtn {
 		margin-top: 10px;
 	}
 
@@ -179,3 +239,61 @@
 		font-size: 1rem;
 	}
 }
+
+:global(.react-datepicker) {
+	background-color: rgb(31 41 55) !important;
+	border: 1px solid rgb(75 85 99) !important;
+	border-radius: 0.5rem !important;
+	font-family: inherit !important;
+}
+
+:global(.react-datepicker__header) {
+	background-color: rgb(55 65 81) !important;
+	border-bottom: 1px solid rgb(75 85 99) !important;
+	border-top-left-radius: 0.5rem !important;
+	border-top-right-radius: 0.5rem !important;
+}
+
+:global(.react-datepicker__current-month),
+:global(.react-datepicker__day-name) {
+	color: #fff !important;
+}
+
+:global(.react-datepicker__day) {
+	color: #fff !important;
+}
+
+:global(.react-datepicker__day:hover) {
+	background-color: rgb(75 85 99) !important;
+}
+
+:global(.react-datepicker__day--selected) {
+	background-color: rgb(59 130 246) !important;
+}
+
+:global(.react-datepicker__day--keyboard-selected) {
+	background-color: rgb(59 130 246) !important;
+}
+
+:global(.react-datepicker__input-container input) {
+	background-color: rgb(31 41 55);
+	border: 1px solid rgb(75 85 99);
+	border-radius: 0.375rem;
+	color: #fff;
+	padding: 0.5rem;
+	width: 100%;
+	font-size: 0.875rem;
+	line-height: 1.25rem;
+	outline: none;
+}
+
+:global(.react-datepicker__input-container input:focus) {
+	border-color: rgb(59 130 246);
+	box-shadow: 0 0 0 1px rgb(59 130 246);
+}
+
+:global(.react-datepicker-popper) {
+	z-index: 99999 !important;
+	position: fixed !important;
+}
+

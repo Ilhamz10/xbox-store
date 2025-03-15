@@ -47,6 +47,7 @@ import XboxLoading from './icons/xbox-loading.svg?react';
 import Info2Icon from './icons/info2-icon.svg?react';
 import ArrowIcon from './icons/arrow-icon.svg?react';
 import NewAccIcon from './icons/new-acc-icon.svg?react';
+import SubCalendarIcon from './icons/sub-calendar-icon.svg?react';
 
 export {
 	GamePassIcon,
@@ -98,4 +99,5 @@ export {
 	Info2Icon,
 	ArrowIcon,
 	NewAccIcon,
+	SubCalendarIcon,
 };
