@@ -151,18 +151,13 @@ const Root = () => {
 					isOpen={XsIsOpen}
 					setIsopen={changeXsIsOpen}
 				>
-					<div className={`${!isNewAcc && 'xs-info'}`}>
-						<h3
-							style={{ marginBottom: XsText === '' ? 0 : 'inherit'}}
-							className='xs-title section-title'
-						>
+					<div className="xs-info">
+						<h3 className='xs-title section-title'>
 							{XsTitle}
 						</h3>
-						{XsText !== '' && (
-							<p style={{ whiteSpace: mainSubBottomSheetIsOpen && 'pre-wrap' }}>
-								{parse(XsText)}
-							</p>
-						)}
+						<p style={{ whiteSpace: mainSubBottomSheetIsOpen && 'pre-wrap' }}>
+							{parse(XsText)}
+						</p>
 					</div>
 				</Modal>
 				<BasketCard />

@@ -1,3 +1,26 @@
+/* NEW ACC MODAL */
+.hr {
+	width: 100%;
+	border: 1px solid rgba(113, 113, 113, 0.351);
+	margin-bottom: 10px;
+}
+
+.modalButtons {
+	margin-top: 10px;
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+	width: 100%;
+}
+
+.modalButtons button {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	background: rgb(59, 69, 86);
+}
+/* ================== */
+
 .categoryTitle {
 	margin: 1rem 0;
 	font-size: 1.8rem;
