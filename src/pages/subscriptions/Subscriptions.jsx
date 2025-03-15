@@ -1,5 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import DatePicker from 'react-datepicker';
+import ru from 'date-fns/locale/ru';
 
 import { useStore } from '../../store';
 import subsMainBg from '../../assets/imgs/gamepass-main-bg.jpg';
@@ -18,12 +20,14 @@ import Button from '../../UI/Button/Button';
 import { num_word } from '../../helpers';
 import { NewAccModal } from './components/NewAccModal/NewAccModal';
 import { addGameToBasket } from '../../layout/footer/api/addGameToBasket';
-import { NewAccIcon } from '../../assets';
+import { NewAccIcon, SubCalendarIcon } from '../../assets';
 import cls from './style.module.css';
 
 const Subscriptions = () => {
    const queryClient = useQueryClient();
    const content = useRef(null);
+   const [dateModalIsOpen, setDateModalIsOpen] = useState(false);
+   const [selectedDate, setSelectedDate] = useState(new Date());
    const {
       setLoading,
       basketBottomSheet,
@@ -79,6 +83,10 @@ const Subscriptions = () => {
       }
 
       setIsNewAccOpen(false);
+   };
+
+   const handleSaveDate = () => {
+      setDateModalIsOpen(false);
    };
 
    function handleOpenModal(data) {
@@ -138,13 +146,7 @@ const Subscriptions = () => {
                similarSubs={data.results}
             />
             <NewAccModal isOpen={isNewAccOpen} setIsOpen={setIsNewAccOpen}>
-               <div
-                  style={{
-                     display: 'flex',
-                     flexDirection: 'column',
-                     alignItems: 'center',
-                  }}
-                  className="xs-info">
+               <div className={`xs-info ${cls.accModalCont}`}>
                   <h3 className="xs-title section-title">Дополнительная услуга</h3>
                   <hr className={cls.hr} />
                   <NewAccIcon width={85} height={85} />
@@ -156,6 +158,46 @@ const Subscriptions = () => {
                      <Button onClick={handleCreateNewAcc}>Создать</Button>
                      <Button onClick={() => setIsNewAccOpen(false)}>
                         Я сам создам
+                     </Button>
+                  </div>
+               </div>
+            </NewAccModal>
+            <NewAccModal
+               className={cls.subCalendarModal}
+               isOpen={dateModalIsOpen}
+               setIsOpen={() => {}}
+            >
+               <div className={`xs-info ${cls.accModalCont}`}>
+                  <h3
+                     style={{ textWrap: 'balance', fontSize: '1.2rem' }}
+                     className="xs-title section-title"
+                  >
+                     Выберите дату окончания вашей подписки
+                  </h3>
+                  <hr className={cls.hr} />
+                  <SubCalendarIcon width={50} height={50} />
+
+                  <div className={cls.datePicker}>
+                     <DatePicker
+                        locale={ru}
+                        minDate={new Date()}
+                        dateFormat="dd.MM.yyyy"
+                        selected={selectedDate}
+                        onChange={setSelectedDate}
+                        maxDate={new Date(new Date().setFullYear(new Date().getFullYear() + 3))}
+                     />
+                     <p className={cls.warning}>
+                        🔔 Добавив данные о вашей подписке вы заблаговременно до окончания 
+                        ее получите уведомление что ваша подписка заканчивается!
+                     </p>
+                  </div>
+
+                  <div className={cls.modalButtons}>
+                     <Button onClick={handleSaveDate}>
+                        Сохранить
+                     </Button>
+                     <Button onClick={() => setDateModalIsOpen(false)}>
+                        Отмена
                      </Button>
                   </div>
                </div>
@@ -184,13 +226,21 @@ const Subscriptions = () => {
                      </div>
 
                      {user.game_pass_subscribe.status ? (
-                        <div>
+                        <div className={cls.subInfoItem}>
                            <h2 className={cls.gamePassTitle}>
                               Game Pass Ultimate
                            </h2>
                            <div className={cls.dayOfExpire}>
                               <p>Закончится {finishDate}</p>
                            </div>
+                           {remainDays < 30 && (
+                              <Button
+                                 className={cls.extendBtn}
+                                 onClick={() => handleOpenModal(gamePassData)}
+                              >
+                                 Продлить подписку
+                              </Button>
+                           )}
                         </div>
                      ) : (
                         <div className={cls.subNotFound}>
@@ -205,7 +255,9 @@ const Subscriptions = () => {
                                  onClick={() => handleOpenModal(gamePassData)}>
                                  Приобрести подписку Ultimate
                               </Button>
-                              <Button>Добавить дату своей подписки</Button>
+                              <Button onClick={() => setDateModalIsOpen(true)}>
+                                 Добавить дату своей подписки
+                              </Button>
                            </div>
                         </div>
                      )}
