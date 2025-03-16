@@ -10,7 +10,7 @@
 	-webkit-backdrop-filter: blur(4px);
 	backdrop-filter: blur(4px);
 	position: fixed;
-	z-index: 1000;
+	z-index: 998;
 	bottom: -5px;
 	top: auto;
 }

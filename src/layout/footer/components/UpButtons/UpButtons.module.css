@@ -41,7 +41,7 @@
 	place-content: center;
 	position: fixed;
 	right: 16px;
-	z-index: 1000;
+	z-index: 998;
 	background: rgb(55 65 81 / 0.8);
 	bottom: 0;
 	font-size: 13px !important;

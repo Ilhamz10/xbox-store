@@ -2,6 +2,8 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useRef, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import ru from 'date-fns/locale/ru';
+import WebApp from '@twa-dev/sdk';
+import { toast } from 'react-toastify';
 
 import { useStore } from '../../store';
 import subsMainBg from '../../assets/imgs/gamepass-main-bg.jpg';
@@ -20,14 +22,19 @@ import Button from '../../UI/Button/Button';
 import { num_word } from '../../helpers';
 import { NewAccModal } from './components/NewAccModal/NewAccModal';
 import { addGameToBasket } from '../../layout/footer/api/addGameToBasket';
-import { NewAccIcon, SubCalendarIcon } from '../../assets';
+import { NewAccIcon, SubCalendarIcon, EmailIcon, PasswordIcon } from '../../assets';
+import { saveClientData } from './api/saveClientData';
 import cls from './style.module.css';
+import { hashString } from '../../helpers/hashString';
 
 const Subscriptions = () => {
    const queryClient = useQueryClient();
    const content = useRef(null);
    const [dateModalIsOpen, setDateModalIsOpen] = useState(false);
+   const [microsoftModalIsOpen, setMicrosoftModalIsOpen] = useState(false);
    const [selectedDate, setSelectedDate] = useState(new Date());
+   const [login, setLogin] = useState('');
+   const [password, setPassword] = useState('');
    const {
       setLoading,
       basketBottomSheet,
@@ -46,7 +53,6 @@ const Subscriptions = () => {
       queryKey: ['subscriptions'],
       queryFn: getSubs,
    });
-
 
    const { mutate } = useMutation({
       mutationFn: addGameToBasket,
@@ -71,7 +77,28 @@ const Subscriptions = () => {
       },
    });
 
+   const { mutate: mutateSaveDate } = useMutation({
+      mutationFn: saveClientData,
+      onError: () => toast.error('Что-то пошло не так!'),
+      onSuccess: () => {
+         setDateModalIsOpen(false);
+         toast.success('Дата сохранена!');
+         queryClient.invalidateQueries('user-info');
+      },
+   });
+
+   const { mutate: mutateSaveMicrosoft } = useMutation({
+      mutationFn: saveClientData,
+      onError: () => toast.error('Что-то пошло не так!'),
+      onSuccess: () => {
+         setMicrosoftModalIsOpen(false);
+         toast.success('Данные сохранены!');
+      }
+   });
+
    const serviceInBasket = basketGamesId.includes(299);
+   const userId = WebApp?.initDataUnsafe?.user?.id || 1147564292;
+   const userToken = hashString(import.meta.env.VITE_AUTH_TOKEN + userId);
 
    const handleCreateNewAcc = () => {
       if (!serviceInBasket) {
@@ -85,13 +112,34 @@ const Subscriptions = () => {
       setIsNewAccOpen(false);
    };
 
-   const handleSaveDate = () => {
-      setDateModalIsOpen(false);
+   const handleSaveDate = async () => {
+      await mutateSaveDate({
+         id: userId,
+         token: await userToken,
+         game_pass_subscribe: {
+            status: true,
+            start_date: new Date().toLocaleDateString(),
+            finish_date: selectedDate.toLocaleDateString(),
+         },
+      });
    };
 
-   function handleOpenModal(data) {
+   const handleSaveMicrosoft = async () => {
+      mutateSaveMicrosoft({
+         id: userId,
+         token: await userToken,
+         microsoft_account: { login, password },
+      });
+   }
+
+   const handleOpenModal = data => {
       setMainSubscription(data);
       setMainSubBottomSheetIsOpen(true);
+   }
+
+   const handleCloseNewAccModal = () => {
+      setIsNewAccOpen(false);
+      setMicrosoftModalIsOpen(true);
    }
 
    useEffect(() => {
@@ -145,25 +193,30 @@ const Subscriptions = () => {
                adjustPosition={basketBottomSheet}
                similarSubs={data.results}
             />
-            <NewAccModal isOpen={isNewAccOpen} setIsOpen={setIsNewAccOpen}>
+            <NewAccModal
+               className={cls.accModal}
+               isOpen={isNewAccOpen}
+               setIsOpen={setIsNewAccOpen}
+            >
                <div className={`xs-info ${cls.accModalCont}`}>
                   <h3 className="xs-title section-title">Дополнительная услуга</h3>
                   <hr className={cls.hr} />
                   <NewAccIcon width={85} height={85} />
                   <p style={{ textAlign: 'center', marginTop: 10 }}>
-                     Создать новую учетную запись Xbox за вас?
+                     Создать новую учетную запись за вас?
                   </p>
 
                   <div className={cls.modalButtons}>
                      <Button onClick={handleCreateNewAcc}>Создать</Button>
-                     <Button onClick={() => setIsNewAccOpen(false)}>
-                        Я сам создам
+                     <Button onClick={handleCloseNewAccModal}>
+                        Сам создам
                      </Button>
                   </div>
                </div>
             </NewAccModal>
+
             <NewAccModal
-               className={cls.subCalendarModal}
+               className={cls.accModal}
                isOpen={dateModalIsOpen}
                setIsOpen={() => {}}
             >
@@ -180,10 +233,11 @@ const Subscriptions = () => {
                   <div className={cls.datePicker}>
                      <DatePicker
                         locale={ru}
-                        minDate={new Date()}
                         dateFormat="dd.MM.yyyy"
                         selected={selectedDate}
                         onChange={setSelectedDate}
+                        popperPlacement="top"
+                        minDate={new Date().setDate(new Date().getDate() + 5)}
                         maxDate={new Date(new Date().setFullYear(new Date().getFullYear() + 3))}
                      />
                      <p className={cls.warning}>
@@ -203,6 +257,65 @@ const Subscriptions = () => {
                </div>
             </NewAccModal>
 
+            <NewAccModal
+               className={cls.accModal}
+               isOpen={microsoftModalIsOpen}
+               setIsOpen={setMicrosoftModalIsOpen}
+            >
+               <div className={`xs-info ${cls.accModalCont}`}>
+                  <h3
+                     style={{ textWrap: 'balance', fontSize: '1.2rem' }}
+                     className="xs-title section-title"
+                  >
+                     Учетная запись Microsoft
+                  </h3>
+                  <hr className={cls.hr} />
+                  <NewAccIcon width={85} height={85} />
+
+                  <p style={{ textAlign: 'center', fontSize: '0.9rem' }} className={cls.warning}>
+                     👨‍💻 Укажите вашу учетную запись на которую будет совершена покупка!
+                  </p>
+
+                  <div className={cls.inputs}>
+                     <label>
+                        <div className={cls.inputLabel}>
+                           <EmailIcon width={18} height={18} />
+                           <p>Логин</p>
+                        </div>
+                        <input
+                           type="email"
+                           value={login}
+                           className={cls.input}
+                           placeholder='example@gmail.com'
+                           onChange={e => setLogin(e.target.value)}
+                        />
+                     </label>
+                     <label>
+                        <div className={cls.inputLabel}>
+                           <PasswordIcon width={18} height={18} />
+                           <p>Пароль</p>
+                        </div>
+                        <input
+                           type="password"
+                           value={password}
+                           className={cls.input}
+                           placeholder='Xboxrent2025'
+                           onChange={e => setPassword(e.target.value)}
+                        />
+                     </label>
+                  </div>
+
+                  <div className={cls.modalButtons}>
+                     <Button onClick={handleSaveMicrosoft}>
+                        Сохранить
+                     </Button>
+                     <Button onClick={() => setMicrosoftModalIsOpen(false)}>
+                        Закрыть
+                     </Button>
+                  </div>
+               </div>
+            </NewAccModal>
+
             <section
                style={{
                   background: `url(${subsMainBg}) center/cover no-repeat`,
@@ -211,7 +324,7 @@ const Subscriptions = () => {
                <div className={cls.backDrop} />
                <div style={{ position: 'relative' }} className="wrapper">
                   <h3 className={`${cls.categoryTitle}`}>Подписки</h3>
-                  <div className={cls.subInfo}>
+                  <div style={{ marginTop: remainDays >= 30 ? 13 : 0}} className={cls.subInfo}>
                      <div className={cls.xboxLabel}>
                         <img src={image} alt="xbox" />
                         <div className={cls.remainDays}>

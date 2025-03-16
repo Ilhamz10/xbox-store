@@ -1,4 +1,8 @@
 /* NEW ACC MODAL */
+.accModal {
+	width: 85% !important;
+}
+
 .accModalCont {
 	display: flex;
 	flex-direction: column;
@@ -28,8 +32,33 @@
 }
 /* ================== */
 
-.subCalendarModal {
-	width: 85% !important;
+.inputs {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+	width: 100%;
+	margin: 7.5px 0;
+}
+
+.input {
+	margin-top: 4px;
+	padding: 7px 10px;
+	color: rgb(156 163 175);
+	border: 1px solid rgb(75 85 99);
+	border-radius: 10px;
+	width: 100%;
+	-webkit-backdrop-filter: blur(4px) opacity(0.2);
+	backdrop-filter: blur(4px) opacity(0.2);
+	background-color: rgb(55 65 81 / 0.6);
+	font-size: 1.125rem;
+	line-height: 1.75rem;
+	outline: none;
+}
+
+.inputLabel {
+	display: flex;
+	align-items: center;
+	gap: 6px;
 }
 
 .datePicker {

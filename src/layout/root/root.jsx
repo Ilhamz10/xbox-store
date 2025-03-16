@@ -49,8 +49,7 @@ const Root = () => {
 		setIsGamePass,
 		setUser,
 		mainSubBottomSheetIsOpen,
-		setParentSubsIds,
-		isNewAcc,
+		setParentSubsIds
 	} = useStore((state) => state);
 
 	// eslint-disable-next-line no-unused-vars
@@ -163,7 +162,7 @@ const Root = () => {
 				<BasketCard />
 			</div>
 			<Footer />
-			<ToastContainer pauseOnHover={false} theme='dark' />
+			<ToastContainer pauseOnHover={false} theme='dark' autoClose={2300} />
 		</>
 	);
 };
