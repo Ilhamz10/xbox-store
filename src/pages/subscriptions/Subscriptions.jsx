@@ -22,8 +22,8 @@ import Button from '../../UI/Button/Button';
 import { num_word } from '../../helpers';
 import { NewAccModal } from './components/NewAccModal/NewAccModal';
 import { addGameToBasket } from '../../layout/footer/api/addGameToBasket';
-import { NewAccIcon, SubCalendarIcon } from '../../assets';
-import { saveDate } from './api/saveDate';
+import { NewAccIcon, SubCalendarIcon, EmailIcon, PasswordIcon } from '../../assets';
+import { saveClientData } from './api/saveClientData';
 import cls from './style.module.css';
 import { hashString } from '../../helpers/hashString';
 
@@ -31,7 +31,10 @@ const Subscriptions = () => {
    const queryClient = useQueryClient();
    const content = useRef(null);
    const [dateModalIsOpen, setDateModalIsOpen] = useState(false);
+   const [microsoftModalIsOpen, setMicrosoftModalIsOpen] = useState(false);
    const [selectedDate, setSelectedDate] = useState(new Date());
+   const [login, setLogin] = useState('');
+   const [password, setPassword] = useState('');
    const {
       setLoading,
       basketBottomSheet,
@@ -74,13 +77,28 @@ const Subscriptions = () => {
       },
    });
 
-   const { mutate: mutateSaveDate, isSuccess: isSaveDateSuccess } = useMutation({
-      mutationFn: saveDate,
-      onSuccess: () => { queryClient.invalidateQueries('user-info') },
-      onError: () => toast.error('Что-то пошло не так!', { autoClose: 2300 }),
+   const { mutate: mutateSaveDate } = useMutation({
+      mutationFn: saveClientData,
+      onError: () => toast.error('Что-то пошло не так!'),
+      onSuccess: () => {
+         setDateModalIsOpen(false);
+         toast.success('Дата сохранена!');
+         queryClient.invalidateQueries('user-info');
+      },
+   });
+
+   const { mutate: mutateSaveMicrosoft } = useMutation({
+      mutationFn: saveClientData,
+      onError: () => toast.error('Что-то пошло не так!'),
+      onSuccess: () => {
+         setMicrosoftModalIsOpen(false);
+         toast.success('Данные сохранены!');
+      }
    });
 
    const serviceInBasket = basketGamesId.includes(299);
+   const userId = WebApp?.initDataUnsafe?.user?.id || 1147564292;
+   const userToken = hashString(import.meta.env.VITE_AUTH_TOKEN + userId);
 
    const handleCreateNewAcc = () => {
       if (!serviceInBasket) {
@@ -95,26 +113,33 @@ const Subscriptions = () => {
    };
 
    const handleSaveDate = async () => {
-      const id = WebApp?.initDataUnsafe?.user?.id || 1147564292;
-      const token = await hashString(import.meta.env.VITE_AUTH_TOKEN + id);
-
       await mutateSaveDate({
-         id,
-         token,
-         status: true,
-         start_date: new Date().toLocaleDateString(),
-         finish_date: selectedDate.toLocaleDateString(),
+         id: userId,
+         token: await userToken,
+         game_pass_subscribe: {
+            status: true,
+            start_date: new Date().toLocaleDateString(),
+            finish_date: selectedDate.toLocaleDateString(),
+         },
       });
-
-      if (isSaveDateSuccess) {
-         toast.success('Дата сохранена!', { autoClose: 2300 });
-         setDateModalIsOpen(false);
-      }
    };
+
+   const handleSaveMicrosoft = async () => {
+      mutateSaveMicrosoft({
+         id: userId,
+         token: await userToken,
+         microsoft_account: { login, password },
+      });
+   }
 
    const handleOpenModal = data => {
       setMainSubscription(data);
       setMainSubBottomSheetIsOpen(true);
+   }
+
+   const handleCloseNewAccModal = () => {
+      setIsNewAccOpen(false);
+      setMicrosoftModalIsOpen(true);
    }
 
    useEffect(() => {
@@ -183,12 +208,13 @@ const Subscriptions = () => {
 
                   <div className={cls.modalButtons}>
                      <Button onClick={handleCreateNewAcc}>Создать</Button>
-                     <Button onClick={() => setIsNewAccOpen(false)}>
+                     <Button onClick={handleCloseNewAccModal}>
                         Сам создам
                      </Button>
                   </div>
                </div>
             </NewAccModal>
+
             <NewAccModal
                className={cls.accModal}
                isOpen={dateModalIsOpen}
@@ -226,6 +252,65 @@ const Subscriptions = () => {
                      </Button>
                      <Button onClick={() => setDateModalIsOpen(false)}>
                         Отмена
+                     </Button>
+                  </div>
+               </div>
+            </NewAccModal>
+
+            <NewAccModal
+               className={cls.accModal}
+               isOpen={microsoftModalIsOpen}
+               setIsOpen={setMicrosoftModalIsOpen}
+            >
+               <div className={`xs-info ${cls.accModalCont}`}>
+                  <h3
+                     style={{ textWrap: 'balance', fontSize: '1.2rem' }}
+                     className="xs-title section-title"
+                  >
+                     Учетная запись Microsoft
+                  </h3>
+                  <hr className={cls.hr} />
+                  <NewAccIcon width={85} height={85} />
+
+                  <p style={{ textAlign: 'center', fontSize: '0.9rem' }} className={cls.warning}>
+                     👨‍💻 Укажите вашу учетную запись на которую будет совершена покупка!
+                  </p>
+
+                  <div className={cls.inputs}>
+                     <label>
+                        <div className={cls.inputLabel}>
+                           <EmailIcon width={18} height={18} />
+                           <p>Логин</p>
+                        </div>
+                        <input
+                           type="email"
+                           value={login}
+                           className={cls.input}
+                           placeholder='example@gmail.com'
+                           onChange={e => setLogin(e.target.value)}
+                        />
+                     </label>
+                     <label>
+                        <div className={cls.inputLabel}>
+                           <PasswordIcon width={18} height={18} />
+                           <p>Пароль</p>
+                        </div>
+                        <input
+                           type="password"
+                           value={password}
+                           className={cls.input}
+                           placeholder='Xboxrent2025'
+                           onChange={e => setPassword(e.target.value)}
+                        />
+                     </label>
+                  </div>
+
+                  <div className={cls.modalButtons}>
+                     <Button onClick={handleSaveMicrosoft}>
+                        Сохранить
+                     </Button>
+                     <Button onClick={() => setMicrosoftModalIsOpen(false)}>
+                        Закрыть
                      </Button>
                   </div>
                </div>

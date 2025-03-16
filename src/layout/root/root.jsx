@@ -162,7 +162,7 @@ const Root = () => {
 				<BasketCard />
 			</div>
 			<Footer />
-			<ToastContainer pauseOnHover={false} theme='dark' />
+			<ToastContainer pauseOnHover={false} theme='dark' autoClose={2300} />
 		</>
 	);
 };

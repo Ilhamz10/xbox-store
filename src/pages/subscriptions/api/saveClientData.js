@@ -1,7 +1,7 @@
-export const saveDate = async ({ id, token, ...data }) => {
+export const saveClientData = async ({ id, token, ...data }) => {
    const response = await fetch(`${import.meta.env.VITE_API_URL}/clients/${id}/`, {
       method: 'POST',
-      body: JSON.stringify({ game_pass_subscribe: data }),
+      body: JSON.stringify(data),
       headers: {
          'x-client-hash': token,
          'Content-Type': 'application/json',
