@@ -145,25 +145,29 @@ const Subscriptions = () => {
                adjustPosition={basketBottomSheet}
                similarSubs={data.results}
             />
-            <NewAccModal isOpen={isNewAccOpen} setIsOpen={setIsNewAccOpen}>
+            <NewAccModal
+               className={cls.accModal}
+               isOpen={isNewAccOpen}
+               setIsOpen={setIsNewAccOpen}
+            >
                <div className={`xs-info ${cls.accModalCont}`}>
                   <h3 className="xs-title section-title">Дополнительная услуга</h3>
                   <hr className={cls.hr} />
                   <NewAccIcon width={85} height={85} />
                   <p style={{ textAlign: 'center', marginTop: 10 }}>
-                     Создать новую учетную запись Xbox за вас?
+                     Создать новую учетную запись за вас?
                   </p>
 
                   <div className={cls.modalButtons}>
                      <Button onClick={handleCreateNewAcc}>Создать</Button>
                      <Button onClick={() => setIsNewAccOpen(false)}>
-                        Я сам создам
+                        Сам создам
                      </Button>
                   </div>
                </div>
             </NewAccModal>
             <NewAccModal
-               className={cls.subCalendarModal}
+               className={cls.accModal}
                isOpen={dateModalIsOpen}
                setIsOpen={() => {}}
             >
