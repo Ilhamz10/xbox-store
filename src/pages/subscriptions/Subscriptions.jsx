@@ -2,6 +2,8 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useRef, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import ru from 'date-fns/locale/ru';
+import WebApp from '@twa-dev/sdk';
+import { toast } from 'react-toastify';
 
 import { useStore } from '../../store';
 import subsMainBg from '../../assets/imgs/gamepass-main-bg.jpg';
@@ -21,7 +23,9 @@ import { num_word } from '../../helpers';
 import { NewAccModal } from './components/NewAccModal/NewAccModal';
 import { addGameToBasket } from '../../layout/footer/api/addGameToBasket';
 import { NewAccIcon, SubCalendarIcon } from '../../assets';
+import { saveDate } from './api/saveDate';
 import cls from './style.module.css';
+import { hashString } from '../../helpers/hashString';
 
 const Subscriptions = () => {
    const queryClient = useQueryClient();
@@ -47,7 +51,6 @@ const Subscriptions = () => {
       queryFn: getSubs,
    });
 
-
    const { mutate } = useMutation({
       mutationFn: addGameToBasket,
       onMutate: async ({ product_id, game }) => {
@@ -71,6 +74,12 @@ const Subscriptions = () => {
       },
    });
 
+   const { mutate: mutateSaveDate, isSuccess: isSaveDateSuccess } = useMutation({
+      mutationFn: saveDate,
+      onSuccess: () => { queryClient.invalidateQueries('user-info') },
+      onError: () => toast.error('Что-то пошло не так!', { autoClose: 2300 }),
+   });
+
    const serviceInBasket = basketGamesId.includes(299);
 
    const handleCreateNewAcc = () => {
@@ -85,11 +94,25 @@ const Subscriptions = () => {
       setIsNewAccOpen(false);
    };
 
-   const handleSaveDate = () => {
-      setDateModalIsOpen(false);
+   const handleSaveDate = async () => {
+      const id = WebApp?.initDataUnsafe?.user?.id || 1147564292;
+      const token = await hashString(import.meta.env.VITE_AUTH_TOKEN + id);
+
+      await mutateSaveDate({
+         id,
+         token,
+         status: true,
+         start_date: new Date().toLocaleDateString(),
+         finish_date: selectedDate.toLocaleDateString(),
+      });
+
+      if (isSaveDateSuccess) {
+         toast.success('Дата сохранена!', { autoClose: 2300 });
+         setDateModalIsOpen(false);
+      }
    };
 
-   function handleOpenModal(data) {
+   const handleOpenModal = data => {
       setMainSubscription(data);
       setMainSubBottomSheetIsOpen(true);
    }
@@ -184,10 +207,11 @@ const Subscriptions = () => {
                   <div className={cls.datePicker}>
                      <DatePicker
                         locale={ru}
-                        minDate={new Date()}
                         dateFormat="dd.MM.yyyy"
                         selected={selectedDate}
                         onChange={setSelectedDate}
+                        popperPlacement="top"
+                        minDate={new Date().setDate(new Date().getDate() + 5)}
                         maxDate={new Date(new Date().setFullYear(new Date().getFullYear() + 3))}
                      />
                      <p className={cls.warning}>
@@ -215,7 +239,7 @@ const Subscriptions = () => {
                <div className={cls.backDrop} />
                <div style={{ position: 'relative' }} className="wrapper">
                   <h3 className={`${cls.categoryTitle}`}>Подписки</h3>
-                  <div className={cls.subInfo}>
+                  <div style={{ marginTop: remainDays >= 30 ? 13 : 0}} className={cls.subInfo}>
                      <div className={cls.xboxLabel}>
                         <img src={image} alt="xbox" />
                         <div className={cls.remainDays}>
