@@ -2,7 +2,7 @@ export async function getAllGames() {
 	const response = await fetch(
 		`${
 			import.meta.env.VITE_API_URL
-		}/catalog`
+		}/catalog?type=rent`
 	);
 	const result = await response.json();
 

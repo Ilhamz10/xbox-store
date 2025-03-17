@@ -1,5 +1,5 @@
 export async function getRecommendedGame() {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/products/on_sale_game/`);
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/products/on_sale_game?type=rent`);
 
     const result = await response.json();
 
