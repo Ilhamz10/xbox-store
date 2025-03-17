@@ -24,17 +24,23 @@ import { NewAccModal } from './components/NewAccModal/NewAccModal';
 import { addGameToBasket } from '../../layout/footer/api/addGameToBasket';
 import { NewAccIcon, SubCalendarIcon, EmailIcon, PasswordIcon } from '../../assets';
 import { saveClientData } from './api/saveClientData';
-import cls from './style.module.css';
 import { hashString } from '../../helpers/hashString';
+import { emailRegex } from '../../consts/regex/email.regex';
+import { passwordRegex } from '../../consts/regex/pass.regex'
+import { useDeleteSub } from '../../hooks/useDeleteSub';
+import cls from './style.module.css';
 
 const Subscriptions = () => {
    const queryClient = useQueryClient();
    const content = useRef(null);
    const [dateModalIsOpen, setDateModalIsOpen] = useState(false);
    const [microsoftModalIsOpen, setMicrosoftModalIsOpen] = useState(false);
-   const [selectedDate, setSelectedDate] = useState(new Date());
+   const [selectedDate, setSelectedDate] = useState();
    const [login, setLogin] = useState('');
    const [password, setPassword] = useState('');
+   const [loginError, setLoginError] = useState('');
+   const [passwordError, setPasswordError] = useState('');
+   const [isConfirmed, setIsConfirmed] = useState(false);
    const {
       setLoading,
       basketBottomSheet,
@@ -46,7 +52,9 @@ const Subscriptions = () => {
       isNewAccOpen,
       setIsNewAccOpen,
       basketId,
-      basketGamesId
+      basketGamesId,
+      setBasketBottomSheet,
+      activeSub
    } = useStore(state => state);
 
    const { data, isSuccess, isLoading } = useQuery({
@@ -81,9 +89,10 @@ const Subscriptions = () => {
       mutationFn: saveClientData,
       onError: () => toast.error('Что-то пошло не так!'),
       onSuccess: () => {
-         setDateModalIsOpen(false);
-         toast.success('Дата сохранена!');
          queryClient.invalidateQueries('user-info');
+         setDateModalIsOpen(false);
+         setSelectedDate(null);
+         toast.success('Дата сохранена!');
       },
    });
 
@@ -93,8 +102,11 @@ const Subscriptions = () => {
       onSuccess: () => {
          setMicrosoftModalIsOpen(false);
          toast.success('Данные сохранены!');
+         setBasketBottomSheet(true);
       }
    });
+
+   const { mutate: deleteSub } = useDeleteSub();
 
    const serviceInBasket = basketGamesId.includes(299);
    const userId = WebApp?.initDataUnsafe?.user?.id || 1147564292;
@@ -109,10 +121,13 @@ const Subscriptions = () => {
          });
       }
 
+      setBasketBottomSheet(true);
       setIsNewAccOpen(false);
    };
 
    const handleSaveDate = async () => {
+      if (!selectedDate) return;
+
       await mutateSaveDate({
          id: userId,
          token: await userToken,
@@ -124,7 +139,32 @@ const Subscriptions = () => {
       });
    };
 
-   const handleSaveMicrosoft = async () => {
+   const isValidSchema = () => {
+      let isValid = true;
+      
+      if (!emailRegex.test(login)) {
+         setLoginError('Введите правильный email адрес!');
+         isValid = false;
+      } else setLoginError('');
+
+      if (!passwordRegex.test(password)) {
+         setPasswordError('Пароли должны включать не менее 8 и не более 30 знаков, которые относятся по крайней мере к двум из следующих типов: буквы верхнего и нижнего регистров, цифры и символы.');
+         isValid = false;
+      } else setPasswordError('');
+
+      return isValid;
+   }
+
+   const handleSaveMicrosoft = async e => {
+      e.preventDefault();
+
+      if (!isValidSchema()) return;
+      
+      if (!isConfirmed) {
+         setIsConfirmed(true);
+         return;
+      }
+
       mutateSaveMicrosoft({
          id: userId,
          token: await userToken,
@@ -142,10 +182,29 @@ const Subscriptions = () => {
       setMicrosoftModalIsOpen(true);
    }
 
+   const handleCloseMicrosoftModal = () => {
+      setMicrosoftModalIsOpen(false);
+      deleteSub({
+         period_id: activeSub.id,
+         basket_id: basketId,
+         game: activeSub,
+      })
+   }
+
    useEffect(() => {
       if (isLoading) setLoading(true);
       else if (isSuccess) setLoading(false);
    }, [isSuccess, isLoading, setLoading]);
+
+   useEffect(() => {
+      if (!microsoftModalIsOpen) {
+         setLogin('');
+         setPassword('');
+         setLoginError('');
+         setPasswordError('');
+         setIsConfirmed(false);
+      }
+   }, [microsoftModalIsOpen]);
 
    useEffect(() => {
       setActiveGame({});
@@ -209,7 +268,7 @@ const Subscriptions = () => {
                   <div className={cls.modalButtons}>
                      <Button onClick={handleCreateNewAcc}>Создать</Button>
                      <Button onClick={handleCloseNewAccModal}>
-                        Сам создам
+                        Создам сам
                      </Button>
                   </div>
                </div>
@@ -235,6 +294,7 @@ const Subscriptions = () => {
                         locale={ru}
                         dateFormat="dd.MM.yyyy"
                         selected={selectedDate}
+                        placeholderText="Укажите дату"
                         onChange={setSelectedDate}
                         popperPlacement="top"
                         minDate={new Date().setDate(new Date().getDate() + 5)}
@@ -270,49 +330,64 @@ const Subscriptions = () => {
                      Учетная запись Microsoft
                   </h3>
                   <hr className={cls.hr} />
-                  <NewAccIcon width={85} height={85} />
+                  <NewAccIcon width={60} height={60} />
 
                   <p style={{ textAlign: 'center', fontSize: '0.9rem' }} className={cls.warning}>
-                     👨‍💻 Укажите вашу учетную запись на которую будет совершена покупка!
+                  👨‍💻 Укажите пожалуйста новую учетную запись на которой не когда не было подписки Game Pass Ultimate! На этот аккаунт будет приобретена вам подписка!
                   </p>
 
-                  <div className={cls.inputs}>
+                  <form
+                     onSubmit={handleSaveMicrosoft}
+                     className={cls.inputs}
+                  >
                      <label>
                         <div className={cls.inputLabel}>
                            <EmailIcon width={18} height={18} />
-                           <p>Логин</p>
+                           <p>Логин:</p>
                         </div>
                         <input
-                           type="email"
+                           type="text"
                            value={login}
                            className={cls.input}
                            placeholder='example@gmail.com'
                            onChange={e => setLogin(e.target.value)}
                         />
+                        <span className={cls.error}>{loginError}</span>
                      </label>
                      <label>
                         <div className={cls.inputLabel}>
                            <PasswordIcon width={18} height={18} />
-                           <p>Пароль</p>
+                           <p>Пароль:</p>
                         </div>
                         <input
-                           type="password"
+                           type="text"
                            value={password}
                            className={cls.input}
-                           placeholder='Xboxrent2025'
+                           placeholder='XboxRent_bot'
                            onChange={e => setPassword(e.target.value)}
                         />
+                        <span className={cls.error}>{passwordError}</span>
                      </label>
-                  </div>
 
-                  <div className={cls.modalButtons}>
-                     <Button onClick={handleSaveMicrosoft}>
-                        Сохранить
-                     </Button>
-                     <Button onClick={() => setMicrosoftModalIsOpen(false)}>
-                        Закрыть
-                     </Button>
-                  </div>
+                     {isConfirmed && (
+                        <p style={{ fontSize: '0.8rem', marginTop: -3 }} className={cls.warning}>
+                           ⚠️ Пожалуйста, удостоверьтесь в правильности введенных вами данных и нажмите &quot;Сохранить&quot;
+                        </p>
+                     )}
+
+                     <div style={{ marginTop: 0 }} className={cls.modalButtons}>
+                        <Button type="submit">
+                           {isConfirmed ? 'Сохранить' : 'Далее'}
+                        </Button>
+                        <Button
+                           type="button"
+                           onClick={handleCloseMicrosoftModal}
+                        >
+                           Отмена
+                        </Button>
+                     </div>
+                  </form>
+
                </div>
             </NewAccModal>
 
@@ -364,8 +439,7 @@ const Subscriptions = () => {
                               <p>Ваша подписка не найдена</p>
                            </div>
                            <div className={cls.subscribe}>
-                              <Button
-                                 onClick={() => handleOpenModal(gamePassData)}>
+                              <Button onClick={() => handleOpenModal(gamePassData)}>
                                  Приобрести подписку Ultimate
                               </Button>
                               <Button onClick={() => setDateModalIsOpen(true)}>

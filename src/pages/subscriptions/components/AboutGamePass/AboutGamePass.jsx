@@ -50,7 +50,7 @@ export const AboutGamePass = ({ setBigImage, similarSubs, sub }) => {
                  id: period.id,
                  name: mainSubscription.types[activeIndex].name,
                  duration_months: period.duration_months,
-                 price: period.period_price,
+                 price: +period.period_price,
                  parent_id: mainSubscription.id,
               },
       );
