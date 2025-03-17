@@ -5,9 +5,9 @@ import WebApp from '@twa-dev/sdk';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { addGameToBasket } from '../../../../layout/footer/api/addGameToBasket';
 import { removeGameFromBasket } from '../../../../layout/footer/api/removeGameFromBasket';
-import { removeSubFromBasket } from '../../../../layout/footer/api/removeSubFromBasket';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import { num_word } from '../../../../helpers';
+import { useDeleteSub } from '../../../../hooks/useDeleteSub';
 
 const gameType = {
 	sub: 'Подписка',
@@ -30,7 +30,7 @@ export const BasketGameCard = ({
 	onClick,
 }) => {
 	const queryClient = useQueryClient();
-	const { basketGamesCount, setBasketBottomSheet, basketId } = useStore(
+	const { basketGamesCount, setBasketBottomSheet, basketId, activeSub } = useStore(
 		(state) => state
 	);
 	const { mutate: addGameToBasketMutate } = useMutation({
@@ -82,36 +82,14 @@ export const BasketGameCard = ({
 		},
 	});
 
-	const { mutate: removeSubFromBasketMutate } = useMutation({
-		mutationFn: removeSubFromBasket,
-		onMutate: async ({ period_id }) => {
-			await queryClient.cancelQueries({ queryKey: ['create-basket'] });
-			const previousBasket = queryClient.getQueryData(['create-basket']);
-
-			queryClient.setQueryData(['create-basket'], (old) => ({
-				...old,
-				amount: old.amount - +game.price,
-				subs: old.subs.filter((oldGame) => oldGame.id !== period_id),
-				current_item_ids: old.current_item_ids.filter(
-					(itemId) => itemId !== period_id
-				),
-			}));
-
-			return { previousBasket };
-		},
-		onError: (_, __, context) => {
-			queryClient.setQueryData(['create-basket'], context.previousBasket);
-		},
-		onSettled: () => {
-			queryClient.invalidateQueries(['create-basket']);
-		},
-	});
+	const { mutate: removeSubFromBasketMutate } = useDeleteSub();
 
 	function handleDeleteGameFromBasket(game) {
 		if (game.type === 'sub') {
 			removeSubFromBasketMutate({
 				period_id: game.id,
 				basket_id: basketId,
+				game: activeSub,
 			});
 		} else {
 			removeGameFromBasketMutate({

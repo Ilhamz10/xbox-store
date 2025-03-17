@@ -1,4 +1,4 @@
-export async function removeSubFromBasket({ period_id, basket_id }) {
+export async function removeSubFromBasket({ period_id, basket_id, game }) {
 	const response = await fetch(
 		`${import.meta.env.VITE_API_URL}/basket/remove_sub/`,
 		{
