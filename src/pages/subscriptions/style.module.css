@@ -8,6 +8,7 @@
 	flex-direction: column;
 	align-items: center;
 	position: relative;
+	max-height: unset !important;
 }
 
 .hr {
@@ -97,6 +98,14 @@
 .subInfo > p, .subNotFound > div > p {
 	font-weight: 500;
 	text-align: center;
+}
+
+.error {
+	color: rgba(255, 0, 51, 0.921);
+	font-size: 0.75rem;
+	line-height: 0.9rem;
+	display: inline-block;
+	margin-top: 3px;
 }
 
 .xboxLabel {
