@@ -109,7 +109,7 @@ const Subscriptions = () => {
    const { mutate: deleteSub } = useDeleteSub();
 
    const serviceInBasket = basketGamesId.includes(299);
-   const userId = WebApp?.initDataUnsafe?.user?.id || 1147564292;
+   const userId = WebApp?.initDataUnsafe?.user?.id;
    const userToken = hashString(import.meta.env.VITE_AUTH_TOKEN + userId);
 
    const handleCreateNewAcc = () => {

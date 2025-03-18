@@ -28,13 +28,10 @@ const SelectConsole = ({ openConsoleModal, setOpenConsoleModal }) => {
 	function handleSelectCnosole(consoleType) {
 		setConsoleType(consoleType);
 		audio.play();
-		hashString(
-			import.meta.env.VITE_AUTH_TOKEN +
-				(WebApp?.initDataUnsafe?.user?.id || 1147564292)
-		).then((hash) => {
+		hashString(import.meta.env.VITE_AUTH_TOKEN + WebApp?.initDataUnsafe?.user?.id).then((hash) => {
 			mutate({
 				token: hash,
-				id: WebApp?.initDataUnsafe?.user?.id || 1147564292,
+				id: WebApp?.initDataUnsafe?.user?.id,
 				consoleType: consoleType,
 			});
 		});

@@ -34,9 +34,7 @@ export const BasketCard = ({ adjustPosition }) => {
 	} = useQuery({
 		queryKey: ['create-basket'],
 		queryFn: () =>
-			getAndCreateBasket({
-				id: WebApp?.initDataUnsafe?.user?.id || 1147564292,
-			}),
+			getAndCreateBasket({ id: WebApp?.initDataUnsafe?.user?.id }),
 	});
 
 	// function handleOpenGameInfoBottomSheet(game) {

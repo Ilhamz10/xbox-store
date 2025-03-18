@@ -56,9 +56,7 @@ const Root = () => {
 	const { data: basket, isSuccess: basketCreateIsSuccess } = useQuery({
 		queryKey: ['create-basket'],
 		queryFn: () =>
-			getAndCreateBasket({
-				id: WebApp?.initDataUnsafe?.user?.id || 1147564292,
-			}),
+			getAndCreateBasket({ id: WebApp?.initDataUnsafe?.user?.id }),
 	});
 
 	useEffect(() => {
@@ -95,7 +93,7 @@ const Root = () => {
 			case '/basket/remove-messages':
 				if (basket?.basket_id)
 					mutate({
-						client_id: WebApp?.initDataUnsafe?.user?.id || 1147564292,
+						client_id: WebApp?.initDataUnsafe?.user?.id,
 						basket_id: basket.basket_id,
 					});
 				return;
@@ -109,18 +107,13 @@ const Root = () => {
 		queryFn: () =>
 			checkUserConsole({
 				token: hash,
-				id: WebApp?.initDataUnsafe?.user?.id || 1147564292, //815737483
+				id: WebApp?.initDataUnsafe?.user?.id,
 			}),
 		enabled: hash !== undefined,
 	});
 
 	useEffect(() => {
-		hashString(
-			import.meta.env.VITE_AUTH_TOKEN +
-				(WebApp?.initDataUnsafe?.user?.id || 1147564292) //815737483
-		).then((hash) => {
-			setHash(hash);
-		});
+		hashString(import.meta.env.VITE_AUTH_TOKEN + WebApp?.initDataUnsafe?.user?.id).then(setHash);
 	}, []);
 
 	useEffect(() => {

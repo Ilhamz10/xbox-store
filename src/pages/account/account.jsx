@@ -122,7 +122,7 @@ export const Account = () => {
 		queryFn: () =>
 			getUserData({
 				token: hash,
-				id: WebApp?.initDataUnsafe?.user?.id || 1147564292,
+				id: WebApp?.initDataUnsafe?.user?.id,
 			}),
 		enabled: hash !== undefined,
 	});
@@ -153,13 +153,10 @@ export const Account = () => {
 	});
 
 	function handleSelectConsole(consoleType) {
-		hashString(
-			import.meta.env.VITE_AUTH_TOKEN +
-				(WebApp?.initDataUnsafe?.user?.id || 1147564292)
-		).then((hash) => {
+		hashString(import.meta.env.VITE_AUTH_TOKEN + WebApp?.initDataUnsafe?.user?.id).then((hash) => {
 			mutate({
 				token: hash,
-				id: WebApp?.initDataUnsafe?.user?.id || 1147564292,
+				id: WebApp?.initDataUnsafe?.user?.id,
 				consoleType,
 			});
 		});
@@ -168,7 +165,7 @@ export const Account = () => {
 	useEffect(() => {
 		hashString(
 			import.meta.env.VITE_AUTH_TOKEN +
-				(WebApp?.initDataUnsafe?.user?.id || 1147564292)
+				(WebApp?.initDataUnsafe?.user?.id)
 		).then((hash) => {
 			setHash(hash);
 		});
