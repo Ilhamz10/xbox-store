@@ -116,6 +116,7 @@ const Root = () => {
    useEffect(() => {
       if (!WebApp?.initDataUnsafe?.user?.id) {
          WebApp.openTelegramLink('https://t.me/XboxRent_Bot');
+         WebApp.close();
          return;
       }
 
