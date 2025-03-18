@@ -20,7 +20,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { getAndCreateBasket } from './api/getAndCreateBasket';
 import parse from 'html-react-parser';
 import { removeMessages } from './api/removeMessages';
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 
 // const allContentVariants = {
 // 	isHidden: {
@@ -115,8 +115,8 @@ const Root = () => {
 
    useEffect(() => {
       if (!WebApp?.initDataUnsafe?.user?.id) {
+         toast.info('Перейдите в Telegram бота для продолжения работы');
          WebApp.openTelegramLink('https://t.me/XboxRent_Bot');
-         WebApp.close();
          return;
       }
 
