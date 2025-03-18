@@ -38,12 +38,7 @@ const router = createHashRouter([
 			},
 			{
 				path: '/subscriptions',
-				element: (
-					<ForAdmins
-						PageForAdmin={<Subscriptions />}
-						PageForUsers={<WorkInProgress title='Подписки' />}
-					/>
-				),
+				element: <Subscriptions />,
 			},
 			{
 				path: '/currency',
