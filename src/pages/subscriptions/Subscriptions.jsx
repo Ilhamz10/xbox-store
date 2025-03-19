@@ -34,13 +34,13 @@ const Subscriptions = () => {
    const queryClient = useQueryClient();
    const content = useRef(null);
    const [dateModalIsOpen, setDateModalIsOpen] = useState(false);
-   const [microsoftModalIsOpen, setMicrosoftModalIsOpen] = useState(false);
    const [selectedDate, setSelectedDate] = useState();
    const [login, setLogin] = useState('');
    const [password, setPassword] = useState('');
    const [loginError, setLoginError] = useState('');
    const [passwordError, setPasswordError] = useState('');
    const [isConfirmed, setIsConfirmed] = useState(false);
+   const [isAfterQuestion, setIsAfterQuestion] = useState(false);
    const {
       setLoading,
       basketBottomSheet,
@@ -54,7 +54,12 @@ const Subscriptions = () => {
       basketId,
       basketGamesId,
       setBasketBottomSheet,
-      activeSub
+      activeSub,
+      isOldAccOpen,
+      setIsOldAccOpen,
+      microsoftModalIsOpen,
+      setMicrosoftModalIsOpen,
+      isOldAcc,
    } = useStore(state => state);
 
    const { data, isSuccess, isLoading } = useQuery({
@@ -103,6 +108,7 @@ const Subscriptions = () => {
          setMicrosoftModalIsOpen(false);
          toast.success('Данные сохранены!');
          setBasketBottomSheet(true);
+         queryClient.invalidateQueries('user-info');
       }
    });
 
@@ -159,7 +165,7 @@ const Subscriptions = () => {
       e.preventDefault();
 
       if (!isValidSchema()) return;
-      
+
       if (!isConfirmed) {
          setIsConfirmed(true);
          return;
@@ -227,7 +233,7 @@ const Subscriptions = () => {
       );
 
       // FINISH DATE CALCULATION
-      const finishDate = user.game_pass_subscribe.finish_date;
+      const finishDate = user?.game_pass_subscribe?.finish_date;
       const [day, month, year] = finishDate
          ? finishDate.split('.').map(Number)
          : [];
@@ -255,7 +261,14 @@ const Subscriptions = () => {
             <NewAccModal
                className={cls.accModal}
                isOpen={isNewAccOpen}
-               setIsOpen={setIsNewAccOpen}
+               setIsOpen={() => {
+                  setIsNewAccOpen(false);
+                  deleteSub({
+                     period_id: activeSub.id,
+                     basket_id: basketId,
+                     game: activeSub,
+                  });
+               }}
             >
                <div className={`xs-info ${cls.accModalCont}`}>
                   <h3 className="xs-title section-title">Дополнительная услуга</h3>
@@ -319,21 +332,84 @@ const Subscriptions = () => {
 
             <NewAccModal
                className={cls.accModal}
-               isOpen={microsoftModalIsOpen}
-               setIsOpen={setMicrosoftModalIsOpen}
+               isOpen={isOldAccOpen}
+               setIsOpen={() => {
+                  setIsOldAccOpen(false);
+                  deleteSub({
+                     period_id: activeSub.id,
+                     basket_id: basketId,
+                     game: activeSub,
+                  })
+               }}
             >
                <div className={`xs-info ${cls.accModalCont}`}>
                   <h3
                      style={{ textWrap: 'balance', fontSize: '1.2rem' }}
                      className="xs-title section-title"
                   >
-                     Учетная запись Microsoft
+                     На эту учетную запись вы хотите совершить покупку?
                   </h3>
                   <hr className={cls.hr} />
-                  <NewAccIcon width={60} height={60} />
+                  <NewAccIcon width={85} height={85} />
+
+                  <div style={{ width: '100%' }}>
+                     <h4>Учетная запись Microsoft:</h4>
+                     <div style={{ marginTop: 6, display: 'flex', alignItems: 'center', gap: 6 }}>
+                        <EmailIcon width={18} height={18} />
+                        <p>Логин: {user?.microsoft_account?.login}</p>
+                     </div>
+                     <div style={{ marginTop: 2, display: 'flex', alignItems: 'center', gap: 6 }}>
+                        <PasswordIcon width={18} height={18} />
+                        <p>Пароль: **********</p>
+                     </div>
+                  </div>
+
+                  <div className={cls.modalButtons}>
+                     <Button
+                        onClick={() => {
+                           setIsOldAccOpen(false);
+                           setBasketBottomSheet(true);
+                        }}
+                     >
+                        Этот аккаунт
+                     </Button>
+                     <Button
+                        onClick={() => {
+                           setIsOldAccOpen(false);
+                           setIsAfterQuestion(true);
+                           setMicrosoftModalIsOpen(true);
+                        }}
+                     >
+                        Указать другой
+                     </Button>
+                  </div>
+               </div>
+            </NewAccModal>
+
+            <NewAccModal
+               className={cls.accModal}
+               isOpen={microsoftModalIsOpen}
+               setIsOpen={() => {
+                  setMicrosoftModalIsOpen(false);
+                  deleteSub({
+                     period_id: activeSub.id,
+                     basket_id: basketId,
+                     game: activeSub,
+                  });
+               }}
+            >
+               <div className={`xs-info ${cls.accModalCont}`}>
+                  <h3
+                     style={{ textWrap: 'balance', fontSize: '1.2rem' }}
+                     className="xs-title section-title"
+                  >
+                     {isOldAcc && !isAfterQuestion ? 'Ваша учетная запись не найдена!' : 'Учетная запись Microsoft'}
+                  </h3>
+                  <hr className={cls.hr} />
+                  <NewAccIcon width={82} height={82} />
 
                   <p style={{ textAlign: 'center', fontSize: '0.9rem' }} className={cls.warning}>
-                  👨‍💻 Укажите пожалуйста новую учетную запись на которой не когда не было подписки Game Pass Ultimate! На этот аккаунт будет приобретена вам подписка!
+                     {isOldAcc ? '👨‍💻 Пожалуйста, укажите учетную запись, на которую будет приобретена подписка.' : '👨‍💻 Пожалуйста, укажите новую учетную запись, на которой никогда не было подписки. На этот аккаунт будет приобретена подписка!'}
                   </p>
 
                   <form
@@ -352,7 +428,7 @@ const Subscriptions = () => {
                            placeholder='example@gmail.com'
                            onChange={e => setLogin(e.target.value)}
                         />
-                        <span className={cls.error}>{loginError}</span>
+                        {loginError && <span className={cls.error}>{loginError}</span>}
                      </label>
                      <label>
                         <div className={cls.inputLabel}>
@@ -366,7 +442,7 @@ const Subscriptions = () => {
                            placeholder='XboxRent_bot'
                            onChange={e => setPassword(e.target.value)}
                         />
-                        <span className={cls.error}>{passwordError}</span>
+                        {passwordError && <span className={cls.error}>{passwordError}</span>}
                      </label>
 
                      {isConfirmed && (
@@ -413,7 +489,7 @@ const Subscriptions = () => {
                         </div>
                      </div>
 
-                     {user.game_pass_subscribe.status ? (
+                     {user?.game_pass_subscribe?.status ? (
                         <div className={cls.subInfoItem}>
                            <h2 className={cls.gamePassTitle}>
                               Game Pass Ultimate

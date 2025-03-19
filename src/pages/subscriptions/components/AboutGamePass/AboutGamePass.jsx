@@ -19,6 +19,7 @@ export const AboutGamePass = ({ setBigImage, similarSubs, sub }) => {
       mainSubscription,
       setXsText,
       setIsNewAcc,
+      setIsOldAcc
    } = useStore(store => store);
    const [activeIndex, setActiveIndex] = useState(mainSubscription.types.length <= 1 ? 0 : null);
 
@@ -32,6 +33,7 @@ export const AboutGamePass = ({ setBigImage, similarSubs, sub }) => {
 
    function handleSetActive(index) {
       setIsNewAcc(mainSubscription.types[index].name === 'На новый аккаунт');
+      setIsOldAcc(mainSubscription.types[index].name === 'На старый аккаунт');
       setActiveIndex(index == activeIndex ? null : index);
 
       if (activeIndex === null) setActiveSub({});

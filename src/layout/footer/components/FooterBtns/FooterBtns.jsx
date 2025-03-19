@@ -34,6 +34,10 @@ export const FooterBtns = () => {
 		parentSubsIds,
 		isNewAcc,
 		setIsNewAccOpen,
+		user,
+		setIsOldAccOpen,
+		isOldAcc,
+		setMicrosoftModalIsOpen
 	} = useStore((state) => state);
 
 	const { mutate } = useMutation({
@@ -100,6 +104,9 @@ export const FooterBtns = () => {
 
 	function handleAddGameToBasket() {
 		if (isNewAcc && !gameInBasket && !serviceInBasket) setIsNewAccOpen(true);
+
+		if (isOldAcc && !gameInBasket && user?.microsoft_account?.login) setIsOldAccOpen(true);
+		else if (isOldAcc && !gameInBasket && !user?.microsoft_account?.login) setMicrosoftModalIsOpen(true);
 
 		if (mainSubBottomSheetIsOpen && !gameInBasket) {
 			WebApp.HapticFeedback.impactOccurred('light');
