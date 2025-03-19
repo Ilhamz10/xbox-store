@@ -15,12 +15,14 @@ import { BasketCard } from '../../modules';
 import SelectConsole from '../../pages/rent-games/components/select-console/select-console';
 import { hashString } from '../../helpers/hashString';
 import WebApp from '@twa-dev/sdk';
+import { ClosedPlaceholder } from '../../components/ClosedPlaceholder/ClosedPlaceholder';
 import { checkUserConsole } from '../../pages/rent-games/api/checkConsole';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { getAndCreateBasket } from './api/getAndCreateBasket';
 import parse from 'html-react-parser';
 import { removeMessages } from './api/removeMessages';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 // const allContentVariants = {
 // 	isHidden: {
@@ -114,7 +116,6 @@ const Root = () => {
 
    useEffect(() => {
       if (!WebApp?.initDataUnsafe?.user?.id) {
-         toast.info('Перейдите в Telegram бота для дальнейшей работы!');
          WebApp.openTelegramLink('https://t.me/XboxRent_Bot');
          return;
       }
@@ -134,7 +135,9 @@ const Root = () => {
       }
    }, [data, isSuccess, setIsAdmin]);
 
-   return (
+   return !WebApp?.initDataUnsafe?.user?.id ? (
+      <ClosedPlaceholder />
+   ) : (
       <>
          <ScrollToTop />
          <img className="main-bg" src={MainBg} alt="Main bg" />

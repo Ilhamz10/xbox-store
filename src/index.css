@@ -192,3 +192,11 @@ section .section-header {
 	overflow: hidden;
 	text-wrap: nowrap;
 }
+
+.green-toast > .Toastify__toast-icon > svg {
+	fill: #15803d;
+}
+
+.green-toast > .Toastify__progress-bar--wrp > .Toastify__progress-bar {
+	background: #15803d;
+}
