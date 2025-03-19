@@ -85,7 +85,7 @@ export const BasketCard = ({ adjustPosition }) => {
 			) : (
 				<div className={cls.BasketCard}>
 					{basketGames.items.map((game) => (
-						<BasketGameCard key={game.id} game={game} />
+						<BasketGameCard key={game.id} subs={basketGames.subs} game={game} />
 					))}
 					{basketGames.subs.map((sub) => (
 						<BasketGameCard key={sub.id} game={{ ...sub, type: 'sub' }} />

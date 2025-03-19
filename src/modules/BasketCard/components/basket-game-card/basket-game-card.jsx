@@ -28,6 +28,7 @@ export const BasketGameCard = ({
 	recommendation,
 	inBasket,
 	onClick,
+	subs = []
 }) => {
 	const queryClient = useQueryClient();
 	const { basketGamesCount, setBasketBottomSheet, basketId, activeSub } = useStore(
@@ -86,12 +87,34 @@ export const BasketGameCard = ({
 
 	function handleDeleteGameFromBasket(game) {
 		if (game.type === 'sub') {
+			if (game.sub_type === 'new') {
+				removeGameFromBasketMutate({
+					product_id: 299,
+					basket_id: basketId,
+					game: { id: 299 },
+				});
+
+				setBasketBottomSheet(false);
+			}
+
 			removeSubFromBasketMutate({
 				period_id: game.id,
 				basket_id: basketId,
 				game: activeSub,
 			});
 		} else {
+			if (game.id === 299) {
+				const newAccSub = subs.find(sub => sub.sub_type === 'new');
+
+				removeSubFromBasketMutate({
+					period_id: newAccSub.id,
+					basket_id: basketId,
+					game: newAccSub,
+				});
+
+				setBasketBottomSheet(false);
+			}
+
 			removeGameFromBasketMutate({
 				product_id: game.id,
 				basket_id: basketId,
