@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
-import bg from '../../../../assets/imgs/duration-bg.jpg';
 import SectionWithSlide from '../../../../components/SectionWithSlide/SectionWithSlide';
 import { num_word } from '../../../../helpers';
 import { useStore } from '../../../../store';
@@ -32,8 +31,8 @@ export const AboutGamePass = ({ setBigImage, similarSubs, sub }) => {
    }
 
    function handleSetActive(index) {
-      setIsNewAcc(mainSubscription.types[index].name === 'На новый аккаунт');
-      setIsOldAcc(mainSubscription.types[index].name === 'На старый аккаунт');
+      setIsNewAcc(mainSubscription.types[index].account_type === 'new');
+      setIsOldAcc(mainSubscription.types[index].account_type === 'old');
       setActiveIndex(index == activeIndex ? null : index);
 
       if (activeIndex === null) setActiveSub({});
@@ -162,7 +161,7 @@ export const AboutGamePass = ({ setBigImage, similarSubs, sub }) => {
                                        onClick={() =>
                                           handleSetActiveSub(period)
                                        }>
-                                       <img src={bg} alt="card-bg" />
+                                       <img src={mainSubscription.types[activeIndex].image} alt="card-bg" />
                                        <p>
                                           {period.duration_months}{' '}
                                           {num_word(period.duration_months, [

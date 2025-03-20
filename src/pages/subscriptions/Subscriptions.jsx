@@ -563,6 +563,7 @@ const Subscriptions = () => {
                background={eaPlayBg}
                title={eaPlayData.title}
                onClick={() => handleOpenModal(eaPlayData)}
+               className={cls.eaSub}
             />
             <div className={`${cls.subs} wrapper`}>
                {otherSubs.map(sub => (
