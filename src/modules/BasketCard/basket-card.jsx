@@ -34,9 +34,7 @@ export const BasketCard = ({ adjustPosition }) => {
 	} = useQuery({
 		queryKey: ['create-basket'],
 		queryFn: () =>
-			getAndCreateBasket({
-				id: WebApp?.initDataUnsafe?.user?.id || 1147564292,
-			}),
+			getAndCreateBasket({ id: WebApp?.initDataUnsafe?.user?.id }),
 	});
 
 	// function handleOpenGameInfoBottomSheet(game) {
@@ -87,7 +85,7 @@ export const BasketCard = ({ adjustPosition }) => {
 			) : (
 				<div className={cls.BasketCard}>
 					{basketGames.items.map((game) => (
-						<BasketGameCard key={game.id} game={game} />
+						<BasketGameCard key={game.id} subs={basketGames.subs} game={game} />
 					))}
 					{basketGames.subs.map((sub) => (
 						<BasketGameCard key={sub.id} game={{ ...sub, type: 'sub' }} />

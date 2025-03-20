@@ -5,14 +5,15 @@ import WebApp from '@twa-dev/sdk';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { addGameToBasket } from '../../../../layout/footer/api/addGameToBasket';
 import { removeGameFromBasket } from '../../../../layout/footer/api/removeGameFromBasket';
-import { removeSubFromBasket } from '../../../../layout/footer/api/removeSubFromBasket';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import { num_word } from '../../../../helpers';
+import { useDeleteSub } from '../../../../hooks/useDeleteSub';
 
 const gameType = {
 	sub: 'Подписка',
 	rent: 'Аренда',
-	home: 'Домашка'
+	home: 'Домашка',
+	service: 'Услуга'
 }
 
 const accountType = {
@@ -27,9 +28,10 @@ export const BasketGameCard = ({
 	recommendation,
 	inBasket,
 	onClick,
+	subs = []
 }) => {
 	const queryClient = useQueryClient();
-	const { basketGamesCount, setBasketBottomSheet, basketId } = useStore(
+	const { basketGamesCount, setBasketBottomSheet, basketId, activeSub } = useStore(
 		(state) => state
 	);
 	const { mutate: addGameToBasketMutate } = useMutation({
@@ -81,20 +83,38 @@ export const BasketGameCard = ({
 		},
 	});
 
-	const { mutate: removeSubFromBasketMutate } = useMutation({
-		mutationFn: removeSubFromBasket,
-		onSuccess: () => {
-			queryClient.invalidateQueries('create-basket');
-		},
-	});
+	const { mutate: removeSubFromBasketMutate } = useDeleteSub();
 
 	function handleDeleteGameFromBasket(game) {
 		if (game.type === 'sub') {
+			if (game.sub_type === 'new') {
+				removeGameFromBasketMutate({
+					product_id: 299,
+					basket_id: basketId,
+					game: { id: 299 },
+				});
+
+				setBasketBottomSheet(false);
+			}
+
 			removeSubFromBasketMutate({
 				period_id: game.id,
 				basket_id: basketId,
+				game: activeSub,
 			});
 		} else {
+			if (game.id === 299) {
+				const newAccSub = subs.find(sub => sub.sub_type === 'new');
+
+				removeSubFromBasketMutate({
+					period_id: newAccSub.id,
+					basket_id: basketId,
+					game: newAccSub,
+				});
+
+				setBasketBottomSheet(false);
+			}
+
 			removeGameFromBasketMutate({
 				product_id: game.id,
 				basket_id: basketId,

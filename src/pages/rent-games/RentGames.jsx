@@ -1,7 +1,7 @@
 import AllGames from '../../modules/AllGames/AllGames';
 import CategoryFilter from '../../modules/Categories/Categories';
 import HotNewGames from '../../modules/HotNewGames/HotNewGames';
-import NewPredictionGames from '../../modules/NewPredictionGames/NewPredictionGames';
+import NewGames from '../../modules/NewGames/NewGames';
 import RussianLangGames from '../../modules/russian-lang-games/russian-lang-games';
 import SeriesGames from '../../modules/series-games/series-games';
 import GamePassGames from '../../modules/GamePassGames/GamePassGames';
@@ -51,7 +51,7 @@ export const RentGames = () => {
 			<main>
 				<HotNewGames />
 				<CategoryFilter />
-				<NewPredictionGames />
+				<NewGames />
 				<SeriesGames />
 				<RussianLangGames />
 				<GamePassGames />

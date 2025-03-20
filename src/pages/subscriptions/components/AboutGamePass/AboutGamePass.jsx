@@ -1,16 +1,14 @@
 import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { useQuery } from '@tanstack/react-query';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
-import bg from '../../../../assets/imgs/duration-bg.jpg';
+import SectionWithSlide from '../../../../components/SectionWithSlide/SectionWithSlide';
 import { num_word } from '../../../../helpers';
-import { getButtonInfoById } from '../../../../layout/root/api/getButtonInfoById';
 import { useStore } from '../../../../store';
 import { Info2Icon } from '../../../../assets';
 import cls from './AboutGamePass.module.css';
 
-export const AboutGamePass = ({ setBigImage }) => {
+export const AboutGamePass = ({ setBigImage, similarSubs, sub }) => {
    const {
       setXsTitle,
       setIsGamePass,
@@ -19,28 +17,30 @@ export const AboutGamePass = ({ setBigImage }) => {
       setActiveSub,
       mainSubscription,
       setXsText,
+      setIsNewAcc,
+      setIsOldAcc
    } = useStore(store => store);
-   const [activeIndex, setActiveIndex] = useState(
-      mainSubscription.types.length <= 1 ? 0 : null,
-   );
+   const [activeIndex, setActiveIndex] = useState(mainSubscription.types.length <= 1 ? 0 : null);
 
-   const { data } = useQuery({
-      queryKey: ['home-button-info'],
-      queryFn: () => getButtonInfoById(6),
-      enabled: mainSubscription.title === 'Game Pass Ultimate'
-   });
-
-   function handleOpenClue(e) {
+   function handleOpenClue(e, title, text) {
       e.stopPropagation();
-      setXsTitle(data.description);
-      setXsText(data.text);
+      setXsTitle(title);
+      setXsText(text);
       setIsGamePass(false);
       changeXsIsOpen(true);
    }
 
    function handleSetActive(index) {
+      setIsNewAcc(mainSubscription.types[index].account_type === 'new');
+      setIsOldAcc(mainSubscription.types[index].account_type === 'old');
       setActiveIndex(index == activeIndex ? null : index);
-      if (activeIndex === null || activeIndex !== index) setActiveSub({});
+
+      if (activeIndex === null) setActiveSub({});
+      if (activeIndex !== index && activeIndex !== null) {
+         setActiveIndex(null);
+         setActiveSub({});
+         setTimeout(() => setActiveIndex(index), 300);
+      }
    }
 
    function handleSetActiveSub(period) {
@@ -51,19 +51,22 @@ export const AboutGamePass = ({ setBigImage }) => {
                  id: period.id,
                  name: mainSubscription.types[activeIndex].name,
                  duration_months: period.duration_months,
-                 price: period.period_price,
+                 price: +period.period_price,
+                 parent_id: mainSubscription.id,
               },
-      )
+      );
    }
 
    useEffect(() => {
       if (
          mainSubscription.types.length <= 1 &&
          mainSubscription.types[0].periods.length <= 1
-      ) handleSetActiveSub(mainSubscription.types[0].periods[0])
+      )
+         handleSetActiveSub(mainSubscription.types[0].periods[0]);
 
       return () => {
          setActiveSub({});
+         setIsNewAcc(false);
       };
    }, []);
 
@@ -74,18 +77,13 @@ export const AboutGamePass = ({ setBigImage }) => {
                <img
                   src={mainSubscription.image}
                   alt="game-pass-image"
-                  fetchpriority="high"
+                  fetchPriority="high"
                   onClick={() => setBigImage(mainSubscription.image)}
                />
 
                <div className={cls.head}>
                   <div className={cls.titleHead}>
                      <h3>{mainSubscription.title}</h3>
-                     {mainSubscription.title === 'Game Pass Ultimate' && (
-                        <button onClick={handleOpenClue}>
-                           <Info2Icon width={22} height={22} />
-                        </button>
-                     )}
                   </div>
                   {mainSubscription.games_list_enabled && (
                      <p className={cls.count}>Сейчас в подписке 456 игр</p>
@@ -95,37 +93,60 @@ export const AboutGamePass = ({ setBigImage }) => {
 
             {mainSubscription.types.length > 1 && (
                <div className={cls.carousels}>
-                  {mainSubscription.types.map((type, i) => (
-                     <div
-                        key={type.id}
-                        onClick={() => handleSetActive(i)}
-                        className={`${cls.card} ${
-                           i == activeIndex && cls.active
-                        }`}>
-                        <h3>{type.name}</h3>
-                     </div>
-                  ))}
+                  {mainSubscription.types.map((type, i) => {
+                     if (type.name === '-') return;
+
+                     return (
+                        <div
+                           key={type.id}
+                           onClick={() => handleSetActive(i)}
+                           className={`${cls.card} ${
+                              i == activeIndex && cls.active
+                           }`}>
+                           <h3>{type.name}</h3>
+                        </div>
+                     );
+                  })}
                </div>
             )}
 
             <AnimatePresence>
-               {activeIndex !== null && mainSubscription.types.length > 0 && (
-                  <motion.div
-                     exit={{ height: 0 }}
-                     initial={{ height: 0 }}
-                     animate={{ height: 'auto' }}
-                     className={cls.periods}>
-                     {mainSubscription.types.length > 1 && (
-                        <h4>{mainSubscription.types[activeIndex].name}:</h4>
-                     )}
-                     {mainSubscription.types[activeIndex].periods.length > 1 && (
+               {activeIndex !== null &&
+                  mainSubscription.types.length > 0 &&
+                  mainSubscription.types[activeIndex].periods.length > 1 && (
+                     <motion.div
+                        exit={{ height: 0 }}
+                        initial={{ height: 0 }}
+                        animate={{ height: 'auto' }}
+                        className={cls.periods}>
+                        {mainSubscription.types.length > 1 && (
+                           <div className={cls.periodsHead}>
+                              <h4>
+                                 {mainSubscription.types[activeIndex].name}
+                              </h4>
+                              {mainSubscription.types[activeIndex]
+                                 .description !== '' && (
+                                 <button
+                                    onClick={e =>
+                                       handleOpenClue(
+                                          e,
+                                          'Подсказка',
+                                          mainSubscription.types[activeIndex]
+                                             .description,
+                                       )
+                                    }>
+                                    <Info2Icon width={22} height={22} />
+                                 </button>
+                              )}
+                           </div>
+                        )}
                         <Swiper
                            nested
                            slidesPerView={'auto'}
                            style={{
-                              marginTop:
-                                 mainSubscription.types.length <= 1 ? 0 : 6.5,
-                           }}>
+                              marginTop: mainSubscription.types.length <= 1 ? 0 : 6.5,
+                           }}
+                        >
                            {mainSubscription.types[activeIndex].periods.map(
                               (period, i) => (
                                  <SwiperSlide
@@ -137,8 +158,10 @@ export const AboutGamePass = ({ setBigImage }) => {
                                           period.id === activeSub.id &&
                                           cls.active
                                        }`}
-                                       onClick={() => handleSetActiveSub(period)}>
-                                       <img src={bg} alt="card-bg" />
+                                       onClick={() =>
+                                          handleSetActiveSub(period)
+                                       }>
+                                       <img src={mainSubscription.types[activeIndex].image} alt="card-bg" />
                                        <p>
                                           {period.duration_months}{' '}
                                           {num_word(period.duration_months, [
@@ -153,12 +176,30 @@ export const AboutGamePass = ({ setBigImage }) => {
                               ),
                            )}
                         </Swiper>
-                     )}
-                  </motion.div>
-               )}
+
+                        {mainSubscription.types[activeIndex].additional_info !== '' && (
+                           <p className={cls.additionalInfo}>
+                              {
+                                 mainSubscription.types[activeIndex]
+                                    .additional_info
+                              }
+                           </p>
+                        )}
+                     </motion.div>
+                  )}
             </AnimatePresence>
 
             <p className={cls.desc}>{mainSubscription.description}</p>
+         </div>
+
+         <div style={{ marginTop: 15 }}>
+            <SectionWithSlide
+               sectionTitle={'Похожие подписки'}
+               slides={similarSubs.filter(
+                  sub => sub.id !== mainSubscription.id,
+               )}
+               sub={sub}
+            />
          </div>
       </main>
    );

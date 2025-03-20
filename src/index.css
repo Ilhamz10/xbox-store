@@ -64,7 +64,7 @@ a {
 
 .xs-info {
 	padding: 0.75rem 1rem;
-	background: #363636;
+	background: rgb(55 65 81 / 85%);
 	border-radius: 0.5rem;
 	max-height: calc(100vh - 325px);
 	overflow: auto;
@@ -191,4 +191,12 @@ section .section-header {
 	line-height: 2rem;
 	overflow: hidden;
 	text-wrap: nowrap;
+}
+
+.green-toast > .Toastify__toast-icon > svg {
+	fill: #15803d;
+}
+
+.green-toast > .Toastify__progress-bar--wrp > .Toastify__progress-bar {
+	background: #15803d;
 }

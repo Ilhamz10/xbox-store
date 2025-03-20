@@ -1,6 +1,6 @@
 export const getGamePassGames = async () => {
    const res = await fetch(
-		`${import.meta.env.VITE_API_URL}/catalog?in_game_pass=true&limit=12`
+		`${import.meta.env.VITE_API_URL}/catalog?in_game_pass=true&limit=12&type=rent`
    );
 
    const result = await res.json();

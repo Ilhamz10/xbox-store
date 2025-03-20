@@ -6,6 +6,7 @@ import { checkoutBasket } from '../../api/checkoutBasket';
 import WebApp from '@twa-dev/sdk';
 import { addGameToBasket } from '../../api/addGameToBasket';
 import { addSubToBasket } from '../../api/addSubToBasket';
+import { toast } from 'react-toastify'
 
 const footerBtnsVariants = {
 	up: {
@@ -15,6 +16,8 @@ const footerBtnsVariants = {
 		transform: 'translateY(140%)',
 	},
 };
+
+const UNIQ_TOAST_ID = "uniqToastId";
 
 export const FooterBtns = () => {
 	const queryClient = useQueryClient();
@@ -27,8 +30,14 @@ export const FooterBtns = () => {
 		basketGamesId,
 		isFromHomeSale,
 		mainSubBottomSheetIsOpen,
-		otherSubBottomSheetIsOpen,
-		activeSub
+		activeSub,
+		parentSubsIds,
+		isNewAcc,
+		setIsNewAccOpen,
+		user,
+		setIsOldAccOpen,
+		isOldAcc,
+		setMicrosoftModalIsOpen
 	} = useStore((state) => state);
 
 	const { mutate } = useMutation({
@@ -65,13 +74,20 @@ export const FooterBtns = () => {
 		mutationFn: addSubToBasket,
 		onMutate: async ({ period_id }) => {
 			await queryClient.cancelQueries({ queryKey: ['create-basket'] });
-
 			const previousBasket = queryClient.getQueryData(['create-basket']);
 
-			queryClient.setQueryData(['create-basket'], (old) => ({
-				...old,
-				current_item_ids: [...old.current_item_ids, period_id],
-			}));
+			queryClient.setQueryData(['create-basket'], (old) => {
+				const newBasket = {
+					...old,
+					current_item_ids: [...old.current_item_ids, period_id],
+					items: [...old.items]
+				};
+
+				if (!parentSubsIds.includes(activeSub.parent_id)) 
+					newBasket.items.push(activeSub);
+
+				return newBasket;
+			});
 
 			return { previousBasket };
 		},
@@ -79,17 +95,28 @@ export const FooterBtns = () => {
 			queryClient.setQueryData(['create-basket'], context.previousBasket);
 		},
 		onSettled: () => {
-			queryClient.invalidateQueries('create-basket');
+			queryClient.invalidateQueries(['create-basket']);
 		},
-	})
+	});
 
-	const gameInBasket = basketGamesId.includes(
-		mainSubBottomSheetIsOpen ? activeSub.id : activeGame?.id
-	);
+	const serviceInBasket = basketGamesId.includes(299);
+	const gameInBasket = basketGamesId.includes(mainSubBottomSheetIsOpen ? activeSub.id : activeGame?.id);
 
 	function handleAddGameToBasket() {
-		if ((mainSubBottomSheetIsOpen || otherSubBottomSheetIsOpen) && !gameInBasket) {
+		if (isNewAcc && !gameInBasket && !serviceInBasket) setIsNewAccOpen(true);
+
+		if (isOldAcc && !gameInBasket && user?.microsoft_account?.login) setIsOldAccOpen(true);
+		else if (isOldAcc && !gameInBasket && !user?.microsoft_account?.login) setMicrosoftModalIsOpen(true);
+
+		if (mainSubBottomSheetIsOpen && !gameInBasket) {
 			WebApp.HapticFeedback.impactOccurred('light');
+
+			if (toast.isActive(UNIQ_TOAST_ID))
+				toast.update(UNIQ_TOAST_ID);
+			else if (parentSubsIds.includes(activeSub.parent_id))
+				toast.success('Подписка заменена!',  { autoClose: 2300, toastId: UNIQ_TOAST_ID });
+
+
 			addSubToBasketMutate({
 				basket_id: basketId,
 				period_id: activeSub.id
@@ -123,7 +150,7 @@ export const FooterBtns = () => {
 					(productAddToCardIsVisiible &&
 					!basketBottomSheet &&
 					gameInfoBottomSheetIsOpen) ||
-					((mainSubBottomSheetIsOpen ||otherSubBottomSheetIsOpen)
+					(mainSubBottomSheetIsOpen
 						&& activeSub.duration_months)
 						? 'up'
 						: 'down'

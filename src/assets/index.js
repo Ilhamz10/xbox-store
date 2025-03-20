@@ -46,6 +46,10 @@ import HomeGamesIcon from './icons/home-games.svg?react';
 import XboxLoading from './icons/xbox-loading.svg?react';
 import Info2Icon from './icons/info2-icon.svg?react';
 import ArrowIcon from './icons/arrow-icon.svg?react';
+import NewAccIcon from './icons/new-acc-icon.svg?react';
+import SubCalendarIcon from './icons/sub-calendar-icon.svg?react';
+import EmailIcon from './icons/email-icon.svg?react';
+import PasswordIcon from './icons/password-icon.svg?react';
 
 export {
 	GamePassIcon,
@@ -96,4 +100,8 @@ export {
 	XboxLoading,
 	Info2Icon,
 	ArrowIcon,
+	NewAccIcon,
+	SubCalendarIcon,
+	EmailIcon,
+	PasswordIcon,
 };

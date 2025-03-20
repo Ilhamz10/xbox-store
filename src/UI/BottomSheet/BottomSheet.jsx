@@ -22,6 +22,7 @@ export const CustomBottomSheet = memo(function CustomBottomSheet({
 	bottomSheetHeader,
 	onClose = () => {},
 }) {
+	const { mainSubscription } = useStore(state => state);
 	const y = useMotionValue(0);
 	const [onTheTop, setOnTheTop] = useState(true);
 	const modalRef = useRef(null);
@@ -116,7 +117,8 @@ export const CustomBottomSheet = memo(function CustomBottomSheet({
 									{!bottomSheetHeader && <div className={`${cls.line}`} />}
 									{shareIcon && (
 										<button
-											onClick={() => handleTelegramShare(activeGame)}
+											onClick={() =>
+												handleTelegramShare(activeGame.title ? activeGame : mainSubscription)}
 											className={cls.shareBtn}>
 											<IphoneShareIcon width={25} height={25} />
 										</button>

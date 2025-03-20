@@ -122,7 +122,7 @@ const HotNewGames = memo(function HotNewGames() {
 		return () => {
 			document.removeEventListener('mousedown', handleClickOutside);
 		};
-	}, []);
+	}, [])
 
 	const [filtersByDateIsOpen, setFiltersByDateIsOpen] = useState(false);
 
@@ -156,6 +156,13 @@ const HotNewGames = memo(function HotNewGames() {
 		content.current = <p>There is an error</p>;
 	}
 
+	useEffect(() => {
+		if (isSuccess && swiperRef.current?.swiper) {
+			swiperRef.current.swiper.update();
+			swiperRef.current.swiper.autoplay.start();
+		}
+	}, [data, isSuccess]);
+
 	if (isSuccess) {
 		content.current = (
 			<Swiper
@@ -166,6 +173,7 @@ const HotNewGames = memo(function HotNewGames() {
 				onSlideChange={sw => setActiveIndex(sw.realIndex)}
 				autoplay={{
 					delay: 2000,
+					disableOnInteraction: false
 				}}
 				loop={true}
 				modules={[EffectCoverflow, Navigation, Autoplay]}>

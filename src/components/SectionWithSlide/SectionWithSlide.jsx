@@ -20,16 +20,26 @@ const SectionWithSlide = ({
 	bigCards = false,
 	homeSalePrice = false,
 	withAllBtn = false,
+	sub = '',
 	filterId = 0,
 }) => {
-	const { setGameInfoBottomSheetIsOpen, setActiveGame, setIsFromHomeSale } = useStore(
-		useShallow((state) => state)
-	);
+	const {
+		setGameInfoBottomSheetIsOpen,
+		setActiveGame,
+		setIsFromHomeSale,
+		setMainSubBottomSheetIsOpen,
+		setMainSubscription
+	} = useStore(useShallow((state) => state));
 
 	function handleOpenGameInfoBottomSheet(game) {
-		setActiveGame(game);
-		setGameInfoBottomSheetIsOpen(true);
-		setIsFromHomeSale(homeSalePrice);
+		if (sub) {
+			setMainSubscription(game);
+			setMainSubBottomSheetIsOpen(true);
+		} else {
+			setActiveGame(game);
+			setGameInfoBottomSheetIsOpen(true);
+			setIsFromHomeSale(homeSalePrice);
+		}
 	}
 
 	return (

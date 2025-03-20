@@ -2,7 +2,7 @@ export async function getPopularGames(dateFilter) {
 	const response = await fetch(
 		`${
 			import.meta.env.VITE_API_URL
-		}/catalog/top-popular?period=${dateFilter}&limit=10`
+		}/catalog/top-popular?period=${dateFilter}&limit=10&type=rent`
 	);
 	const result = await response.json();
 
