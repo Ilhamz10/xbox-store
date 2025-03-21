@@ -112,8 +112,9 @@ export const AboutGamePass = ({ setBigImage, similarSubs, sub }) => {
 
             <AnimatePresence>
                {activeIndex !== null &&
-                  mainSubscription.types.length > 0 &&
-                  mainSubscription.types[activeIndex].periods.length > 1 && (
+                  (mainSubscription.types.length > 0 &&
+                  mainSubscription.types[activeIndex].periods.length > 1 ||
+                  mainSubscription.types.length === 2) && (
                      <motion.div
                         exit={{ height: 0 }}
                         initial={{ height: 0 }}
