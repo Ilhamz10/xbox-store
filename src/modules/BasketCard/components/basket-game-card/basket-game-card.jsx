@@ -94,7 +94,7 @@ export const BasketGameCard = ({
 					game: { id: 299 },
 				});
 
-				setBasketBottomSheet(false);
+				if (basketGamesCount === 2) setBasketBottomSheet(false);
 			}
 
 			removeSubFromBasketMutate({
@@ -106,13 +106,14 @@ export const BasketGameCard = ({
 			if (game.id === 299) {
 				const newAccSub = subs.find(sub => sub.sub_type === 'new');
 
-				removeSubFromBasketMutate({
-					period_id: newAccSub.id,
-					basket_id: basketId,
-					game: newAccSub,
-				});
-
-				setBasketBottomSheet(false);
+				if (newAccSub) {
+					if (basketGamesCount === 2) setBasketBottomSheet(false);
+					removeSubFromBasketMutate({
+						period_id: newAccSub.id,
+						basket_id: basketId,
+						game: newAccSub,
+					});
+				}
 			}
 
 			removeGameFromBasketMutate({
