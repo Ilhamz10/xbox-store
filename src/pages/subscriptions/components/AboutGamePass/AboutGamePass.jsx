@@ -60,9 +60,9 @@ export const AboutGamePass = ({ setBigImage, similarSubs, sub }) => {
    useEffect(() => {
       if (
          mainSubscription.types.length <= 1 &&
-         mainSubscription.types[0].periods.length <= 1
+         mainSubscription.types[0]?.periods.length <= 1
       )
-         handleSetActiveSub(mainSubscription.types[0].periods[0]);
+         handleSetActiveSub(mainSubscription.types[0]?.periods[0]);
 
       return () => {
          setActiveSub({});
@@ -113,7 +113,7 @@ export const AboutGamePass = ({ setBigImage, similarSubs, sub }) => {
             <AnimatePresence>
                {activeIndex !== null &&
                   (mainSubscription.types.length > 0 &&
-                  mainSubscription.types[activeIndex].periods.length > 1 ||
+                  mainSubscription.types[activeIndex]?.periods.length > 1 ||
                   mainSubscription.types.length === 2) && (
                      <motion.div
                         exit={{ height: 0 }}
@@ -196,9 +196,7 @@ export const AboutGamePass = ({ setBigImage, similarSubs, sub }) => {
          <div style={{ marginTop: 15 }}>
             <SectionWithSlide
                sectionTitle={'Похожие подписки'}
-               slides={similarSubs.filter(
-                  sub => sub.id !== mainSubscription.id,
-               )}
+               slides={similarSubs.filter(sub => sub.id !== mainSubscription.id)}
                sub={sub}
             />
          </div>
