@@ -23,6 +23,7 @@ import { getSaleGames } from './api/getSaleGames';
 import { saleCategories } from '../../../../consts/sale-categories';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import cls from './style.module.css';
+import { nanoid } from 'nanoid'
 
 const evenComponents = [
    <SaleCarousel
@@ -99,6 +100,7 @@ const SaleGamesPage = memo(function SaleGamesPage() {
       setCounter,
       emptyCounter,
       setCountButtonUpIsShown,
+      setIsSaleUrl,
    } = useStore(state => state);
 
    const { data, isSuccess, isFetching } = useQuery({
@@ -132,7 +134,8 @@ const SaleGamesPage = memo(function SaleGamesPage() {
    }
 
    function handleOpenGameInfoBottomSheet(game) {
-      setActiveGame(game);
+      setIsSaleUrl(true);
+      setActiveGame({ ...game, id: game.product_id });
       setGameInfoBottomSheetIsOpen(true);
       setIsFromHomeSale(false);
    }
@@ -210,22 +213,23 @@ const SaleGamesPage = memo(function SaleGamesPage() {
 
    if (isSuccess) {
       content.current = allGames.current.map(game => {
-         let obj = {};
+         let min = '';
 
-         if (Array.isArray(game.prices)) {
-            obj = game.prices[0];
+         for (const k in game.price) {
+            if (game.price[k].price < game.price[min]?.price || Infinity) min = k;
          }
 
          return (
             <GameCard
-               key={game.id}
+               isDayGame
+               key={nanoid()}
                ref={gameCardRef}
                release_date={game.release_date}
                game={game}
                onClick={() => handleOpenGameInfoBottomSheet(game)}
                gameTitle={game.game_name}
-               gamePrice={Object.keys(obj).length === 0 ? undefined : Math.min(...Object.entries(obj).map(([_, v]) => typeof v !== 'string' && v !== null && v).filter(n => typeof n === 'number'))}
-               subprice={obj.discount_percentage}
+               gamePrice={game.price[min].price}
+               subprice={game.price[min].discounted_percentage}
                imgSrc={game.image_url}
                className={cls.gameCard}
             />

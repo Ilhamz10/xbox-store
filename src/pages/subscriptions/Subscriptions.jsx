@@ -15,6 +15,7 @@ import redXbox from '../../assets/imgs/red-xbox.webp';
 import yellowXbox from '../../assets/imgs/yellow-xbox.webp';
 import greenXbox from '../../assets/imgs/green-xbox.webp';
 import GameCard from '../../components/GameCard/GameCard';
+import SectionWithSlide from '../../components/SectionWithSlide/SectionWithSlide';
 import { MainSubModal } from './components/MainSubModal/MainSubModal';
 import { getSubs } from './api/getSubs';
 import { HorizontalSub } from './components/HorizontalSub/HorizontalSub';
@@ -29,6 +30,7 @@ import { emailRegex } from '../../consts/regex/email.regex';
 import { passwordRegex } from '../../consts/regex/pass.regex'
 import { useDeleteSub } from '../../hooks/useDeleteSub';
 import cls from './style.module.css';
+import { getRentSubs } from './api/getRentSubs'
 
 const Subscriptions = () => {
    const queryClient = useQueryClient();
@@ -65,6 +67,11 @@ const Subscriptions = () => {
    const { data, isSuccess, isLoading } = useQuery({
       queryKey: ['subscriptions'],
       queryFn: getSubs,
+   });
+
+   const { data: rentSubsData, isSuccess: rentSubsSuccess, isLoading: rentSubsLoading } = useQuery({
+      queryKey: ['rent-subs'],
+      queryFn: getRentSubs,
    });
 
    const { mutate } = useMutation({
@@ -198,9 +205,9 @@ const Subscriptions = () => {
    }
 
    useEffect(() => {
-      if (isLoading) setLoading(true);
-      else if (isSuccess) setLoading(false);
-   }, [isSuccess, isLoading, setLoading]);
+      if (isLoading || rentSubsLoading) setLoading(true);
+      else if (isSuccess && rentSubsSuccess) setLoading(false);
+   }, [isSuccess, isLoading, rentSubsLoading, rentSubsSuccess, setLoading]);
 
    useEffect(() => {
       if (!microsoftModalIsOpen) {
@@ -221,7 +228,7 @@ const Subscriptions = () => {
       };
    }, []);
 
-   if (isSuccess) {
+   if (isSuccess && rentSubsSuccess) {
       // SUBSCRIPTIONS DATA
       const ubisoftData = data.results.find(r => r.id === 10);
       const gamePassData = data.results.find(r => r.id === 4);
@@ -565,6 +572,26 @@ const Subscriptions = () => {
                onClick={() => handleOpenModal(eaPlayData)}
                className={cls.eaSub}
             />
+            <div style={{ background: `url(${rentSubsData.results[0].image})` }} className={cls.rentSubs}>
+               <div className={cls.bgBlur} />
+               <div style={{ zIndex: 100, position: 'relative' }}>
+                  <SectionWithSlide
+                     sub="rent"
+                     sectionTitle="Подписки аренды"
+                     slides={rentSubsData.results.map(game => ({
+                        id: game.id,
+                        title: game.title,
+                        description: game.description,
+                        price: game.price,
+                        subprice: game.subprice,
+                        image: game.image,
+                        wallpaper: game.wallpaper,
+                        games_list_enabled: false,
+                        types: [],
+                     }))}
+                  />
+               </div>
+            </div>
             <div className={`${cls.subs} wrapper`}>
                {otherSubs.map(sub => (
                   <GameCard

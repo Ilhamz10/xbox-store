@@ -34,7 +34,7 @@
     gap: 15px;
     overflow-x: auto;
     width: 100%;
-    margin-top: 15px;
+    margin: 15px 0 0 14px;
 }
 
 .categories > button {
@@ -48,23 +48,8 @@
     background: rgb(2, 110, 2);
 }
 
-.gameCard > div > h2 {
-    -webkit-line-clamp: 3;
-    height: fit-content;
-    line-height: 1.13rem;
-}
-
-.gameCard > div:has(h2) {
-    gap: 6px;
-    padding: 10px;
-}
-
-.gameCard {
-    grid-template-rows: none !important;
-}
-
-.gameCard > div:has(img) {
-    height: 115px;
+.feed > div {
+    height: 235px;
 }
 
 @media (max-width: 480px) {

@@ -30,6 +30,8 @@ export const GameInfo = memo(function GameInfo({ adjustPosition }) {
       setXsTitle,
 		setIsGamePass,
       isFromHomeSale,
+      isSaleUrl,
+      setIsSaleUrl
    } = useStore(state => state);
 
    // that state refers to current swiper index that shows number of page (countdown starts from 0)
@@ -42,7 +44,7 @@ export const GameInfo = memo(function GameInfo({ adjustPosition }) {
 
    const { data, isLoading, isError, isSuccess } = useQuery({
       queryKey: [`game-detail-${activeGame?.id}`],
-      queryFn: () => getGameDetail(activeGame?.id),
+      queryFn: () => getGameDetail(activeGame?.id, isSaleUrl),
       enabled: activeGame?.id !== undefined,
    });
 
@@ -290,6 +292,10 @@ export const GameInfo = memo(function GameInfo({ adjustPosition }) {
    useEffect(() => {
       setProductAddToCardIsVisiible(gameInfoBottomSheetIsOpen);
    }, [gameInfoBottomSheetIsOpen, setProductAddToCardIsVisiible]);
+
+   useEffect(() => {
+      return () => { if (isSaleUrl) setIsSaleUrl(false) }
+   }, [])
 
    return (
       <CustomBottomSheet

@@ -19,6 +19,7 @@ export const layoutSlice = set => ({
    isNewAccOpen: false,
    microsoftModalIsOpen: false,
    isOldAcc: false,
+   isSaleUrl: false,
    isOldAccOpen: false,
    XsTitle: 'Подсказка',
    isNewAcc: false,
@@ -50,4 +51,5 @@ export const layoutSlice = set => ({
    setProductAddToCardIsVisiible: bool =>
       set(() => ({ productAddToCardIsVisiible: bool })),
    setCountButtonUpIsShown: bool => set(() => ({ countButtonUpIsShown: bool })),
+   setIsSaleUrl: bool => set(() => ({ isSaleUrl: bool })),
 });
