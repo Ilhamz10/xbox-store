@@ -168,11 +168,7 @@ const Subscriptions = () => {
       return isValid;
    }
 
-   const handleSaveMicrosoft = async e => {
-      e.preventDefault();
-
-      if (!isValidSchema()) return;
-
+   const handleSaveMicrosoft = async () => {
       if (!isConfirmed) {
          setIsConfirmed(true);
          return;
@@ -422,6 +418,19 @@ const Subscriptions = () => {
                   <form
                      onSubmit={handleSaveMicrosoft}
                      className={cls.inputs}
+                     onKeyDown={e => {
+                        if (e.key === 'Enter') {
+                           e.preventDefault();
+                           const focusedElement = document.activeElement;
+                           const tabIndex = parseInt(focusedElement.getAttribute('tabIndex'));
+                           const nextElement = document.querySelector(`[tabIndex="${tabIndex + 1}"]`);
+
+                           if (nextElement) nextElement.focus();
+                           else if (tabIndex === 2) {
+                              if (isValidSchema()) handleSaveMicrosoft();
+                           }
+                        }
+                     }}
                   >
                      <label>
                         <div className={cls.inputLabel}>
@@ -429,6 +438,7 @@ const Subscriptions = () => {
                            <p>Логин:</p>
                         </div>
                         <input
+                           tabIndex={1}
                            type="text"
                            value={login}
                            className={cls.input}
@@ -443,6 +453,7 @@ const Subscriptions = () => {
                            <p>Пароль:</p>
                         </div>
                         <input
+                           tabIndex={2}
                            type="text"
                            value={password}
                            className={cls.input}
@@ -572,9 +583,10 @@ const Subscriptions = () => {
                onClick={() => handleOpenModal(eaPlayData)}
                className={cls.eaSub}
             />
-            <div style={{ background: `url(${rentSubsData.results[0].image})` }} className={cls.rentSubs}>
+            <div className={cls.rentSubs}>
+               <img src={rentSubsData.results[0].image} alt="rent-subs-bg" />
                <div className={cls.bgBlur} />
-               <div style={{ zIndex: 100, position: 'relative' }}>
+               <div>
                   <SectionWithSlide
                      sub="rent"
                      sectionTitle="Подписки аренды"
