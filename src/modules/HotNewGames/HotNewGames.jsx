@@ -177,7 +177,7 @@ const HotNewGames = memo(function HotNewGames() {
 				}}
 				loop={true}
 				modules={[EffectCoverflow, Navigation, Autoplay]}>
-				{data.map((game) => (
+				{data.filter(game => game.type === 'rent').map((game) => (
 					<SwiperSlide
 						onClick={() => handleOpenGameInfoBottomSheet(game)}
 						key={game.id}>
