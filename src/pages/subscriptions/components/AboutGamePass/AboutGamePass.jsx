@@ -72,8 +72,8 @@ export const AboutGamePass = ({ setBigImage, similarSubs, sub }) => {
 
    return (
       <main className={cls.gameInfoMain}>
-         <div className="wrapper">
-            <div className={cls.header}>
+         <div>
+            <div className={`${cls.header} wrapper`}>
                <img
                   src={mainSubscription.image}
                   alt="game-pass-image"
@@ -92,7 +92,7 @@ export const AboutGamePass = ({ setBigImage, similarSubs, sub }) => {
             </div>
 
             {mainSubscription.types.length > 1 && (
-               <div className={cls.carousels}>
+               <div className={`${cls.carousels} wrapper`}>
                   {mainSubscription.types.map((type, i) => {
                      if (type.name === '-') return;
 
@@ -146,6 +146,7 @@ export const AboutGamePass = ({ setBigImage, similarSubs, sub }) => {
                            slidesPerView={'auto'}
                            style={{
                               marginTop: mainSubscription.types.length <= 1 ? 0 : 6.5,
+                              padding: '0 16px',
                            }}
                         >
                            {mainSubscription.types[activeIndex].periods.map(
@@ -190,7 +191,7 @@ export const AboutGamePass = ({ setBigImage, similarSubs, sub }) => {
                   )}
             </AnimatePresence>
 
-            <p className={cls.desc}>{mainSubscription.description}</p>
+            <p className={`${cls.desc} wrapper`}>{mainSubscription.description}</p>
          </div>
 
          <div style={{ marginTop: 15 }}>

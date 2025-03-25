@@ -30,7 +30,7 @@
 }
 
 .carousels {
-	margin-top: 15px;
+	margin-top: 15px !important;
 	display: flex;
 	gap: 15px;
 }
@@ -62,6 +62,7 @@
    display: flex;
    align-items: center;
    gap: 8px;
+   margin: 0 16px;
 }
 
 .slide {
@@ -69,7 +70,7 @@
 }
 
 .additionalInfo {
-   margin-top: 15px;
+   margin: 15px 16px 0;
    white-space: pre-wrap;
    padding: 8px 13px;
    border: 1px solid rgb(146, 146, 146);
@@ -121,7 +122,7 @@
 }
 
 .desc {
-	margin-top: 13px;
+	margin-top: 13px !important;
    line-height: 1.15rem;
 	color: #fff;
    white-space: pre-wrap;
