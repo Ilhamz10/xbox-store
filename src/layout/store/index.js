@@ -32,7 +32,7 @@ export const layoutSlice = set => ({
    setCategoryBottomSheetObj: obj => set(() => ({ categoryBottomSheetObj: obj })),
    setCategoriesHeight: height => set(() => ({ categoriesHeight: height })),
    setIsFromGamePass: val => set(() => ({ isFromGamePass: val })),
-   setLoading: value => value ? set(() => ({ loading: true })) : setTimeout(() => set(() => ({ loading: false })), 300),
+   setLoading: loading => set(() => ({ loading })),
    setIsFromHomeSale: val => set(() => ({ isFromHomeSale: val })),
    setXsText: text => set(() => ({ XsText: text })),
    setXsTitle: title => set(() => ({ XsTitle: title })),
